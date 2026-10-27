@@ -97,6 +97,6 @@ Discord Community: discord.gg/w4F7QAuHBf
 
 GitHub: github.com/line-inc/linebrowser
 
-Privacy Policy: Privacy Policy
+Privacy Policy: https://docs.google.com/document/d/1jjsZudFI7WomhGrvZo6TSNtEGY_yboMXcrdWwlivMtE/edit?tab=t.0#heading=h.120j6elx02sn
 
 Copyright: Copyright © 2026 Line Inc. All rights reserved.
