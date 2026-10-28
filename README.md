@@ -1,7 +1,7 @@
 # 🟢 Line Browser
 
 <p align="center">
-  <img src="app/src/main/res/drawable/lineinc.png" width="128" height="128" alt="Line Browser Logo" />
+  <img src="logo.png" width="128" height="128" alt="Line Browser Logo" />
 </p>
 
 <p align="center">
