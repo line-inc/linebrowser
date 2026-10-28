@@ -113,6 +113,7 @@ Full native localization and display language support for:
 ## 🌐 Official Links & Community
 
 - 🌐 **Official Website**: [lineinc.ro](https://lineinc.ro)
+- 🏦 **Paypal**: [Support us!](https://www.paypal.me/lineincofficial)
 - ✉️ **Support & Contact**: [lineinc.ro/contact/](https://lineinc.ro/contact/)
 - 💬 **Discord Community**: [discord.gg/w4F7QAuHBf](https://discord.gg/w4F7QAuHBf)
 - 🐙 **GitHub Repository**: [github.com/line-inc/linebrowser](https://github.com/line-inc/linebrowser)
