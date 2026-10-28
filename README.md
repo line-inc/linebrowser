@@ -1,6 +1,9 @@
 # LineBrowser
 
 Line Browser is a premium mobile web browser focused on privacy, high performance, freedom, and advanced customization, officially developed by Line Inc..
+
+
+
 ⚙️ Engine & Architecture
 •
 Rendering Engine: Mozilla GeckoView v158.0 — the same advanced, independent, and secure web engine used by Firefox desktop and mobile versions. It delivers excellent page load speeds, full support for modern web standards, and native compatibility with desktop extensions.
@@ -8,6 +11,9 @@ Rendering Engine: Mozilla GeckoView v158.0 — the same advanced, independent, a
 UI Interface: Jetpack Compose + Material 3 — a modern, fluid, and responsive interface written in Kotlin with a Clean MVVM architecture (Unidirectional Data Flow).
 •
 Encryption & Storage: Room + SQLCipher (AES-256 encryption) — hardware-encrypted private storage for data, biometric safe, and passwords.
+
+
+
 📱 Device & System Compatibility
 •
 Operating System: Compatible with Android 8.0 (API level 26) up to Android 16+ (API level 36+).
@@ -21,6 +27,9 @@ ARM32 (armeabi-v7a)
 x86 / x86_64
 •
 Android 15+ Memory Support (16 KB Page-Size Alignment): Implemented with native library extraction (extractNativeLibs="true"), offering 100% guaranteed compatibility on next-generation phones running HyperOS / Android 15 (e.g., Poco F7, Samsung Galaxy S23/S24/S25 Ultra, Google Pixel, Xiaomi, OnePlus, Motorola, RealMe, Vivo, Oppo, etc.).
+
+
+
 🛡️ Complete Features
 Privacy & De-Googled Protection
 •
@@ -65,6 +74,9 @@ Integrated ExoPlayer Video Player: Hardware-accelerated player with onscreen ges
 Background Audio/Video Playback: Continue audio/video playback when the screen is locked or when switching to other apps.
 •
 External Download Handoff: Option to hand off downloads to external apps (1DM, ADM, FDM, NDM) or save them to internal storage/private safe.
+
+
+
 📱 Universal Home Screen Widgets (4 Native Widgets)
 •
 Search & Quick Actions Bar (4x1): Sleek pill-shaped search bar with voice search, QR camera scanner, and 1-tap Incognito switch.
@@ -74,6 +86,10 @@ Quick Access Shortcuts Grid (4x2): Instant access to Line Inc. Website, Download
 Line Shield Privacy Stats Widget (3x2): Real-time live counter showing trackers prevented and bandwidth saved.
 •
 Combined Search & Shortcuts Widget (4x3): High-productivity combo featuring top search bar + bottom shortcuts grid.
+
+
+
+
 📱 Split-Screen Dual Browsing
 •
 Side-by-Side Dual Web View: Browse two websites simultaneously on a split-screen layout with independent URLs and navigation controls.
@@ -104,6 +120,9 @@ Visual Themes: Dark Slate, Pure Black (AMOLED), Creamy Light, and Pure Light mod
 Accent Colors: Line Emerald Green (#34C759) — default by Line Inc., Ocean Blue, Crimson Red, Sunset Orange, Royal Purple, Monochrome.
 •
 Home Screen Customization: Reorder or toggle sections on/off (Logo, Search, Shortcuts, Recents, Privacy Report).
+
+
+
 🌍 Multilingual Support (13 Languages)
 Full native localization and display language support for:
 •
@@ -132,6 +151,9 @@ Full native localization and display language support for:
 🇦🇪 Arabic (العربية)
 •
 🇮🇩 Indonesian (Bahasa Indonesia)
+
+
+
 🌐 Official Links & Community
 •
 Official Website: lineinc.ro
