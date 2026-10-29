@@ -43,7 +43,7 @@
                 android:id="@+id/txt_trackers_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1,240"
+                android:text="0"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -64,7 +64,7 @@
                 android:id="@+id/txt_data_saved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="45 MB"
+                android:text="0 MB"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />

@@ -199,6 +199,7 @@ fun SettingsScreen(
 
     val languages = listOf(
         "en" to "English",
+        "ro" to "Română",
         "es" to "Español",
         "fr" to "Français",
         "de" to "Deutsch",

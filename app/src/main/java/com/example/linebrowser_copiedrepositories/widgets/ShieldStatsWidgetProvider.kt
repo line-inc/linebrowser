@@ -25,6 +25,14 @@ class ShieldStatsWidgetProvider : AppWidgetProvider() {
         fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
             val views = RemoteViews(context.packageName, R.layout.widget_shield_stats)
 
+            val sp = context.getSharedPreferences("privacy_stats_prefs", Context.MODE_PRIVATE)
+            val trackers = sp.getInt("trackers_blocked", 0)
+            val dataMb = sp.getInt("data_saved_mb", 0)
+
+            val formattedTrackers = String.format(java.util.Locale.getDefault(), "%,d", trackers)
+            views.setTextViewText(R.id.txt_trackers_count, formattedTrackers)
+            views.setTextViewText(R.id.txt_data_saved, "$dataMb MB")
+
             // Click root -> opens Line Browser
             val intent = Intent(context, MainActivity::class.java).apply {
                 action = Intent.ACTION_VIEW
