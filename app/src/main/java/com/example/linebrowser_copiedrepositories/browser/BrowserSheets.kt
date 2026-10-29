@@ -5007,6 +5007,38 @@ fun AllInOneMenuSheet(
                 }
             }
 
+            // --- Card: Advanced Split Screen & Send Tab ---
+            Surface(
+                color = cardBg,
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    AllInOneGridItem(
+                        modifier = Modifier.weight(1f),
+                        icon = Icons.Rounded.CallSplit,
+                        label = if (viewModel.isSplitScreenMode) "Ieși din Split" else "Ecran Divizat",
+                        tint = if (viewModel.isSplitScreenMode) Color(0xFF34C759) else textColor,
+                        onClick = {
+                            onDismissRequest()
+                            viewModel.isSplitScreenMode = !viewModel.isSplitScreenMode
+                        }
+                    )
+                    AllInOneGridItem(
+                        modifier = Modifier.weight(1f),
+                        icon = Icons.Rounded.Devices,
+                        label = "Trimite Filă",
+                        tint = textColor,
+                        onClick = {
+                            onDismissRequest()
+                            viewModel.showSendTabDialog = true
+                        }
+                    )
+                }
+            }
+
             // --- Card 3: Help, Theme, Media Player & Settings (Help on left, Settings on right) ---
             Surface(
                 color = cardBg,

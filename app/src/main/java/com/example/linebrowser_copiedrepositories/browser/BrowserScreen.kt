@@ -77,6 +77,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.zIndex
 import coil.compose.rememberAsyncImagePainter
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -3683,6 +3684,56 @@ fun BrowserScreen(
             // Safari-style Context Menu Bottom Sheet
             if (viewModel.activeContextMenu != null) {
                 SafariContextMenuSheet(viewModel = viewModel, context = context)
+            }
+
+            // Send Tab to Device QR Sharing Dialog
+            if (viewModel.showSendTabDialog) {
+                val currentUrl = viewModel.currentUrl.ifBlank { "https://lineinc.ro" }
+                AlertDialog(
+                    onDismissRequest = { viewModel.showSendTabDialog = false },
+                    title = {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Icon(Icons.Rounded.Devices, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            Text("Trimite Filă pe alt dispozitiv", fontWeight = FontWeight.Bold)
+                        }
+                    },
+                    text = {
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Scanează codul QR de pe celălalt telefon sau PC pentru a deschide automat această filă:", fontSize = 13.sp)
+                            val qrBitmap = remember<android.graphics.Bitmap?>(currentUrl) {
+                                com.example.linebrowser_copiedrepositories.tools.qrcode.BarcodeGenerator.generateQRCode(currentUrl, 400, 400)
+                            }
+                            if (qrBitmap != null) {
+                                Image(
+                                    bitmap = qrBitmap.asImageBitmap(),
+                                    contentDescription = "QR Code",
+                                    modifier = Modifier.size(180.dp).clip(RoundedCornerShape(12.dp))
+                                )
+                            }
+                            Text(currentUrl, fontSize = 11.sp, color = MaterialTheme.colorScheme.primary, maxLines = 1)
+                        }
+                    },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                            val clip = android.content.ClipData.newPlainText("URL", currentUrl)
+                            clipboard.setPrimaryClip(clip)
+                            Toast.makeText(context, "Link copiat pentru trimitere!", Toast.LENGTH_SHORT).show()
+                            viewModel.showSendTabDialog = false
+                        }) {
+                            Text("Copiază Link-ul")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { viewModel.showSendTabDialog = false }) {
+                            Text("Închide")
+                        }
+                    }
+                )
             }
 
             // Generic file download destination dialog (Root level)
