@@ -29,7 +29,7 @@ jobs:
           cp Info.plist Payload/LineBrowser.app/
           
           # Compile swift files into executable
-          swiftc -target arm64-apple-ios15.0-simulator -emit-executable iosApp.swift ContentView.swift -o Payload/LineBrowser.app/LineBrowser || true
+          swiftc -target arm64-apple-ios15.0-simulator -emit-executable iosApp.swift ContentView.swift BrowserModel.swift SettingsView.swift -o Payload/LineBrowser.app/LineBrowser || true
           
           cd Payload
           zip -r ../build/ipa/LineBrowser-iOS.ipa LineBrowser.app
