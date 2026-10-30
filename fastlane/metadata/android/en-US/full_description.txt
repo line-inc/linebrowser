@@ -1,0 +1,15 @@
+Line Browser is a premium, privacy-first mobile web browser built with Jetpack Compose & Mozilla GeckoView, officially developed by Line Inc.
+
+Key Features:
+• Mozilla GeckoView v158 Engine: Fast, independent, and secure web rendering.
+• Firefox WebExtensions Support: Install desktop add-ons like uBlock Origin directly.
+• De-Googled & Privacy-First: Zero Google tracking or background telemetry. DuckDuckGo search default.
+• Line Shield: Built-in ad, popup, and tracker blocker.
+• Private Safe Locker: Biometric AES-256 encrypted vault for downloads and passwords.
+• Tor & VPN Hub: Integrated Tor Network (kmp-tor), WireGuard VPN, SOCKS5, DoH/DoT.
+• 4 Native Home Screen Widgets: Search & quick actions, shortcuts, privacy stats, and combined widget.
+• Split-Screen & Send Tab: Side-by-side dual web browsing and instant QR tab sharing.
+• Multilingual Support: 100% full localization in 13 languages including English and Romanian.
+• Custom Wallpapers: Native LineOS & Windows 7 Aero glass wallpaper collections.
+
+Copyright © 2026 Line Inc. All rights reserved.
