@@ -1,0 +1,32 @@
+Categories:
+  - Internet
+  - Security
+License: GPL-3.0-only
+AuthorName: Line Inc.
+AuthorWebsite: https://lineinc.ro
+SourceCode: https://github.com/line-inc/linebrowser
+IssueTracker: https://github.com/line-inc/linebrowser/issues
+Changelog: https://github.com/line-inc/linebrowser/releases
+
+AutoName: Line Browser
+
+RepoType: git
+Repo: https://github.com/line-inc/linebrowser.git
+Binaries: https://github.com/line-inc/linebrowser/releases/download/v%v/app-release.apk
+
+Builds:
+  - versionName: 1.0.0
+    versionCode: 10001
+    commit: v1.0.0
+    subdir: app
+    sudo:
+      - apt-get update
+      - apt-get install -y openjdk-17-jdk-headless
+      - update-java-alternatives -a
+    gradle:
+      - yes
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 1.0.0
+CurrentVersionCode: 10001
