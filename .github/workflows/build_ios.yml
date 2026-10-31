@@ -19,26 +19,26 @@ jobs:
       - name: Set up Xcode Version
         run: sudo xcode-select -s /Applications/Xcode.app
 
-      - name: Build iOS App .ipa for Real Device
+      - name: Build iOS App .ipa for Simulator
         run: |
           cd iosApp
           mkdir -p build/ipa
           
-          # Create Payload structure for valid IPA container
+          # Create Payload structure for valid IPA/App container
           mkdir -p Payload/LineBrowser.app
           cp Info.plist Payload/LineBrowser.app/
           
-          # Compile swift files for real iOS device architecture (arm64-apple-ios)
-          swiftc -target arm64-apple-ios15.0 -emit-executable iosApp.swift ContentView.swift BrowserModel.swift SettingsView.swift -o Payload/LineBrowser.app/LineBrowser
+          # Compile swift files for iOS Simulator (arm64-apple-ios-simulator)
+          swiftc -target arm64-apple-ios15.0-simulator -emit-executable iosApp.swift ContentView.swift BrowserModel.swift SettingsView.swift -o Payload/LineBrowser.app/LineBrowser
           
           cd Payload
-          zip -r ../build/ipa/LineBrowser-iOS.ipa LineBrowser.app
+          zip -r ../build/ipa/LineBrowser-iOS-Simulator.ipa LineBrowser.app
           cd ..
           rm -rf Payload
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: LineBrowser-iOS-IPA
+          name: LineBrowser-iOS-Simulator-IPA
           path: iosApp/build/ipa/*.ipa
           if-no-files-found: ignore
