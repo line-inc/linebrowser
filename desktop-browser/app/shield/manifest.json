@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Line Shield",
+  "version": "1.0.0",
+  "description": "Blocks ads and trackers using the Android adblock_seed list.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "line-shield@linebrowser.app"
+    }
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ]
+}

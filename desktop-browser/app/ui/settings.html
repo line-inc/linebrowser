@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Settings — LineBrowser</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <nav class="topnav">
+      <a href="home.html">Home</a>
+      <a href="bookmarks.html">Bookmarks</a>
+      <a href="history.html">History</a>
+      <a class="active" href="settings.html">Settings</a>
+    </nav>
+    <h2>Settings</h2>
+    <div class="setting">
+      <div><strong>Line Shield</strong><div class="muted">Block ads and trackers from the Android seed list</div></div>
+      <input id="shield" type="checkbox" checked />
+    </div>
+    <div class="setting">
+      <div><strong>Force dark</strong><div class="muted">Invert page colors like the Android extension</div></div>
+      <input id="dark" type="checkbox" />
+    </div>
+    <div class="setting">
+      <div><strong>Line AI Controls</strong><div class="muted">Control the AI overview blocker on search pages</div></div>
+      <input id="ai" type="checkbox" checked />
+    </div>
+    <div class="setting">
+      <div><strong>Universal copy</strong><div class="muted">Force text selection on locked pages</div></div>
+      <input id="copy" type="checkbox" checked />
+    </div>
+    <div class="setting">
+      <div><strong>Media grabber</strong><div class="muted">Detect HLS / DASH / MP4 streams</div></div>
+      <input id="grabber" type="checkbox" checked />
+    </div>
+    <p class="muted">Built-in extensions are the same packages as Android `assets/web_extensions`.</p>
+    <button class="btn danger" id="wipe">Burn data — clear history, cache and cookies</button>
+    <section class="about" aria-labelledby="about-title">
+      <h2 id="about-title">About LineBrowser</h2>
+      <div class="setting">
+        <strong>Version</strong>
+        <span id="app-version">1.0.0</span>
+      </div>
+      <div class="setting">
+        <strong>Copyright</strong>
+        <span>© 2026 Line Inc.</span>
+      </div>
+      <div class="setting update-setting">
+        <div>
+          <strong>Updates</strong>
+          <div class="muted">Check the official LineBrowser GitHub releases.</div>
+        </div>
+        <button class="btn" id="check-updates" type="button">Check for updates</button>
+      </div>
+      <p class="muted" id="update-status" role="status" aria-live="polite">
+        Windows auto-updates require a Windows installer in the release. The repository currently publishes an Android APK.
+      </p>
+      <a class="repo-link" href="https://github.com/line-inc/linebrowser" target="_blank" rel="noopener noreferrer">
+        Get LineBrowser for Android/iOS · GitHub
+      </a>
+    </section>
+  </div>
+  <script src="settings.js"></script>
+</body>
+</html>

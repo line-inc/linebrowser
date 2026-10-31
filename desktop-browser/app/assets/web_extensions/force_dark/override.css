@@ -1,0 +1,175 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+ * Line True Black & Dark Engine (Dark Reader Dynamic Architecture)
+ * Direct DOM & CSS Variable Engine — Crisp White Text, Zero Grey Wash
+ * ───────────────────────────────────────────────────────────────────────────── */
+
+html.line-force-dark-active {
+    --bg: #121214 !important;
+    --bg-color: #121214 !important;
+    --background: #121214 !important;
+    --background-color: #121214 !important;
+    --bg-primary: #121214 !important;
+    --bg-secondary: #1a1c20 !important;
+    --surface: #18191c !important;
+    --surface-color: #18191c !important;
+    --card-bg: #18191c !important;
+    --header-bg: #121214 !important;
+    --footer-bg: #121214 !important;
+    --text: #f1f5f9 !important;
+    --text-color: #f1f5f9 !important;
+    --text-primary: #f1f5f9 !important;
+    --text-secondary: #e2e8f0 !important;
+    --border-color: #2e3035 !important;
+    --border: #2e3035 !important;
+    color-scheme: dark !important;
+}
+
+html.line-force-dark-active,
+html.line-force-dark-active body,
+html.line-force-dark-active #__next,
+html.line-force-dark-active #root,
+html.line-force-dark-active #app,
+html.line-force-dark-active main,
+html.line-force-dark-active [role="main"],
+html.line-force-dark-active [role="article"] {
+    background-color: #121214 !important;
+    background: #121214 !important;
+    color: #f1f5f9 !important;
+}
+
+html.line-force-dark-active section,
+html.line-force-dark-active article,
+html.line-force-dark-active header,
+html.line-force-dark-active nav,
+html.line-force-dark-active footer,
+html.line-force-dark-active aside,
+html.line-force-dark-active dialog,
+html.line-force-dark-active .container,
+html.line-force-dark-active .wrapper,
+html.line-force-dark-active .content,
+html.line-force-dark-active [class*="container" i],
+html.line-force-dark-active [class*="wrapper" i],
+html.line-force-dark-active [class*="content" i],
+html.line-force-dark-active [class*="layout" i],
+html.line-force-dark-active [class*="page" i] {
+    &:not(.line-video-player-active):not(.line-video-player-active *):not([class*="player" i]):not([class*="player" i] *):not([class*="video" i]):not([class*="video" i] *) {
+        background-color: #121214 !important;
+        background: #121214 !important;
+        color: #f1f5f9 !important;
+    }
+}
+
+html.line-force-dark-active .card,
+html.line-force-dark-active .panel,
+html.line-force-dark-active .box,
+html.line-force-dark-active .sidebar,
+html.line-force-dark-active .modal,
+html.line-force-dark-active .dropdown,
+html.line-force-dark-active .menu,
+html.line-force-dark-active [class*="card" i],
+html.line-force-dark-active [class*="panel" i],
+html.line-force-dark-active [class*="box" i],
+html.line-force-dark-active [class*="sidebar" i],
+html.line-force-dark-active [class*="modal" i],
+html.line-force-dark-active [class*="menu" i],
+html.line-force-dark-active [class*="list" i],
+html.line-force-dark-active table,
+html.line-force-dark-active tr,
+html.line-force-dark-active td,
+html.line-force-dark-active th,
+html.line-force-dark-active ul,
+html.line-force-dark-active ol,
+html.line-force-dark-active li,
+html.line-force-dark-active dl,
+html.line-force-dark-active dt,
+html.line-force-dark-active dd {
+    &:not(.line-video-player-active):not(.line-video-player-active *):not([class*="player" i]):not([class*="player" i] *):not([class*="video" i]):not([class*="video" i] *) {
+        background-color: #18191c !important;
+        background: #18191c !important;
+        border-color: #2e3035 !important;
+        color: #f1f5f9 !important;
+    }
+}
+
+/* Crisp readable text across all elements — zero grey wash */
+html.line-force-dark-active p,
+html.line-force-dark-active h1,
+html.line-force-dark-active h2,
+html.line-force-dark-active h3,
+html.line-force-dark-active h4,
+html.line-force-dark-active h5,
+html.line-force-dark-active h6,
+html.line-force-dark-active label,
+html.line-force-dark-active strong,
+html.line-force-dark-active b,
+html.line-force-dark-active em,
+html.line-force-dark-active i,
+html.line-force-dark-active span,
+html.line-force-dark-active summary,
+html.line-force-dark-active small,
+html.line-force-dark-active blockquote,
+html.line-force-dark-active q,
+html.line-force-dark-active cite,
+html.line-force-dark-active figcaption {
+    color: #f1f5f9 !important;
+}
+
+/* High-contrast crisp links */
+html.line-force-dark-active a,
+html.line-force-dark-active a:visited {
+    color: #8ab4f8 !important;
+}
+
+html.line-force-dark-active input,
+html.line-force-dark-active textarea,
+html.line-force-dark-active select,
+html.line-force-dark-active [contenteditable="true"] {
+    background-color: #1e2024 !important;
+    background: #1e2024 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    border: 1px solid #3c4043 !important;
+}
+
+html.line-force-dark-active button,
+html.line-force-dark-active [role="button"],
+html.line-force-dark-active .btn,
+html.line-force-dark-active [class*="btn" i],
+html.line-force-dark-active [class*="chip" i],
+html.line-force-dark-active [class*="pill" i] {
+    background-color: #202228 !important;
+    color: #f1f5f9 !important;
+}
+
+/* Images, Videos, Canvases are NEVER inverted */
+html.line-force-dark-active img,
+html.line-force-dark-active video,
+html.line-force-dark-active canvas,
+html.line-force-dark-active svg,
+html.line-force-dark-active picture,
+html.line-force-dark-active iframe,
+html.line-force-dark-active [style*="background-image"],
+html.line-force-dark-active [style*="background: url"],
+html.line-force-dark-active [class*="thumb" i],
+html.line-force-dark-active [class*="thumbnail" i],
+html.line-force-dark-active [class*="avatar" i],
+html.line-force-dark-active [class*="poster" i],
+html.line-force-dark-active [class*="cover" i],
+html.line-force-dark-active [class*="media" i],
+html.line-force-dark-active [class*="image" i],
+html.line-force-dark-active [class*="photo" i],
+g-img, figure {
+    filter: none !important;
+    opacity: 1 !important;
+    background: transparent !important;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #121214 !important;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #2e3035 !important;
+    border-radius: 3px;
+}

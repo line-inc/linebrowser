@@ -1,0 +1,31 @@
+:root {
+  --line-emerald: #34C759;
+  --line-bg: #131314;
+  --line-surface: #1e1e1e;
+  --toolbar-bgcolor: #131314 !important;
+  --toolbar-color: #e3e3e3 !important;
+  --lwt-accent-color: #131314 !important;
+  --tab-selected-bgcolor: #1e1e1e !important;
+}
+
+#navigator-toolbox {
+  background: var(--line-bg) !important;
+  border-bottom: 1px solid #2a2a2a !important;
+}
+
+.tab-background[selected] {
+  outline: 1px solid color-mix(in srgb, var(--line-emerald) 55%, transparent) !important;
+}
+
+#urlbar-background {
+  background: #1e1e1e !important;
+  border-radius: 12px !important;
+}
+
+#urlbar[focused] > #urlbar-background {
+  outline: 1px solid var(--line-emerald) !important;
+}
+
+toolbarbutton:hover {
+  color: var(--line-emerald) !important;
+}

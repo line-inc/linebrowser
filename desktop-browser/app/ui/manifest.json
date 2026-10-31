@@ -1,0 +1,38 @@
+{
+  "manifest_version": 2,
+  "name": "LineBrowser UI",
+  "version": "1.0.0",
+  "description": "Home, settings, bookmarks and history for LineBrowser desktop.",
+  "icons": {
+    "48": "assets/lineinc-48.png",
+    "96": "assets/lineinc-96.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "line-ui@linebrowser.app",
+      "strict_min_version": "115.0"
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "home.html"
+  },
+  "chrome_settings_overrides": {
+    "homepage": "home.html"
+  },
+  "browser_action": {
+    "default_icon": "assets/lineinc-48.png",
+    "default_title": "LineBrowser",
+    "default_popup": "menu.html"
+  },
+  "permissions": [
+    "tabs",
+    "bookmarks",
+    "history",
+    "storage",
+    "browsingData",
+    "downloads",
+    "sessions",
+    "management",
+    "https://api.github.com/*"
+  ]
+}
