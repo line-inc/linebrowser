@@ -3,11 +3,11 @@ import os
 import json
 import requests
 from PyQt5.QtCore import QUrl, Qt
-from PyQt5.QtGui import QIcon, QAction
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLineEdit, QPushButton, QTabWidget, QMessageBox, QDialog, QLabel,
-    QMenu
+    QMenu, QAction
 )
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 
