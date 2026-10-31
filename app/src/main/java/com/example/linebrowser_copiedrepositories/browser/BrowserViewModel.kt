@@ -9208,7 +9208,7 @@ class BrowserViewModel : ViewModel() {
                 val pInfo = try { context.packageManager.getPackageInfo(context.packageName, 0) } catch (e: Exception) { null }
                 val currentVersionName = pInfo?.versionName ?: "1.0.0"
 
-                val apiUrl = java.net.URL("https://api.github.com/repos/REBEL-ROOT/line-browser/releases/latest")
+                val apiUrl = java.net.URL("https://api.github.com/repos/line-inc/linebrowser/releases/latest")
                 val apiConn = apiUrl.openConnection() as java.net.HttpURLConnection
                 apiConn.requestMethod = "GET"
                 apiConn.setRequestProperty("Accept", "application/vnd.github+json")
@@ -9221,7 +9221,7 @@ class BrowserViewModel : ViewModel() {
                     val apiResponse = apiConn.inputStream.bufferedReader().use { it.readText() }
                     val json = org.json.JSONObject(apiResponse)
                     val tagName = json.optString("tag_name", "").removePrefix("v").trim()
-                    val htmlUrl = json.optString("html_url", "https://github.com/REBEL-ROOT/line-browser/releases/latest")
+                    val htmlUrl = json.optString("html_url", "https://github.com/line-inc/linebrowser/releases/latest")
 
                     if (tagName.isNotEmpty() && compareVersionNames(tagName, currentVersionName) > 0) {
                         if (tagName != lastNotifiedVersion) {
@@ -9251,7 +9251,7 @@ class BrowserViewModel : ViewModel() {
             // This means no separate version.json to forget updating, and the
             // download path already fetches the latest release assets anyway.
             try {
-                val apiUrl = java.net.URL("https://api.github.com/repos/REBEL-ROOT/line-browser/releases/latest")
+                val apiUrl = java.net.URL("https://api.github.com/repos/line-inc/linebrowser/releases/latest")
                 val apiConn = apiUrl.openConnection() as java.net.HttpURLConnection
                 apiConn.requestMethod = "GET"
                 apiConn.setRequestProperty("Accept", "application/vnd.github+json")
@@ -9264,7 +9264,7 @@ class BrowserViewModel : ViewModel() {
                     val apiResponse = apiConn.inputStream.bufferedReader().use { it.readText() }
                     val json = org.json.JSONObject(apiResponse)
                     val tagName = json.optString("tag_name", "").removePrefix("v").trim()
-                    val htmlUrl = json.optString("html_url", "https://github.com/REBEL-ROOT/line-browser/releases/latest")
+                    val htmlUrl = json.optString("html_url", "https://github.com/line-inc/linebrowser/releases/latest")
 
                     // Compare by version name — compareVersionNames handles 4-part versions
                     val hasNewerVersion = tagName.isNotEmpty() &&
@@ -9319,7 +9319,7 @@ class BrowserViewModel : ViewModel() {
                 // If it is a github release url, parse it to extract the latest APK asset
                 if (downloadUrl.contains("github.com") && downloadUrl.contains("/releases")) {
                     try {
-                        val apiConnection = java.net.URL("https://api.github.com/repos/REBEL-ROOT/line-browser/releases/latest").openConnection() as java.net.HttpURLConnection
+                        val apiConnection = java.net.URL("https://api.github.com/repos/line-inc/linebrowser/releases/latest").openConnection() as java.net.HttpURLConnection
                         apiConnection.requestMethod = "GET"
                         apiConnection.setRequestProperty("Accept", "application/vnd.github+json")
                         apiConnection.setRequestProperty("User-Agent", "LineBrowser-OTA-Installer")
