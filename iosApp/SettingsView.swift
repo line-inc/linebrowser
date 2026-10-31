@@ -4,6 +4,12 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var model: BrowserModel
 
+    @State private var adBlockEnabled = true
+    @State private var httpsOnly = true
+    @State private var trackingProtection = true
+    @State private var customDns = "Cloudflare (1.1.1.1)"
+    @State private var searchEngine = "DuckDuckGo"
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -13,67 +19,55 @@ struct SettingsView: View {
                 List {
                     // ── PERSONALIZARE ──────────────────────────────────────────────
                     Section(header: Text("PERSONALIZARE").foregroundColor(Color(0xFF34C759)).font(.system(size: 12, weight: .bold))) {
-                        NavigationLink(destination: Text("Setări Temă").foregroundColor(.white)) {
-                            SettingsRow(icon: "paintpalette.fill", color: .purple, title: "Temă", subtitle: "Mod întunecat, culori de accent, iconițe")
+                        HStack {
+                            SettingsRow(icon: "globe", color: .green, title: "Limba Aplicației", subtitle: "Română (Selectată)")
                         }
                         .listRowBackground(Color(0xFF1E2024))
 
-                        NavigationLink(destination: Text("Preferințe și Layout").foregroundColor(.white)) {
-                            SettingsRow(icon: "slider.horizontal.3", color: .blue, title: "Preferințe și Aranjament", subtitle: "Poziție bară de adrese, bare de navigare, scalare UI")
-                        }
-                        .listRowBackground(Color(0xFF1E2024))
-
-                        NavigationLink(destination: Text("Imagini de fundal").foregroundColor(.white)) {
-                            SettingsRow(icon: "photo.fill", color: .orange, title: "Imagini de fundal", subtitle: "Fundal browser, colecții LineOS & Aero")
-                        }
-                        .listRowBackground(Color(0xFF1E2024))
-
-                        NavigationLink(destination: Text("Accesibilitate").foregroundColor(.white)) {
-                            SettingsRow(icon: "accessibility", color: .green, title: "Accesibilitate", subtitle: "Scalare text, forțare zoom, mod contrast ridicat")
+                        HStack {
+                            SettingsRow(icon: "moon.fill", color: .indigo, title: "Mod Întunecat", subtitle: "Temă AMOLED activă")
+                            Spacer()
+                            Toggle("", isOn: .constant(true))
+                                .tint(Color(0xFF34C759))
                         }
                         .listRowBackground(Color(0xFF1E2024))
                     }
 
                     // ── NAVIGARE WEB ────────────────────────────────────────────────
                     Section(header: Text("NAVIGARE WEB").foregroundColor(Color(0xFF34C759)).font(.system(size: 12, weight: .bold))) {
-                        NavigationLink(destination: Text("Setări File").foregroundColor(.white)) {
-                            SettingsRow(icon: "rectangle.stack.fill", color: .cyan, title: "File", subtitle: "Aranjamente file, file în fundal și închidere automată")
+                        Picker(selection: $searchEngine, label: SettingsRow(icon: "magnifyingglass", color: .blue, title: "Motor de căutare", subtitle: searchEngine)) {
+                            Text("DuckDuckGo").tag("DuckDuckGo")
+                            Text("Google").tag("Google")
+                            Text("Brave").tag("Brave")
+                            Text("Bing").tag("Bing")
                         }
+                        .pickerStyle(.menu)
                         .listRowBackground(Color(0xFF1E2024))
 
-                        NavigationLink(destination: Text("Setări Site").foregroundColor(.white)) {
-                            SettingsRow(icon: "globe", color: .teal, title: "Setări Site", subtitle: "Gestionare permisiuni site, JavaScript, pop-up-uri")
-                        }
-                        .listRowBackground(Color(0xFF1E2024))
-
-                        NavigationLink(destination: Text("Aplicații Web & PWA").foregroundColor(.white)) {
-                            SettingsRow(icon: "square.grid.2x2.fill", color: .pink, title: "Aplicații Web & PWA", subtitle: "Gestionare, clonare și descoperire Progressive Web Apps")
+                        HStack {
+                            SettingsRow(icon: "shield.fill", color: Color(0xFF34C759), title: "Line Shield (AdBlock)", subtitle: "Blocare activă reclame & trackere")
+                            Spacer()
+                            Toggle("", isOn: $adBlockEnabled)
+                                .tint(Color(0xFF34C759))
                         }
                         .listRowBackground(Color(0xFF1E2024))
                     }
 
                     // ── CONFIDENȚIALITATE ȘI SECURITATE ─────────────────────────────
                     Section(header: Text("CONFIDENȚIALITATE ȘI SECURITATE").foregroundColor(Color(0xFF34C759)).font(.system(size: 12, weight: .bold))) {
-                        NavigationLink(destination: Text("Confidențialitate și Securitate").foregroundColor(.white)) {
-                            SettingsRow(icon: "shield.fill", color: Color(0xFF34C759), title: "Confidențialitate și Securitate", subtitle: "Șterge datele de navigare, cookie-uri, navigare sigură")
+                        HStack {
+                            SettingsRow(icon: "lock.fill", color: .orange, title: "Mod Exclusiv HTTPS", subtitle: "Criptare automată a conexiunilor")
+                            Spacer()
+                            Toggle("", isOn: $httpsOnly)
+                                .tint(Color(0xFF34C759))
                         }
                         .listRowBackground(Color(0xFF1E2024))
 
-                        NavigationLink(destination: Text("Manager de Parole").foregroundColor(.white)) {
-                            SettingsRow(icon: "key.fill", color: .yellow, title: "Manager de Parole", subtitle: "Creați, deblocați și gestionați credențialele salvate")
-                        }
-                        .listRowBackground(Color(0xFF1E2024))
-
-                        NavigationLink(destination: Text("Seif Privat").foregroundColor(.white)) {
-                            SettingsRow(icon: "lock.shield.fill", color: .red, title: "Seif Privat (Safe Locker)", subtitle: "Seif criptat biometric pentru descărcări și documente")
-                        }
-                        .listRowBackground(Color(0xFF1E2024))
-                    }
-
-                    // ── PROXY & VPN ─────────────────────────────────────────────────
-                    Section(header: Text("PROXY &amp; VPN").foregroundColor(Color(0xFF34C759)).font(.system(size: 12, weight: .bold))) {
-                        NavigationLink(destination: Text("Hub de Confidențialitate (Tor & VPN)").foregroundColor(.white)) {
-                            SettingsRow(icon: "network", color: .indigo, title: "Hub de Confidențialitate", subtitle: "Rutare rețea Tor, WireGuard VPN, SOCKS5 și DNS criptat")
+                        HStack {
+                            SettingsRow(icon: "eye.slash.fill", color: .red, title: "Protecție anti-urmărire", subtitle: "Izolare cookie-uri terțe")
+                            Spacer()
+                            Toggle("", isOn: $trackingProtection)
+                                .tint(Color(0xFF34C759))
                         }
                         .listRowBackground(Color(0xFF1E2024))
                     }
@@ -87,7 +81,7 @@ struct SettingsView: View {
                             Text("Versiune Aplicație")
                                 .foregroundColor(.white)
                             Spacer()
-                            Text("1.0.0")
+                            Text("1.0.0 (Build 10001)")
                                 .foregroundColor(.gray)
                         }
                         .listRowBackground(Color(0xFF1E2024))

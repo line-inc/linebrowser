@@ -9,14 +9,28 @@ struct WKWebViewWrapper: UIViewRepresentable {
         config.allowsInlineMediaPlayback = true
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
-        if let url = URL(string: model.currentUrl) {
+        if model.currentUrl != "about:blank", let url = URL(string: model.currentUrl) {
             webView.load(URLRequest(url: url))
         }
         return webView
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        if let url = URL(string: model.currentUrl) {
+        if model.currentUrl == "about:blank" {
+            // Load blank or start page
+            if uiView.url?.absoluteString != "about:blank" {
+                let html = """
+                <html>
+                <head><style>body { background-color: #121316; color: white; font-family: -apple-system; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }</style></head>
+                <body>
+                    <h2>Line Browser</h2>
+                    <p style="color: #94A3B8;">Fast, Private & Secure</p>
+                </body>
+                </html>
+                """
+                uiView.loadHTMLString(html, baseURL: nil)
+            }
+        } else if let url = URL(string: model.currentUrl) {
             if uiView.url?.absoluteString != model.currentUrl {
                 uiView.load(URLRequest(url: url))
             }
@@ -130,11 +144,11 @@ struct ContentView: View {
                 WKWebViewWrapper(model: model)
                     .ignoresSafeArea(edges: .horizontal)
 
-                // Bottom Navigation Toolbar
+                // Bottom Navigation Toolbar (Behaving like Android home/tabs)
                 HStack {
                     Button(action: {
-                        model.currentUrl = "https://lineinc.ro"
-                        model.inputUrl = "https://lineinc.ro"
+                        model.currentUrl = "about:blank"
+                        model.inputUrl = ""
                     }) {
                         Image(systemName: "house.fill")
                             .foregroundColor(.white)
@@ -150,8 +164,8 @@ struct ContentView: View {
                     }
                     Spacer()
                     Button(action: {
-                        model.currentUrl = "about:blank"
-                        model.inputUrl = ""
+                        model.currentUrl = "https://lineinc.ro"
+                        model.inputUrl = "https://lineinc.ro"
                     }) {
                         Image(systemName: "plus.circle.fill")
                             .foregroundColor(.white)
