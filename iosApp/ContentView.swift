@@ -172,7 +172,7 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $model.showSettings) {
-            SettingsView()
+            SettingsView(model: model)
         }
     }
 }
