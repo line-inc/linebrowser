@@ -2,14 +2,14 @@ import sys
 import os
 import json
 import requests
-from PyQt6.QtCore import QUrl, Qt
-from PyQt6.QtGui import QIcon, QAction
-from PyQt6.QtWidgets import (
+from PyQt5.QtCore import QUrl, Qt
+from PyQt5.QtGui import QIcon, QAction
+from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLineEdit, QPushButton, QTabWidget, QMessageBox, QDialog, QLabel,
-    QListWidget, QComboBox
+    QMenu
 )
-from PyQt6.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 class AboutDialog(QDialog):
     def __init__(self, parent=None):
@@ -169,10 +169,8 @@ class LineBrowserWindow(QMainWindow):
         self.add_new_tab("https://lineinc.ro", "Line Inc.")
 
     def show_menu(self):
-        # Simple popup menu or dialog actions
-        from PyQt6.QtWidgets import QMenu
         menu = QMenu(self)
-        menu.setStyleSheet("background-color: #1E2024; color: white; selection-background-color: #34C759;")
+        menu.setStyleSheet("background-color: #1E2024; color: white; selection-background-color: #34C759; padding: 6px;")
 
         new_tab_action = menu.addAction("Filă nouă")
         new_tab_action.triggered.connect(lambda: self.add_new_tab("https://lineinc.ro", "Line Inc."))
