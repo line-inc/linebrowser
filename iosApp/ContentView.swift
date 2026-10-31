@@ -2,7 +2,6 @@ import SwiftUI
 import WebKit
 
 struct WKWebViewWrapper: UIViewRepresentable {
-    let urlString: String
     @ObservedObject var model: BrowserModel
 
     func makeUIView(context: Context) -> WKWebView {
@@ -10,15 +9,17 @@ struct WKWebViewWrapper: UIViewRepresentable {
         config.allowsInlineMediaPlayback = true
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = context.coordinator
-        if let url = URL(string: urlString) {
+        if let url = URL(string: model.currentUrl) {
             webView.load(URLRequest(url: url))
         }
         return webView
     }
 
     func updateUIView(_ uiView: WKWebView, context: Context) {
-        if let url = URL(string: model.currentUrl), uiView.url?.absoluteString != model.currentUrl {
-            uiView.load(URLRequest(url: url))
+        if let url = URL(string: model.currentUrl) {
+            if uiView.url?.absoluteString != model.currentUrl {
+                uiView.load(URLRequest(url: url))
+            }
         }
     }
 
@@ -126,7 +127,7 @@ struct ContentView: View {
                 .background(Color(0xFF141416))
 
                 // Web Content Area
-                WKWebViewWrapper(urlString: model.currentUrl, model: model)
+                WKWebViewWrapper(model: model)
                     .ignoresSafeArea(edges: .horizontal)
 
                 // Bottom Navigation Toolbar
