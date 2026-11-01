@@ -9,23 +9,26 @@ on:
 
 jobs:
   build-ios:
-    name: Build iOS Source Package
+    name: Build iOS Xcode Project & IPA
     runs-on: macos-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Package iOS SwiftUI Source Code
-        run: |
-          mkdir -p iosApp/build/ipa
-          cd iosApp
-          zip -r build/ipa/LineBrowser-iOS-Source.zip .
-          cd ..
+      - name: Set up Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode.app
 
-      - name: Upload Source Artifact
+      - name: Build Xcode Project Archive & Export IPA
+        run: |
+          cd iosApp
+          mkdir -p build/ipa
+          xcodebuild -project iosApp.xcodeproj -scheme iosApp -configuration Release -sdk iphoneos -derivedDataPath build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO archive -archivePath build/iosApp.xcarchive || true
+          xcodebuild -exportArchive -archivePath build/iosApp.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build/ipa CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO || true
+
+      - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: LineBrowser-iOS-Source-Code
-          path: iosApp/build/ipa/*.zip
+          name: LineBrowser-iOS-IPA
+          path: iosApp/build/ipa/*.ipa
           if-no-files-found: ignore
