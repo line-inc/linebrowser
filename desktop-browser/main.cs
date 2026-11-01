@@ -39,7 +39,7 @@ namespace LineBrowser
             else
             {
                 try {
-                    Process.Start(browserPath, $"--app=\"{url}\" --window-size=1300,850");
+                    Process.Start(browserPath, $"--app=\"{url}\" --window-size=1350,850");
                 } catch {
                     Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
                 }
