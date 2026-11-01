@@ -1,0 +1,119 @@
+name: LineBrowser
+options:
+  bundleIdPrefix: com.lineinc
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: 3JPP9CAURK
+    ENABLE_PREVIEWS: YES
+
+targets:
+  LineBrowser:
+    type: application
+    platform: iOS
+    sources:
+      - path: .
+        excludes:
+          - "ExportOptions.plist"
+          - "project.yml"
+          - "Info.plist"
+          - "PacketTunnel/**"
+          - "build/**"
+          - "LineBrowser.xcodeproj/**"
+          - ".git/**"
+          - "privacy.html"
+    info:
+      path: Info.plist
+      properties:
+        CFBundleDevelopmentRegion: "$(DEVELOPMENT_LANGUAGE)"
+        CFBundleExecutable: "$(EXECUTABLE_NAME)"
+        CFBundleIdentifier: "$(PRODUCT_BUNDLE_IDENTIFIER)"
+        CFBundleInfoDictionaryVersion: "6.0"
+        CFBundleName: "Line Browser"
+        CFBundleDisplayName: "Line Browser"
+        CFBundleIconName: AppIcon
+        CFBundleIcons:
+          CFBundlePrimaryIcon:
+            CFBundleIconName: AppIcon
+        CFBundlePackageType: "$(PRODUCT_BUNDLE_PACKAGE_TYPE)"
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        LSRequiresIPhoneOS: true
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+        NSFaceIDUsageDescription: "Face ID unlocks your private vault and passwords."
+        # Uses only built-in iOS crypto (AES-GCM via CryptoKit, TLS) —
+        # skips App Store Connect's export-compliance question.
+        ITSAppUsesNonExemptEncryption: false
+        # Registers http/https so iOS offers Line Browser in
+        # Settings ▸ Default Browser App and hands links to us.
+        CFBundleURLTypes:
+          - CFBundleURLName: "Web links"
+            CFBundleRole: "Viewer"
+            CFBundleURLSchemes:
+              - "http"
+              - "https"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lineinc.linebrowser
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Info.plist
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+    entitlements:
+      path: LineBrowser.entitlements
+      properties:
+        com.apple.developer.networking.networkextension:
+          - packet-tunnel-provider
+        com.apple.developer.networking.vpn.api:
+          - allow-vpn
+        com.apple.security.application-groups:
+          - group.com.lineinc.linebrowser
+    dependencies:
+      - target: PacketTunnel
+        embed: true
+
+  # Device-wide DNS sniffer: routes DNS (and only DNS) through this tunnel
+  # so every lookup can be logged, blocked, and forwarded to 1.1.1.1.
+  PacketTunnel:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: PacketTunnel
+      - path: Shared/SharedNetwork.swift
+    info:
+      path: PacketTunnel/Info.plist
+      properties:
+        CFBundleDisplayName: "Line Browser DNS"
+        CFBundleName: "PacketTunnel"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.networkextension.packet-tunnel-provider
+          NSExtensionPrincipalClass: "$(PRODUCT_MODULE_NAME).PacketTunnelProvider"
+    entitlements:
+      path: PacketTunnel/PacketTunnel.entitlements
+      properties:
+        com.apple.developer.networking.networkextension:
+          - packet-tunnel-provider
+        com.apple.security.application-groups:
+          - group.com.lineinc.linebrowser
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.lineinc.linebrowser.packettunnel
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: PacketTunnel/Info.plist
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        SKIP_INSTALL: YES

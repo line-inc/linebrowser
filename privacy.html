@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<title>Line Browser — Privacy Policy / Politica de confidențialitate</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #000; color: #f2f2f7;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6; padding: 40px 20px 80px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 8px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo { width: 40px; height: 40px; border-radius: 10px; background: #34c759; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #000; font-size: 18px; }
+  h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; }
+  .sub { color: #8e8e93; font-size: 13px; }
+  #langBtn {
+    background: #1c1c1e; color: #34c759; border: 1px solid #333;
+    padding: 9px 16px; border-radius: 999px; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: transform 150ms ease-out, background 150ms ease-out;
+  }
+  #langBtn:active { transform: scale(0.97); background: #2c2c2e; }
+  .updated { color: #8e8e93; font-size: 13px; margin: 10px 0 28px; }
+  .summary {
+    background: #111412; border: 1px solid #1e3a26; border-radius: 14px;
+    padding: 18px 20px; margin-bottom: 30px; font-size: 15px;
+  }
+  .summary strong { color: #34c759; }
+  h2 { font-size: 17px; margin: 30px 0 10px; font-weight: 650; }
+  p, li { font-size: 15px; color: #d8d8dc; }
+  ul { padding-left: 22px; margin: 8px 0; }
+  li { margin: 6px 0; }
+  li strong, p strong { color: #f2f2f7; }
+  a { color: #34c759; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .ok { color: #34c759; font-weight: 600; }
+  footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid #1c1c1e; color: #6e6e73; font-size: 13px; }
+  [data-lang="ro"] { display: none; }
+  html[data-lang="ro"] [data-lang="en"] { display: none; }
+  html[data-lang="ro"] [data-lang="ro"] { display: block; }
+  html[data-lang="ro"] span[data-lang="ro"], html:not([data-lang="ro"]) span[data-lang="en"] { display: inline; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="brand">
+    <div class="logo">L</div>
+    <div>
+      <h1>Line Browser</h1>
+      <div class="sub">Line Inc. · lineinc.ro</div>
+    </div>
+  </div>
+  <button id="langBtn" onclick="toggleLang()">RO / EN</button>
+</header>
+
+<!-- ============================== ENGLISH ============================== -->
+<div data-lang="en">
+  <div class="updated">Privacy Policy · Last updated: November 1, 2026</div>
+
+  <div class="summary">
+    <strong>Summary:</strong> Line Browser does not collect, transmit, or sell any personal data.
+    There are <strong>no accounts, no analytics, no trackers, and no servers operated by us</strong>.
+    Everything the app stores stays on your device.
+  </div>
+
+  <h2>1. Information stored on your device (local only)</h2>
+  <ul>
+    <li><strong>Saved logins (passwords)</strong> — stored in the iOS Keychain on your device. They are never sent anywhere.</li>
+    <li><strong>Vault items</strong> — encrypted on your device with AES-256-GCM and protected by Face ID / your passcode.</li>
+    <li><strong>Bookmarks &amp; preferences</strong> (theme, language, search engine, wallpaper) — stored in your device's standard preferences (UserDefaults).</li>
+    <li><strong>VPN Client credentials</strong> — the password is stored in the iOS Keychain; the server configuration is saved by iOS in the system VPN settings.</li>
+    <li><strong>DNS Sniffer log</strong> — while the sniffer is active, the domains your device looks up are recorded in a local storage area of the app. Only you can see this list. “Clear” deletes it, and deleting the app removes it permanently.</li>
+  </ul>
+
+  <h2>2. Information we never see</h2>
+  <p>Your browsing history, passwords, vault contents, bookmarks, and DNS log <strong>never leave your device</strong>. We operate no servers, have no way to associate data with you, and receive no telemetry of any kind.</p>
+
+  <h2>3. Network traffic &amp; third parties</h2>
+  <ul>
+    <li><strong>Ordinary browsing</strong> connects directly to the websites you visit; those sites see your IP address just as with any browser. We are not involved.</li>
+    <li><strong>Ad &amp; tracker blocking</strong> runs entirely on your device using a built-in domain list. No advertising networks are contacted by the app on our behalf.</li>
+    <li><strong>Packet Sniffer VPN (optional, when you enable it):</strong> DNS queries are routed through a VPN tunnel that runs <em>on your device</em>. They are logged locally and resolved through <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare 1.1.1.1</a>. We operate no servers and receive none of this traffic.</li>
+    <li><strong>VPN Client (optional):</strong> connects to a VPN server that <em>you</em> provide and control. We do not operate VPN servers.</li>
+  </ul>
+
+  <h2>4. Data collection declaration</h2>
+  <p class="ok">Data Not Collected.</p>
+  <p>The app contains no analytics SDKs, no advertising identifiers, no crash reporters that transmit data, and no accounts or email collection. Nothing is shared with data brokers.</p>
+
+  <h2>5. Children</h2>
+  <p>Line Browser is not directed at children under 13, and we knowingly collect no personal data from anyone — children included.</p>
+
+  <h2>6. Changes</h2>
+  <p>If this policy ever changes, the updated version will be published on this page with a new date.</p>
+
+  <h2>7. Contact</h2>
+  <p>Questions? Visit <a href="https://lineinc.ro" target="_blank" rel="noopener">lineinc.ro</a>.</p>
+</div>
+
+<!-- ============================== ROMÂNĂ ============================== -->
+<div data-lang="ro">
+  <div class="updated">Politica de confidențialitate · Ultima actualizare: 1 noiembrie 2026</div>
+
+  <div class="summary">
+    <strong>Rezumat:</strong> Line Browser nu colectează, nu transmite și nu vinde date personale.
+    Nu există <strong>conturi, analytics, trackere sau servere operate de noi</strong>.
+    Tot ce stochează aplicația rămâne pe dispozitivul tău.</div>
+
+  <h2>1. Informații stocate pe dispozitivul tău (doar local)</h2>
+  <ul>
+    <li><strong>Loginuri salvate (parole)</strong> — stocate în iOS Keychain pe dispozitiv. Nu sunt trimise nicăieri.</li>
+    <li><strong>Elemente din seif</strong> — criptate pe dispozitiv cu AES-256-GCM și protejate de Face ID / codul tău.</li>
+    <li><strong>Marcaje și preferințe</strong> (temă, limbă, motor de căutare, fundal) — stocate în preferințele standard ale dispozitivului (UserDefaults).</li>
+    <li><strong>Credențiale Client VPN</strong> — parola este stocată în iOS Keychain; configurația serverului este salvată de iOS în setările VPN ale sistemului.</li>
+    <li><strong>Jurnalul Sondorului DNS</strong> — cât timp sondorul este activ, domeniile căutate de dispozitiv sunt înregistrate într-un spațiu de stocare local al aplicației. Doar tu poți vedea această listă. „Golește” o șterge, iar dezinstalarea aplicației o elimină definitiv.</li>
+  </ul>
+
+  <h2>2. Informațiile pe care nu le vedem niciodată</h2>
+  <p>Istoricul de navigare, parolele, conținutul seifului, marcajele și jurnalul DNS <strong>părăsesc niciodată dispozitivul</strong> tău. Nu operăm servere, nu putem asocia date cu tine și nu primim telemetrie de niciun fel.</p>
+
+  <h2>3. Trafic de rețea și terți</h2>
+  <ul>
+    <li><strong>Navigarea obișnuită</strong> se conectează direct la site-urile pe care le vizitezi; acele site-uri îți văd adresa IP ca orice alt browser. Nu suntem implicați.</li>
+    <li><strong>Blocarea reclamelor și trackere</strong> rulează complet pe dispozitivul tău, folosind o listă de domenii inclusă. Nicio rețea de publicitate nu este contactată de aplicație în numele nostru.</li>
+    <li><strong>Sondor de pachete VPN (opțional, cât timp îl activezi):</strong> interogările DNS trec printr-un tunel VPN care rulează <em>pe dispozitivul tău</em>. Sunt jurnalizate local și rezolvate prin <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare 1.1.1.1</a>. Nu operăm servere și nu primim acest trafic.</li>
+    <li><strong>Client VPN (opțional):</strong> se conectează la un server VPN pe care <em>tu</em> îl furnizezi și îl controlezi. Nu operăm servere VPN.</li>
+  </ul>
+
+  <h2>4. Declarație de colectare a datelor</h2>
+  <p class="ok">Date colectate: Niciuna.</p>
+  <p>Aplicația nu conține SDK-uri de analytics, identificatori de publicitate, rapoarte de crash care transmit date sau conturi/colectare de emailuri. Nimic nu este partajat cu brokeri de date.</p>
+
+  <h2>5. Copii</h2>
+  <p>Line Browser nu este destinat copiilor sub 13 ani și nu colectăm cu bună știință date personale de la nimeni — nici de la copii.</p>
+
+  <h2>6. Modificări</h2>
+  <p>Dacă această politică se schimbă vreodată, versiunea actualizată va fi publicată pe această pagină cu o dată nouă.</p>
+
+  <h2>7. Contact</h2>
+  <p>Întrebări? Vizitează <a href="https://lineinc.ro" target="_blank" rel="noopener">lineinc.ro</a>.</p>
+</div>
+
+<footer>© 2026 Line Inc. · Line Browser</footer>
+
+</div>
+<script>
+function toggleLang() {
+  var html = document.documentElement;
+  var next = html.getAttribute('data-lang') === 'ro' ? 'en' : 'ro';
+  html.setAttribute('data-lang', next);
+  try { localStorage.setItem('lb-lang', next); } catch (e) {}
+}
+try {
+  var saved = localStorage.getItem('lb-lang');
+  if (saved) document.documentElement.setAttribute('data-lang', saved);
+} catch (e) {}
+</script>
+</body>
+</html>
