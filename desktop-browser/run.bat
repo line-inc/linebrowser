@@ -1,9 +1,7 @@
 @echo off
 cd /d "%~dp0"
-echo Se porneste Line Browser Desktop...
+echo Se instaleaza dependintele necesare pentru Line Browser (Chromium Engine)...
+pip install -r requirements.txt
+echo Se porneste Line Browser...
 python main.py
-if errorlevel 1 (
-    echo.
-    echo [Eroare] Python a întâmpinat o problemă.
-    pause
-)
+pause

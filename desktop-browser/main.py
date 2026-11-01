@@ -1,13 +1,12 @@
 import sys
 import os
-import json
 import requests
 from PyQt5.QtCore import QUrl, Qt
 from PyQt5.QtGui import QIcon, QFont, QColor
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLineEdit, QPushButton, QTabWidget, QMessageBox, QDialog, QLabel,
-    QMenu, QAction, QScrollArea, QFrame, QCheckBox
+    QMenu, QAction, QScrollArea, QFrame, QListWidget
 )
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 
@@ -15,7 +14,7 @@ class SettingsDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Setări Line Browser")
-        self.resize(700, 550)
+        self.resize(720, 600)
         self.setStyleSheet("""
             QDialog { background-color: #121316; color: #F1F5F9; font-family: -apple-system, sans-serif; }
             QLabel { color: #F1F5F9; font-size: 13px; }
@@ -26,7 +25,7 @@ class SettingsDialog(QDialog):
         """)
 
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setContentsMargins(24, 24, 24, 24)
 
         header_layout = QHBoxLayout()
         title = QLabel("Setări Line Browser")
@@ -44,7 +43,7 @@ class SettingsDialog(QDialog):
         scroll_content = QWidget()
         scroll_layout = QVBoxLayout(scroll_content)
 
-        def add_setting_card(category, title_text, desc_text, action_text, callback):
+        def add_setting_card(title_text, desc_text, action_text, callback):
             card = QFrame()
             card_layout = QHBoxLayout(card)
             card_layout.setContentsMargins(16, 14, 16, 14)
@@ -64,35 +63,34 @@ class SettingsDialog(QDialog):
 
             scroll_layout.addWidget(card)
 
-        # Categories & Settings matching Android
         cat_p = QLabel("PERSONALIZARE")
         cat_p.setStyleSheet("color: #34C759; font-weight: bold; font-size: 11px; margin-top: 10px;")
         scroll_layout.addWidget(cat_p)
 
-        add_setting_card("p", "Temă și Aspect", "Mod întunecat, culori de accent, iconițe", "Configurează", lambda: QMessageBox.information(self, "Temă", "Modul Matte Dark cu accent Line Emerald Green este activ."))
-        add_setting_card("p", "Limba Aplicației", "Schimbă limba de afișare a aplicației", "Română", lambda: QMessageBox.information(self, "Limbă", "Aplicația este setată pe limba Română."))
-        add_setting_card("p", "Imagini de Fundal", "Fundal browser, colecții LineOS & Aero", "Galerie", lambda: QMessageBox.information(self, "Fundaluri", "Colecțiile LineOS & Aero sunt integrate."))
+        add_setting_card("Temă și Aspect", "Mod întunecat, culori de accent, iconițe", "Configurează", lambda: QMessageBox.information(self, "Temă", "Modul Matte Dark cu accent Line Emerald Green este activ."))
+        add_setting_card("Limba Aplicației", "Schimbă limba de afișare a aplicației", "Română", lambda: QMessageBox.information(self, "Limbă", "Aplicația este setată pe limba Română."))
+        add_setting_card("Imagini de Fundal", "Fundal browser, colecții LineOS & Aero", "Galerie", lambda: QMessageBox.information(self, "Fundaluri", "Colecțiile LineOS & Aero sunt integrate."))
 
         cat_b = QLabel("NAFIGARE WEB")
         cat_b.setStyleSheet("color: #34C759; font-weight: bold; font-size: 11px; margin-top: 10px;")
         scroll_layout.addWidget(cat_b)
 
-        add_setting_card("b", "File", "Aranjament file, file în fundal și închidere automată", "Gestionează", lambda: QMessageBox.information(self, "File", "Gestionarea filelor este activă."))
-        add_setting_card("b", "Setări Site", "Gestionare permisiuni site, JavaScript, pop-up-uri", "Setări", lambda: QMessageBox.information(self, "Setări Site", "Toate permisiunile sunt configurate."))
+        add_setting_card("File", "Aranjament file, file în fundal și închidere automată", "Gestionează", lambda: QMessageBox.information(self, "File", "Gestionarea filelor este activă."))
+        add_setting_card("Setări Site", "Gestionare permisiuni site, JavaScript, pop-up-uri", "Setări", lambda: QMessageBox.information(self, "Setări Site", "Toate permisiunile sunt configurate."))
 
         cat_s = QLabel("CONFIDENȚIALITATE ȘI SECURITATE")
         cat_s.setStyleSheet("color: #34C759; font-weight: bold; font-size: 11px; margin-top: 10px;")
         scroll_layout.addWidget(cat_s)
 
-        add_setting_card("s", "Line Shield (Ad & Tracker Blocker)", "Blochează reclamele și trackerele pe fiecare pagină", "Activ", lambda: QMessageBox.information(self, "Line Shield", "Line Shield blochează active trackerele."))
-        add_setting_card("s", "Seif Privat & Manager de Parole", "Protecție biometrică și criptare AES-256", "Deschide", lambda: QMessageBox.information(self, "Seif", "Seiful criptat este securizat."))
+        add_setting_card("Line Shield (Ad & Tracker Blocker)", "Blochează reclamele și trackerele pe fiecare pagină", "Activ", lambda: QMessageBox.information(self, "Line Shield", "Line Shield blochează active trackerele."))
+        add_setting_card("Seif Privat & Manager de Parole", "Protecție biometrică și criptare AES-256", "Deschide", lambda: QMessageBox.information(self, "Seif", "Seiful criptat este securizat."))
 
         cat_a = QLabel("DESPRE")
         cat_a.setStyleSheet("color: #34C759; font-weight: bold; font-size: 11px; margin-top: 10px;")
         scroll_layout.addWidget(cat_a)
 
-        add_setting_card("a", "Versiune Aplicație", "1.0.0 (Desktop Edition)", "La zi", lambda: QMessageBox.information(self, "Versiune", "Line Browser v1.0.0"))
-        add_setting_card("a", "Copyright", "© 2026 Line Inc. Toate drepturile rezervate.", "Line Inc.", lambda: {})
+        add_setting_card("Versiune Aplicație", "1.0.0 (Chromium Core)", "La zi", lambda: QMessageBox.information(self, "Versiune", "Line Browser v1.0.0"))
+        add_setting_card("Copyright", "© 2026 Line Inc. Toate drepturile rezervate.", "Line Inc.", lambda: {})
 
         scroll.setWidget(scroll_content)
         layout.addWidget(scroll)
@@ -111,7 +109,7 @@ class AboutDialog(QDialog):
         title.setStyleSheet("font-size: 24px; font-weight: bold; color: #34C759;")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        version = QLabel("Versiune 1.0.0 (Desktop Edition)")
+        version = QLabel("Versiune 1.0.0 (Chromium Core)")
         version.setStyleSheet("font-size: 14px; color: #94A3B8; margin-top: 4px;")
         version.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -138,12 +136,13 @@ class LineBrowserWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Line Browser")
-        self.resize(1300, 850)
+        self.resize(1350, 850)
 
+        # Pixel-for-pixel Google Chrome / Brave style layout in Matte Dark theme
         self.setStyleSheet("""
             QMainWindow { background-color: #121316; }
             QTabWidget::pane { border: 1px solid #2C2C2E; background: #121316; }
-            QTabBar::tab { background: #181A1E; color: #94A3B8; padding: 10px 20px; border-top-left-radius: 8px; border-top-right-radius: 8px; font-size: 13px; }
+            QTabBar::tab { background: #181A1E; color: #94A3B8; padding: 10px 22px; border-top-left-radius: 8px; border-top-right-radius: 8px; font-size: 13px; font-weight: 500; }
             QTabBar::tab:selected { background: #22252A; color: #FFFFFF; font-weight: bold; border-bottom: 2px solid #34C759; }
             QLineEdit { background-color: #1E2024; color: #FFFFFF; border: 1.5px solid #2C2C2E; border-radius: 20px; padding: 8px 16px; font-size: 14px; }
             QLineEdit:focus { border: 1.5px solid #34C759; }
@@ -157,7 +156,7 @@ class LineBrowserWindow(QMainWindow):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
 
-        # Toolbar
+        # Chrome-style Top Toolbar
         toolbar_widget = QWidget()
         toolbar_widget.setStyleSheet("background-color: #141416; border-bottom: 1px solid #1E2024;")
         toolbar_layout = QHBoxLayout(toolbar_widget)
@@ -193,7 +192,7 @@ class LineBrowserWindow(QMainWindow):
 
         main_layout.addWidget(toolbar_widget)
 
-        # Tabs
+        # Chrome-style Tabs Widget
         self.tabs = QTabWidget()
         self.tabs.setTabsClosable(True)
         self.tabs.tabCloseRequested.connect(self.close_tab)
