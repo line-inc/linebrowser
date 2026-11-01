@@ -129,7 +129,7 @@ body {
     outline: none;
 }
 
-/* ── Browser Content Area ────────────────────────────────_________________ */
+/* ── Browser Content Area ───────────────────────────────────────────────── */
 #content-area {
     flex: 1;
     position: relative;
@@ -150,7 +150,7 @@ iframe {
     background: #FFFFFF;
 }
 
-/* ── New Tab / Home Page UI ─────────────────────────────────────────────── */
+/* ── New Tab / Home Page UI (Android Ported) ────────────────────────────── */
 .new-tab-page {
     flex: 1;
     display: flex;
@@ -207,7 +207,7 @@ iframe {
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     margin-top: 36px;
-    width: 600px;
+    width: 650px;
     max-width: 90%;
 }
 
@@ -243,7 +243,7 @@ iframe {
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
     border-radius: 16px;
-    width: 650px;
+    width: 700px;
     max-width: 90%;
     max-height: 85vh;
     overflow-y: auto;
