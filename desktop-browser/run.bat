@@ -1,13 +1,12 @@
 @echo off
+cd /d "%~dp0"
 echo ========================================================
-echo Line Browser - Sursa Chromium
+echo Se lanseaza Line Browser Desktop (Chromium Engine)...
 echo ========================================================
-echo Ati deschis folderul cu codul sursa brut (C++) al lui Chromium.
-echo Codul sursa necesita un mediu de compilare Google Depot Tools
-echo si cateva ore de compilare cu ninja pentru a genera chrome.exe.
-echo.
-echo Pentru a rula o versiune gata compilata si stabila de Line Browser,
-echo va recomandam sa folositi aplicatia noastra nativa de Android
-echo sau scripturile noastre gata de test.
-echo ========================================================
-pause
+python -c "import PyQt5" 2>nul
+if errorlevel 1 (
+    echo Se instaleaza PyQt5 si PyQtWebEngine pentru randare Chromium...
+    pip install PyQt5 PyQtWebEngine requests
+)
+start "" python main.py
+exit
