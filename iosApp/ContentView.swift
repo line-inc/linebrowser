@@ -77,14 +77,10 @@ struct ContentView: View {
             VStack(spacing: 0) {
                 // Top Address Bar
                 HStack(spacing: 10) {
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(Color(0xFF34C759))
+                    Image("Logo")
+                        .resizable()
                         .frame(width: 24, height: 24)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 2)
-                                .fill(Color.black)
-                                .frame(width: 10, height: 3)
-                        )
+                        .cornerRadius(6)
 
                     HStack {
                         Image(systemName: "lock.fill")
