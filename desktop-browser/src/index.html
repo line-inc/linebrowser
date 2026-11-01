@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Line Browser</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Tab Bar -->
+    <div id="tab-bar">
+        <div class="tab active" data-tab-id="1" onclick="switchTab(1)">
+            <span class="tab-title">Filă Nouă</span>
+            <span class="close-tab" onclick="closeTab(event, 1)">×</span>
+        </div>
+        <button id="new-tab-btn" onclick="addNewTab()">+</button>
+    </div>
+
+    <!-- Toolbar -->
+    <div id="toolbar">
+        <button class="tool-btn" onclick="goBack()">◀</button>
+        <button class="tool-btn" onclick="goForward()">▶</button>
+        <button class="tool-btn" onclick="reloadPage()">🔄</button>
+        <button class="tool-btn" onclick="goHome()">🏠</button>
+
+        <div id="url-container">
+            <span class="ssl-lock">🔒</span>
+            <input type="text" id="url-bar" placeholder="Caută sau introdu adresa web..." onkeydown="handleUrlKey(event)" />
+        </div>
+
+        <button class="tool-btn" onclick="openSettingsModal()">⚙️ Setări</button>
+        <button class="tool-btn" onclick="openMenu()">⋮</button>
+    </div>
+
+    <!-- Content Area -->
+    <div id="content-area">
+        <div class="browser-view active" data-view-id="1">
+            <div class="new-tab-page">
+                <div class="home-logo">
+                    <div></div>
+                </div>
+                <div class="home-title">Line Browser</div>
+                <div class="home-subtitle">Zero Trackers · Fully On-Device · Hyper-Fast</div>
+
+                <div class="home-search">
+                    <input type="text" id="home-search-input" placeholder="Caută sau introdu adresa web..." onkeydown="handleHomeSearch(event)" />
+                </div>
+
+                <div class="home-widgets">
+                    <a href="https://lineinc.ro" class="widget-card" onclick="loadUrlInActiveTab(event, 'https://lineinc.ro')">
+                        <strong>Line Inc. Website</strong>
+                        <span>Oficial</span>
+                    </a>
+                    <a href="#" class="widget-card" onclick="openSettingsModal(); return false;">
+                        <strong>Line Shield (AdBlock)</strong>
+                        <span>Protecție activă</span>
+                    </a>
+                    <a href="#" class="widget-card" onclick="openSettingsModal(); return false;">
+                        <strong>Seif Privat & Parole</strong>
+                        <span>Criptat AES-256</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Setări Line Browser</h2>
+                <button class="close-modal" onclick="closeSettingsModal()">✕</button>
+            </div>
+
+            <h3 style="color: #34C759; font-size: 14px; margin-top: 0;">PERSONALIZARE</h3>
+            <div class="setting-row">
+                <div><strong>Temă și Aspect</strong><span>Mod întunecat, culori de accent, iconițe</span></div>
+                <button class="tool-btn" onclick="alert('Temă: Matte Dark / Line Emerald')">Configurează</button>
+            </div>
+            <div class="setting-row">
+                <div><strong>Limba Aplicației</strong><span>Română (Selectată)</span></div>
+                <button class="tool-btn" onclick="alert('Limba este setată pe Română')">Schimbă</button>
+            </div>
+
+            <h3 style="color: #34C759; font-size: 14px; margin-top: 20px;">CONFIDENȚIALITATE ȘI SECURITATE</h3>
+            <div class="setting-row">
+                <div><strong>Line Shield (Ad & Tracker Blocker)</strong><span>Blochează reclamele și trackerele pe fiecare pagină</span></div>
+                <input type="checkbox" checked onchange="alert('Line Shield este activ.')" />
+            </div>
+            <div class="setting-row">
+                <div><strong>Seif Privat & Manager de Parole</strong><span>Protecție biometrică și criptare AES-256</span></div>
+                <button class="tool-btn" onclick="alert('Seiful este securizat.')">Deschide</button>
+            </div>
+
+            <h3 style="color: #34C759; font-size: 14px; margin-top: 20px;">DESPRE</h3>
+            <div class="setting-row">
+                <div><strong>Versiune Aplicație</strong><span>1.0.0 (Tauri Desktop Build)</span></div>
+            </div>
+            <div class="setting-row">
+                <div><strong>Copyright</strong><span>© 2026 Line Inc. Toate drepturile rezervate.</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
