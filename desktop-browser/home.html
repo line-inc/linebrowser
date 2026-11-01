@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Line Browser</title>
+    <style>
+        body {
+            background-color: #121316;
+            color: #F1F5F9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: #34C759;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(52, 199, 89, 0.3);
+        }
+        .logo div {
+            width: 32px;
+            height: 6px;
+            background-color: #121316;
+            border-radius: 3px;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+            letter-spacing: -0.5px;
+        }
+        p {
+            color: #94A3B8;
+            font-size: 14px;
+            margin: 0 0 32px 0;
+        }
+        .search-box {
+            width: 500px;
+            max-width: 90%;
+            background-color: #1E2024;
+            border: 1px solid #334155;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #FFFFFF;
+            font-size: 15px;
+            outline: none;
+        }
+        .shortcuts {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .shortcut {
+            background-color: #1E2024;
+            border: 1px solid #2C2C2E;
+            padding: 14px 22px;
+            border-radius: 14px;
+            color: #F1F5F9;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .shortcut:hover {
+            border-color: #34C759;
+            background-color: #25282D;
+        }
+        .footer {
+            position: absolute;
+            bottom: 24px;
+            color: #64748B;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <div></div>
+    </div>
+    <h1>Line Browser</h1>
+    <p>Zero Trackers · Fully On-Device · Hyper-Fast</p>
+
+    <div class="search-box">
+        <input type="text" id="search-input" placeholder="Caută sau introdu adresa web..." autofocus />
+    </div>
+
+    <div class="shortcuts">
+        <a href="https://lineinc.ro" class="shortcut">Line Inc. Website</a>
+        <a href="https://duckduckgo.com" class="shortcut">DuckDuckGo</a>
+        <a href="https://github.com/line-inc/linebrowser" class="shortcut">GitHub Repo</a>
+    </div>
+
+    <div class="footer">Copyright © 2026 Line Inc. All rights reserved.</div>
+
+    <script>
+        const input = document.getElementById('search-input');
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                let val = input.value.trim();
+                if (val) {
+                    if (!val.startsWith('http://') && !val.startsWith('https://')) {
+                        if (val.includes('.') && !val.includes(' ')) {
+                            val = 'https://' + val;
+                        } else {
+                            val = 'https://duckduckgo.com/?q=' + encodeURIComponent(val);
+                        }
+                    }
+                    window.location.href = val;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
