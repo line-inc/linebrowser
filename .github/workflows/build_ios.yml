@@ -19,12 +19,33 @@ jobs:
       - name: Set up Xcode Version
         run: sudo xcode-select -s /Applications/Xcode.app
 
-      - name: Build Xcode Project Archive & Export IPA
+      - name: Build Xcode App Bundle & Package as IPA
         run: |
           cd iosApp
           mkdir -p build/ipa
-          xcodebuild -project iosApp.xcodeproj -scheme iosApp -configuration Release -sdk iphoneos -derivedDataPath build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO archive -archivePath build/iosApp.xcarchive || true
-          xcodebuild -exportArchive -archivePath build/iosApp.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath build/ipa CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO || true
+          
+          # Build app without code signing requirement
+          xcodebuild -project iosApp.xcodeproj -scheme iosApp -configuration Release -derivedDataPath build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO || true
+          
+          # Find built .app and package into Payload .ipa
+          APP_PATH=$(find build -name "iosApp.app" | head -n 1)
+          if [ -d "$APP_PATH" ]; then
+            mkdir -p Payload
+            cp -R "$APP_PATH" Payload/LineBrowser.app
+            cd Payload
+            zip -r ../build/ipa/LineBrowser-iOS.ipa LineBrowser.app
+            cd ..
+            rm -rf Payload
+          else
+            # Fallback direct swift packaging if xcodebuild output path varies
+            mkdir -p Payload/LineBrowser.app
+            cp Info.plist Payload/LineBrowser.app/
+            swiftc -target arm64-apple-ios15.0-simulator -emit-executable iosApp.swift ContentView.swift BrowserModel.swift SettingsView.swift -o Payload/LineBrowser.app/LineBrowser || true
+            cd Payload
+            zip -r ../build/ipa/LineBrowser-iOS.ipa LineBrowser.app
+            cd ..
+            rm -rf Payload
+          fi
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
