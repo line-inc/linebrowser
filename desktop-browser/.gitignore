@@ -1,0 +1,6 @@
+chromium-main/
+build/
+dist/
+__pycache__/
+*.spec
+venv/
