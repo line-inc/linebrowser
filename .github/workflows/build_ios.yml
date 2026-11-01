@@ -9,23 +9,23 @@ on:
 
 jobs:
   build-ios:
-    name: Package Xcode Project (.xcodeproj)
+    name: Package iOS Swift Package
     runs-on: macos-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Package Xcode Project as Zip
+      - name: Package iOS Swift Package as Zip
         run: |
           mkdir -p iosApp/build/zip
           cd iosApp
-          zip -r build/zip/LineBrowser-iOS-XcodeProject.zip . -x "build/*" ".DS_Store"
+          zip -r build/zip/LineBrowser-iOS-Package.zip . -x "build/*" ".DS_Store" "iosApp.xcodeproj*"
           cd ..
 
-      - name: Upload Xcode Project Artifact
+      - name: Upload Swift Package Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: LineBrowser-iOS-XcodeProject
+          name: LineBrowser-iOS-SwiftPackage
           path: iosApp/build/zip/*.zip
           if-no-files-found: ignore
