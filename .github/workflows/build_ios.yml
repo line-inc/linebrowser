@@ -9,47 +9,23 @@ on:
 
 jobs:
   build-ios:
-    name: Build iOS Xcode Project & IPA
+    name: Package Xcode Project (.xcodeproj)
     runs-on: macos-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Xcode Version
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Build Xcode App Bundle & Package as IPA
+      - name: Package Xcode Project as Zip
         run: |
+          mkdir -p iosApp/build/zip
           cd iosApp
-          mkdir -p build/ipa
-          
-          # Build app without code signing requirement
-          xcodebuild -project iosApp.xcodeproj -scheme iosApp -configuration Release -derivedDataPath build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO || true
-          
-          # Find built .app and package into Payload .ipa
-          APP_PATH=$(find build -name "iosApp.app" | head -n 1)
-          if [ -d "$APP_PATH" ]; then
-            mkdir -p Payload
-            cp -R "$APP_PATH" Payload/LineBrowser.app
-            cd Payload
-            zip -r ../build/ipa/LineBrowser-iOS.ipa LineBrowser.app
-            cd ..
-            rm -rf Payload
-          else
-            # Fallback direct swift packaging if xcodebuild output path varies
-            mkdir -p Payload/LineBrowser.app
-            cp Info.plist Payload/LineBrowser.app/
-            swiftc -target arm64-apple-ios15.0-simulator -emit-executable iosApp.swift ContentView.swift BrowserModel.swift SettingsView.swift -o Payload/LineBrowser.app/LineBrowser || true
-            cd Payload
-            zip -r ../build/ipa/LineBrowser-iOS.ipa LineBrowser.app
-            cd ..
-            rm -rf Payload
-          fi
+          zip -r build/zip/LineBrowser-iOS-XcodeProject.zip . -x "build/*" ".DS_Store"
+          cd ..
 
-      - name: Upload IPA Artifact
+      - name: Upload Xcode Project Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: LineBrowser-iOS-IPA
-          path: iosApp/build/ipa/*.ipa
+          name: LineBrowser-iOS-XcodeProject
+          path: iosApp/build/zip/*.zip
           if-no-files-found: ignore
