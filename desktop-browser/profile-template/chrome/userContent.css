@@ -9,6 +9,15 @@ img[src*="firefox"],
     display: none !important;
 }
 
+/* Hide unwanted Mozilla / Firefox settings sidebar categories */
+#category-firefox-labs,
+#category-more-from-mozilla,
+#category-support,
+.category[data-category="firefox-labs"],
+.category[data-category="more-from-mozilla"] {
+    display: none !important;
+}
+
 /* Insert Line Browser custom branding header on newtab */
 body::before {
     content: "Line Browser";
