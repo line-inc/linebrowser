@@ -1,12 +1,13 @@
 @echo off
 cd /d "%~dp0"
 echo ========================================================
-echo Se lanseaza Line Browser Desktop (Chromium Engine)...
+echo Compilare Line Browser (Chromium Core nativ Windows)...
 echo ========================================================
-python -c "import PyQt5" 2>nul
-if errorlevel 1 (
-    echo Se instaleaza PyQt5 si PyQtWebEngine pentru randare Chromium...
-    pip install PyQt5 PyQtWebEngine requests
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /target:winexe /out:LineBrowser.exe main.cs
+if exist LineBrowser.exe (
+    echo Pornire LineBrowser.exe...
+    start "" LineBrowser.exe
+) else (
+    echo [Eroare] Compilarea C# a eșuat.
+    pause
 )
-start "" python main.py
-exit
