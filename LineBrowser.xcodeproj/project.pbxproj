@@ -7,28 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D6555F759EB1848BB64E8FE /* PersonalizationScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_1376AECE-9213-43B9-AE48-198776095253" /* PersonalizationScreens.swift */; };
-		1FF7F36B69CD7A746B0934C5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_FA1178CA-F403-4E26-B55F-36C01E4EF548" /* ContentView.swift */; };
-		201B1C1AF236371881C216F0 /* NetworkScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_E060413E-35A3-45C6-A7F3-297B8ABED5A7" /* NetworkScreens.swift */; };
-		21ACF50EA58C096FFB2FBA29 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_FC7BE7B5-CDEB-4E75-B449-190F988D6BCB" /* SettingsView.swift */; };
-		29F84978AC11A839D90CECBF /* BrowsingScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_F85AAB57-F0A2-4C29-A3E8-2905C530D7D6" /* BrowsingScreens.swift */; };
-		2C842932125CE7697721A08C /* ScreenshotHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_F4407488-9DAD-4FD7-B806-B30518AD1B18" /* ScreenshotHarness.swift */; };
-		34ECCE4DA80F3199C579993F /* SecureStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_2645D8AA-C228-42BE-9B5A-C8B37AC07A2B" /* SecureStores.swift */; };
-		3A9C4F3EF2647440E0741450 /* BrowserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_27D60583-3946-4EB9-8CAC-12650FA408B8" /* BrowserModel.swift */; };
-		458B6C2C73F5CE89A626515C /* iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_7C1D6F63-CF8E-41E3-B19E-7E52E6B675E2" /* iosApp.swift */; };
-		46C03E789A0DA9AA45A8BB1A /* NetworkCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_CE3ED635-F7A4-434A-B782-A434ECF4D44A" /* NetworkCore.swift */; };
-		71FE5666C134E610E0F3B481 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_AE6A35D3-385D-4E5E-929C-EE4F418F562B" /* OnboardingView.swift */; };
+		056A26A2C2031B8A28683B9E /* NetworkCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_0B4C94EB-7431-4994-9599-BA4613CBABAB" /* NetworkCore.swift */; };
+		0C579C64D071BF0E3ADC3FB3 /* SecureStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_69279F8C-F4D3-4831-B2CD-5FF65123F047" /* SecureStores.swift */; };
+		14CBE8626FA3E59A60F9DB04 /* LineBrowser-v1.1.0.ipa in Resources */ = {isa = PBXBuildFile; fileRef = "TEMP_7AD8EC9E-A71E-4FCD-ABB3-A9A76A086745" /* LineBrowser-v1.1.0.ipa */; };
+		1CFCF0CC10DDF31133DDAE61 /* PrivacyScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_0D5ADE0B-60B8-4A06-ACB3-980163990EF5" /* PrivacyScreens.swift */; };
+		28D4DA214CF4477391359F6E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = "TEMP_B11D5680-AA54-401E-B1BC-D0ECAD637689" /* Assets.xcassets */; };
+		491F09694289F2BECD4DB360 /* NetworkScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_DD1A56D3-6EFD-43B1-96F3-345AE796BCD4" /* NetworkScreens.swift */; };
+		6873ACCD3FED8681428EC6A2 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_49B746B0-D661-438A-99E5-A48A616A69F0" /* OnboardingView.swift */; };
+		7477B4C501BCAFCBC7DEC41C /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_7C55A0FA-9C7E-428B-B723-EA97F0498C15" /* ColorHex.swift */; };
 		753B84973FB3CF1C5C161AF6 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDC86F9B3FB2D96C7A78A93 /* PacketTunnelProvider.swift */; };
-		76FC61C3A72DD6606E8C6FA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = "TEMP_9D82362B-F685-45F4-9BA4-D36CFAE86CE4" /* Assets.xcassets */; };
-		A9A9BEBAAA94725EFA75262E /* VPNManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_600AE7EE-5F67-4FB4-A6CD-4B45D6370F04" /* VPNManager.swift */; };
-		B9B2BE4FDF4712A434D9F201 /* PrivacyScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_0694F1FE-D1C4-4550-BF47-FBB99944BD2A" /* PrivacyScreens.swift */; };
+		789F039B3B3BEF6B3CD0F8F2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_71B16BA1-1085-4CE4-B981-5EECB2A52CDA" /* SettingsView.swift */; };
+		851587AC1ACCBEC8BAA3105B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_5218F741-AD5E-41D0-BE04-AF7EC7C2B0E1" /* ContentView.swift */; };
+		89050DAD8A528B9CBFA6C9DD /* PersonalizationScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_17F06E62-33AD-4A5C-806B-8A4E340B5BB1" /* PersonalizationScreens.swift */; };
+		8F3F3FC007BC551596DC6094 /* Screens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_81DA0F34-F180-4461-ACD6-3FB6F0DBEC7D" /* Screens.swift */; };
+		915DF5550028C87F2D06C945 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_EE259CBC-9730-43CC-B356-67C87BD271D4" /* Localization.swift */; };
+		CFC554E2EE170781BB2621AD /* VPNManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_E466B5F8-04E0-4325-9514-227FC9DDB2FC" /* VPNManager.swift */; };
 		D465EBE81E8CE92413E5D186 /* SharedNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9A0D289068D3BE4F2674CB /* SharedNetwork.swift */; };
-		EE09A9B1063C34D5CA385C84 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_D8DB242E-BD25-4267-BA57-FC8481653C64" /* Localization.swift */; };
-		EED5D5D433FA1AB75FE73018 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_08E784A1-9512-4136-A61D-F0B871937EDE" /* SettingsStore.swift */; };
+		D49B1AF1535B82C772174819 /* BrowsingScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_D4B9248F-0879-482F-BFD5-088B2864C245" /* BrowsingScreens.swift */; };
+		D7E3003216E13572B9461021 /* iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_7EB49C9D-FAAF-48FA-9F1E-86C98A9DFB7F" /* iosApp.swift */; };
+		D819D5CD679404CCC3CF0B7E /* BrowserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_B2B1276E-04E1-46B1-B97A-3C72928BC1F3" /* BrowserModel.swift */; };
+		D8C78540994D1EB64CE678A7 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_3C1CF11D-11BA-43CD-AB09-B2C5B475EB5D" /* SettingsStore.swift */; };
 		F6AEAC1038E0E321945CFAC8 /* SharedNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9A0D289068D3BE4F2674CB /* SharedNetwork.swift */; };
+		F795099804BAAABF72929262 /* ScreenshotHarness.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_6E88D4D0-A140-4E9B-B353-3A560A37F805" /* ScreenshotHarness.swift */; };
 		F7EA1154F9F73D7CFE4646E2 /* PacketTunnel.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E4E0D4CDCEC973913423E9CF /* PacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		FA69D4E52647DF61B1EF7C43 /* Screens.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_497B72C0-868F-4006-8CB0-DA79D01081FD" /* Screens.swift */; };
-		FFFE834DBC5D81A7A21694B9 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = "TEMP_899E7863-CB38-42F1-B1F3-7CA4582F4B7C" /* ColorHex.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,26 +63,27 @@
 		C0B330A7094723F0168130B8 /* PacketTunnel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PacketTunnel.entitlements; sourceTree = "<group>"; };
 		CEA8823335DFE326A6BC0F51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E4E0D4CDCEC973913423E9CF /* PacketTunnel.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = PacketTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		"TEMP_0694F1FE-D1C4-4550-BF47-FBB99944BD2A" /* PrivacyScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyScreens.swift; sourceTree = "<group>"; };
-		"TEMP_08E784A1-9512-4136-A61D-F0B871937EDE" /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
-		"TEMP_1376AECE-9213-43B9-AE48-198776095253" /* PersonalizationScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationScreens.swift; sourceTree = "<group>"; };
-		"TEMP_2645D8AA-C228-42BE-9B5A-C8B37AC07A2B" /* SecureStores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStores.swift; sourceTree = "<group>"; };
-		"TEMP_27D60583-3946-4EB9-8CAC-12650FA408B8" /* BrowserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserModel.swift; sourceTree = "<group>"; };
-		"TEMP_497B72C0-868F-4006-8CB0-DA79D01081FD" /* Screens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screens.swift; sourceTree = "<group>"; };
-		"TEMP_600AE7EE-5F67-4FB4-A6CD-4B45D6370F04" /* VPNManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNManager.swift; sourceTree = "<group>"; };
-		"TEMP_7C1D6F63-CF8E-41E3-B19E-7E52E6B675E2" /* iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosApp.swift; sourceTree = "<group>"; };
-		"TEMP_80BF92A1-6B8F-4B75-8C0E-4C11A140A26B" /* LineBrowser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LineBrowser.entitlements; sourceTree = "<group>"; };
-		"TEMP_899E7863-CB38-42F1-B1F3-7CA4582F4B7C" /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
-		"TEMP_9D82362B-F685-45F4-9BA4-D36CFAE86CE4" /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		"TEMP_AE6A35D3-385D-4E5E-929C-EE4F418F562B" /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		"TEMP_B1F0FE3D-89D6-4715-808C-F97794A4C406" /* .gitignore */ = {isa = PBXFileReference; path = .gitignore; sourceTree = "<group>"; };
-		"TEMP_CE3ED635-F7A4-434A-B782-A434ECF4D44A" /* NetworkCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCore.swift; sourceTree = "<group>"; };
-		"TEMP_D8DB242E-BD25-4267-BA57-FC8481653C64" /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
-		"TEMP_E060413E-35A3-45C6-A7F3-297B8ABED5A7" /* NetworkScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkScreens.swift; sourceTree = "<group>"; };
-		"TEMP_F4407488-9DAD-4FD7-B806-B30518AD1B18" /* ScreenshotHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotHarness.swift; sourceTree = "<group>"; };
-		"TEMP_F85AAB57-F0A2-4C29-A3E8-2905C530D7D6" /* BrowsingScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsingScreens.swift; sourceTree = "<group>"; };
-		"TEMP_FA1178CA-F403-4E26-B55F-36C01E4EF548" /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		"TEMP_FC7BE7B5-CDEB-4E75-B449-190F988D6BCB" /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		"TEMP_0B4C94EB-7431-4994-9599-BA4613CBABAB" /* NetworkCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCore.swift; sourceTree = "<group>"; };
+		"TEMP_0D5ADE0B-60B8-4A06-ACB3-980163990EF5" /* PrivacyScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyScreens.swift; sourceTree = "<group>"; };
+		"TEMP_17F06E62-33AD-4A5C-806B-8A4E340B5BB1" /* PersonalizationScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalizationScreens.swift; sourceTree = "<group>"; };
+		"TEMP_3C1CF11D-11BA-43CD-AB09-B2C5B475EB5D" /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		"TEMP_48F9D302-69AA-4CCD-B7E4-8CF91E91831C" /* LineBrowser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LineBrowser.entitlements; sourceTree = "<group>"; };
+		"TEMP_49B746B0-D661-438A-99E5-A48A616A69F0" /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		"TEMP_5218F741-AD5E-41D0-BE04-AF7EC7C2B0E1" /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		"TEMP_69279F8C-F4D3-4831-B2CD-5FF65123F047" /* SecureStores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStores.swift; sourceTree = "<group>"; };
+		"TEMP_6E88D4D0-A140-4E9B-B353-3A560A37F805" /* ScreenshotHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotHarness.swift; sourceTree = "<group>"; };
+		"TEMP_71B16BA1-1085-4CE4-B981-5EECB2A52CDA" /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		"TEMP_7AD8EC9E-A71E-4FCD-ABB3-A9A76A086745" /* LineBrowser-v1.1.0.ipa */ = {isa = PBXFileReference; path = "LineBrowser-v1.1.0.ipa"; sourceTree = "<group>"; };
+		"TEMP_7C55A0FA-9C7E-428B-B723-EA97F0498C15" /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
+		"TEMP_7EB49C9D-FAAF-48FA-9F1E-86C98A9DFB7F" /* iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosApp.swift; sourceTree = "<group>"; };
+		"TEMP_81B56E36-4500-49D6-A1CF-E0E8A38CA19C" /* .gitignore */ = {isa = PBXFileReference; path = .gitignore; sourceTree = "<group>"; };
+		"TEMP_81DA0F34-F180-4461-ACD6-3FB6F0DBEC7D" /* Screens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screens.swift; sourceTree = "<group>"; };
+		"TEMP_B11D5680-AA54-401E-B1BC-D0ECAD637689" /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		"TEMP_B2B1276E-04E1-46B1-B97A-3C72928BC1F3" /* BrowserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserModel.swift; sourceTree = "<group>"; };
+		"TEMP_D4B9248F-0879-482F-BFD5-088B2864C245" /* BrowsingScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsingScreens.swift; sourceTree = "<group>"; };
+		"TEMP_DD1A56D3-6EFD-43B1-96F3-345AE796BCD4" /* NetworkScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkScreens.swift; sourceTree = "<group>"; };
+		"TEMP_E466B5F8-04E0-4325-9514-227FC9DDB2FC" /* VPNManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNManager.swift; sourceTree = "<group>"; };
+		"TEMP_EE259CBC-9730-43CC-B356-67C87BD271D4" /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -121,29 +123,30 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		"TEMP_290F37B4-A359-4663-A23F-A8BA8F54E198" /* . */ = {
+		"TEMP_057A8198-4956-446E-A627-E0E61D72F997" /* . */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_FC7BE7B5-CDEB-4E75-B449-190F988D6BCB" /* SettingsView.swift */,
-				"TEMP_27D60583-3946-4EB9-8CAC-12650FA408B8" /* BrowserModel.swift */,
-				"TEMP_D8DB242E-BD25-4267-BA57-FC8481653C64" /* Localization.swift */,
-				"TEMP_F4407488-9DAD-4FD7-B806-B30518AD1B18" /* ScreenshotHarness.swift */,
-				"TEMP_E060413E-35A3-45C6-A7F3-297B8ABED5A7" /* NetworkScreens.swift */,
-				"TEMP_1376AECE-9213-43B9-AE48-198776095253" /* PersonalizationScreens.swift */,
-				"TEMP_F85AAB57-F0A2-4C29-A3E8-2905C530D7D6" /* BrowsingScreens.swift */,
-				"TEMP_9D82362B-F685-45F4-9BA4-D36CFAE86CE4" /* Assets.xcassets */,
-				"TEMP_7C1D6F63-CF8E-41E3-B19E-7E52E6B675E2" /* iosApp.swift */,
-				"TEMP_497B72C0-868F-4006-8CB0-DA79D01081FD" /* Screens.swift */,
-				"TEMP_B1F0FE3D-89D6-4715-808C-F97794A4C406" /* .gitignore */,
-				"TEMP_2645D8AA-C228-42BE-9B5A-C8B37AC07A2B" /* SecureStores.swift */,
-				"TEMP_899E7863-CB38-42F1-B1F3-7CA4582F4B7C" /* ColorHex.swift */,
-				"TEMP_0694F1FE-D1C4-4550-BF47-FBB99944BD2A" /* PrivacyScreens.swift */,
-				"TEMP_600AE7EE-5F67-4FB4-A6CD-4B45D6370F04" /* VPNManager.swift */,
-				"TEMP_80BF92A1-6B8F-4B75-8C0E-4C11A140A26B" /* LineBrowser.entitlements */,
-				"TEMP_AE6A35D3-385D-4E5E-929C-EE4F418F562B" /* OnboardingView.swift */,
-				"TEMP_FA1178CA-F403-4E26-B55F-36C01E4EF548" /* ContentView.swift */,
-				"TEMP_CE3ED635-F7A4-434A-B782-A434ECF4D44A" /* NetworkCore.swift */,
-				"TEMP_08E784A1-9512-4136-A61D-F0B871937EDE" /* SettingsStore.swift */,
+				"TEMP_71B16BA1-1085-4CE4-B981-5EECB2A52CDA" /* SettingsView.swift */,
+				"TEMP_B2B1276E-04E1-46B1-B97A-3C72928BC1F3" /* BrowserModel.swift */,
+				"TEMP_EE259CBC-9730-43CC-B356-67C87BD271D4" /* Localization.swift */,
+				"TEMP_6E88D4D0-A140-4E9B-B353-3A560A37F805" /* ScreenshotHarness.swift */,
+				"TEMP_DD1A56D3-6EFD-43B1-96F3-345AE796BCD4" /* NetworkScreens.swift */,
+				"TEMP_17F06E62-33AD-4A5C-806B-8A4E340B5BB1" /* PersonalizationScreens.swift */,
+				"TEMP_D4B9248F-0879-482F-BFD5-088B2864C245" /* BrowsingScreens.swift */,
+				"TEMP_B11D5680-AA54-401E-B1BC-D0ECAD637689" /* Assets.xcassets */,
+				"TEMP_7EB49C9D-FAAF-48FA-9F1E-86C98A9DFB7F" /* iosApp.swift */,
+				"TEMP_81DA0F34-F180-4461-ACD6-3FB6F0DBEC7D" /* Screens.swift */,
+				"TEMP_81B56E36-4500-49D6-A1CF-E0E8A38CA19C" /* .gitignore */,
+				"TEMP_69279F8C-F4D3-4831-B2CD-5FF65123F047" /* SecureStores.swift */,
+				"TEMP_7C55A0FA-9C7E-428B-B723-EA97F0498C15" /* ColorHex.swift */,
+				"TEMP_0D5ADE0B-60B8-4A06-ACB3-980163990EF5" /* PrivacyScreens.swift */,
+				"TEMP_E466B5F8-04E0-4325-9514-227FC9DDB2FC" /* VPNManager.swift */,
+				"TEMP_48F9D302-69AA-4CCD-B7E4-8CF91E91831C" /* LineBrowser.entitlements */,
+				"TEMP_7AD8EC9E-A71E-4FCD-ABB3-A9A76A086745" /* LineBrowser-v1.1.0.ipa */,
+				"TEMP_49B746B0-D661-438A-99E5-A48A616A69F0" /* OnboardingView.swift */,
+				"TEMP_5218F741-AD5E-41D0-BE04-AF7EC7C2B0E1" /* ContentView.swift */,
+				"TEMP_0B4C94EB-7431-4994-9599-BA4613CBABAB" /* NetworkCore.swift */,
+				"TEMP_3C1CF11D-11BA-43CD-AB09-B2C5B475EB5D" /* SettingsStore.swift */,
 				9B5F05BBE88A80068AFC049F /* Shared */,
 			);
 			name = .;
@@ -234,7 +237,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				76FC61C3A72DD6606E8C6FA0 /* Assets.xcassets in Resources */,
+				28D4DA214CF4477391359F6E /* Assets.xcassets in Resources */,
+				14CBE8626FA3E59A60F9DB04 /* LineBrowser-v1.1.0.ipa in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,24 +249,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A9C4F3EF2647440E0741450 /* BrowserModel.swift in Sources */,
-				29F84978AC11A839D90CECBF /* BrowsingScreens.swift in Sources */,
-				FFFE834DBC5D81A7A21694B9 /* ColorHex.swift in Sources */,
-				1FF7F36B69CD7A746B0934C5 /* ContentView.swift in Sources */,
-				EE09A9B1063C34D5CA385C84 /* Localization.swift in Sources */,
-				46C03E789A0DA9AA45A8BB1A /* NetworkCore.swift in Sources */,
-				201B1C1AF236371881C216F0 /* NetworkScreens.swift in Sources */,
-				71FE5666C134E610E0F3B481 /* OnboardingView.swift in Sources */,
-				0D6555F759EB1848BB64E8FE /* PersonalizationScreens.swift in Sources */,
-				B9B2BE4FDF4712A434D9F201 /* PrivacyScreens.swift in Sources */,
-				FA69D4E52647DF61B1EF7C43 /* Screens.swift in Sources */,
-				2C842932125CE7697721A08C /* ScreenshotHarness.swift in Sources */,
-				34ECCE4DA80F3199C579993F /* SecureStores.swift in Sources */,
-				EED5D5D433FA1AB75FE73018 /* SettingsStore.swift in Sources */,
-				21ACF50EA58C096FFB2FBA29 /* SettingsView.swift in Sources */,
+				D819D5CD679404CCC3CF0B7E /* BrowserModel.swift in Sources */,
+				D49B1AF1535B82C772174819 /* BrowsingScreens.swift in Sources */,
+				7477B4C501BCAFCBC7DEC41C /* ColorHex.swift in Sources */,
+				851587AC1ACCBEC8BAA3105B /* ContentView.swift in Sources */,
+				915DF5550028C87F2D06C945 /* Localization.swift in Sources */,
+				056A26A2C2031B8A28683B9E /* NetworkCore.swift in Sources */,
+				491F09694289F2BECD4DB360 /* NetworkScreens.swift in Sources */,
+				6873ACCD3FED8681428EC6A2 /* OnboardingView.swift in Sources */,
+				89050DAD8A528B9CBFA6C9DD /* PersonalizationScreens.swift in Sources */,
+				1CFCF0CC10DDF31133DDAE61 /* PrivacyScreens.swift in Sources */,
+				8F3F3FC007BC551596DC6094 /* Screens.swift in Sources */,
+				F795099804BAAABF72929262 /* ScreenshotHarness.swift in Sources */,
+				0C579C64D071BF0E3ADC3FB3 /* SecureStores.swift in Sources */,
+				D8C78540994D1EB64CE678A7 /* SettingsStore.swift in Sources */,
+				789F039B3B3BEF6B3CD0F8F2 /* SettingsView.swift in Sources */,
 				D465EBE81E8CE92413E5D186 /* SharedNetwork.swift in Sources */,
-				A9A9BEBAAA94725EFA75262E /* VPNManager.swift in Sources */,
-				458B6C2C73F5CE89A626515C /* iosApp.swift in Sources */,
+				CFC554E2EE170781BB2621AD /* VPNManager.swift in Sources */,
+				D7E3003216E13572B9461021 /* iosApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -50,6 +50,13 @@ targets:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
+        # iPad requires all four orientations for multitasking support
+        # (App Store validation error 90474 otherwise).
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
         NSFaceIDUsageDescription: "Face ID unlocks your private vault and passwords."
@@ -100,7 +107,9 @@ targets:
         CFBundleDisplayName: "Line Browser DNS"
         CFBundleName: "PacketTunnel"
         NSExtension:
-          NSExtensionPointIdentifier: com.apple.networkextension.packet-tunnel-provider
+          # Current extension point identifier per Apple docs (NEPacketTunnelProvider);
+          # the legacy "packet-tunnel-provider" value fails validation (error 90349).
+          NSExtensionPointIdentifier: com.apple.networkextension.packet-tunnel
           NSExtensionPrincipalClass: "$(PRODUCT_MODULE_NAME).PacketTunnelProvider"
     entitlements:
       path: PacketTunnel/PacketTunnel.entitlements
