@@ -46,6 +46,17 @@ struct WKWebViewWrapper: UIViewRepresentable {
         webView.navigationDelegate = context.coordinator
         webView.allowsBackForwardNavigationGestures = true
 
+        #if DEBUG
+        // Screenshot mode only: dismiss cookie-consent overlays so the hero shot
+        // isn't blocked. Compiled out of Release entirely.
+        if ScreenshotMode.screen != nil {
+            config.userContentController.addUserScript(
+                WKUserScript(source: ScreenshotCleanup.js,
+                             injectionTime: .atDocumentEnd,
+                             forMainFrameOnly: false))
+        }
+        #endif
+
         // Real load progress → the thin line under the address bar.
         context.coordinator.progressObservation = webView.observe(\.estimatedProgress) { [weak coordinator = context.coordinator] webView, _ in
             coordinator?.parent.model.progress = webView.estimatedProgress
