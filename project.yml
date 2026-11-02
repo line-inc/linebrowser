@@ -73,8 +73,10 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.lineinc.linebrowser
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: Info.plist
-        MARKETING_VERSION: 1.0.0
-        CURRENT_PROJECT_VERSION: 1
+        # 1.2.0 = VPN removed + design-token UI rewrite. Must match the
+        # git tag; build number must keep rising (4 was already used).
+        MARKETING_VERSION: 1.2.0
+        CURRENT_PROJECT_VERSION: 5
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ENABLE_USER_SCRIPT_SANDBOXING: YES
 
