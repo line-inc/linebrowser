@@ -117,3 +117,19 @@ targets:
         MARKETING_VERSION: 1.0.0
         CURRENT_PROJECT_VERSION: 1
         SKIP_INSTALL: YES
+
+# Shared schemes — Xcode Cloud can only build schemes committed to the
+# repo under xcshareddata/xcschemes, so these must be generated, not auto.
+schemes:
+  LineBrowser:
+    build:
+      targets:
+        LineBrowser: all
+    run:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
