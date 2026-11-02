@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Xcode build products & user data
+build/
+DerivedData/
+*.ipa
+*.dSYM
+*.dSYM.zip
+xcuserdata/
+*.xcuserstate
+
+# Xcode Cloud local state
+*.moved-aside
+*.hmap
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Fastlane (if used locally)
+fastlane/report.xml
+fastlane/screenshots
+fastlane/README.md
