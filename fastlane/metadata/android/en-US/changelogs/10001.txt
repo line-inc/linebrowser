@@ -1,0 +1,1 @@
+Initial stable release v1.0.0 with 100% privacy, widgets, and multi-language support.

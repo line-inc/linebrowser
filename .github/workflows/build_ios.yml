@@ -1,0 +1,31 @@
+name: Build iOS App (.ipa)
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-ios:
+    name: Package iOS Swift Package
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Package iOS Swift Package as Zip
+        run: |
+          mkdir -p iosApp/build/zip
+          cd iosApp
+          zip -r build/zip/LineBrowser-iOS-Package.zip . -x "build/*" ".DS_Store" "iosApp.xcodeproj*"
+          cd ..
+
+      - name: Upload Swift Package Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LineBrowser-iOS-SwiftPackage
+          path: iosApp/build/zip/*.zip
+          if-no-files-found: ignore
