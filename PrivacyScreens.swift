@@ -16,11 +16,11 @@ struct PrivacySettingsView: View {
                 ToggleRow(icon: "shield.lefthalf.filled", color: settings.accent,
                           title: lang.t("privacy.blockAds"), subtitle: lang.t("privacy.blockAdsSub"),
                           isOn: $settings.blockAds)
-                Divider().overlay(Color.black.opacity(0.4))
+                Divider().overlay(AppColor.separator)
                 ToggleRow(icon: "clock.arrow.circlepath", color: .orange,
                           title: lang.t("privacy.clearOnExit"), subtitle: lang.t("privacy.clearOnExitSub"),
                           isOn: $settings.clearOnExit)
-                Divider().overlay(Color.black.opacity(0.4))
+                Divider().overlay(AppColor.separator)
                 ToggleRow(icon: "key.fill", color: .yellow,
                           title: lang.t("privacy.keychain"), subtitle: lang.t("privacy.keychainSub"),
                           isOn: .constant(true))
@@ -31,21 +31,23 @@ struct PrivacySettingsView: View {
                 Button {
                     showClearConfirm = true
                 } label: {
-                    HStack(spacing: 14) {
+                    HStack(spacing: Metrics.Space.md) {
                         Image(systemName: clearing ? "arrow.triangle.2.circlepath" : "trash.fill")
-                            .font(.system(size: 15))
+                            .font(.system(size: Metrics.Icon.md, weight: .medium))
                             .foregroundColor(.white)
-                            .frame(width: 32, height: 32)
+                            .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                             .background(cleared ? Color.green : Color.red)
-                            .cornerRadius(8)
+                            .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                            .accessibilityHidden(true)
                         Text(cleared ? lang.t("site.cleared") : lang.t("privacy.clearNow"))
-                            .font(.app(15))
+                            .font(.app(TypeScale.body))
                             .fontWeight(.semibold)
-                            .foregroundColor(cleared ? settings.accent : .white)
+                            .foregroundColor(cleared ? settings.accent : AppColor.textPrimary)
                         Spacer()
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 12)
+                    .padding(Metrics.Space.md)
+                    .frame(minHeight: Metrics.Touch.min)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .disabled(clearing)
@@ -83,66 +85,71 @@ struct PrivacyHubView: View {
     var body: some View {
         ScreenShell(title: lang.t("screen.hub.title")) {
             CardSection(title: lang.t("hub.connection")) {
-                HStack(spacing: 14) {
+                HStack(spacing: Metrics.Space.md) {
                     Image(systemName: isSecure ? "lock.fill" : "lock.open")
-                        .font(.system(size: 16))
+                        .font(.system(size: Metrics.Icon.md, weight: .medium))
                         .foregroundColor(.white)
-                        .frame(width: 36, height: 36)
+                        .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                         .background(isSecure ? settings.accent : .orange)
-                        .cornerRadius(10)
-                    VStack(alignment: .leading, spacing: 3) {
+                        .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                         Text(isSecure ? lang.t("hub.secure") : lang.t("hub.insecure"))
-                            .font(.app(15))
+                            .font(.app(TypeScale.body))
                             .fontWeight(.semibold)
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColor.textPrimary)
                         Text(currentURL?.host ?? "—")
-                            .font(.app(12))
-                            .foregroundColor(Color(UIColor.systemGray2))
+                            .font(.app(TypeScale.caption))
+                            .foregroundColor(AppColor.textSecondary)
                             .lineLimit(1)
                     }
-                    Spacer()
+                    Spacer(minLength: Metrics.Space.sm)
                     Text(currentURL?.scheme?.uppercased() ?? "—")
-                        .font(.app(12))
+                        .font(.app(TypeScale.caption))
                         .fontWeight(.bold)
                         .foregroundColor(settings.accent)
                 }
-                .padding(12)
+                .padding(Metrics.Space.md)
+                .frame(minHeight: Metrics.Touch.min, alignment: .leading)
             }
 
             CardSection(title: lang.t("hub.network")) {
                 ToggleRow(icon: "shield.lefthalf.filled", color: settings.accent,
                           title: lang.t("privacy.blockAds"), subtitle: lang.t("privacy.blockAdsSub"),
                           isOn: $settings.blockAds)
-                Divider().overlay(Color.black.opacity(0.4))
+                Divider().overlay(AppColor.separator)
 
                 Button {
                     if let url = URL(string: UIApplication.openSettingsURLString) {
                         UIApplication.shared.open(url)
                     }
                 } label: {
-                    HStack(spacing: 14) {
+                    HStack(spacing: Metrics.Space.md) {
                         Image(systemName: "network")
-                            .font(.system(size: 15))
+                            .font(.system(size: Metrics.Icon.md, weight: .medium))
                             .foregroundColor(.white)
-                            .frame(width: 32, height: 32)
-                            .background(.indigo)
-                            .cornerRadius(8)
-                        VStack(alignment: .leading, spacing: 2) {
+                            .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
+                            .background(Color.indigo)
+                            .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                             Text(lang.t("hub.dns"))
-                                .font(.app(15))
+                                .font(.app(TypeScale.body))
                                 .fontWeight(.semibold)
-                                .foregroundColor(.white)
+                                .foregroundColor(AppColor.textPrimary)
                             Text(lang.t("hub.dnsSub"))
-                                .font(.app(12))
-                                .foregroundColor(Color(UIColor.systemGray2))
+                                .font(.app(TypeScale.caption))
+                                .foregroundColor(AppColor.textSecondary)
+                                .fixedSize(horizontal: false, vertical: true)
                         }
-                        Spacer()
+                        Spacer(minLength: Metrics.Space.sm)
                         Image(systemName: "arrow.up.forward.app")
-                            .font(.system(size: 13))
+                            .font(.system(size: Metrics.Icon.sm, weight: .semibold))
                             .foregroundColor(settings.accent)
+                            .accessibilityHidden(true)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 10)
+                    .padding(.horizontal, Metrics.Space.md)
+                    .frame(minHeight: Metrics.Touch.min)
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -159,8 +166,8 @@ struct PrivacyHubView: View {
             }
 
             CardSection(title: "") {
-                InfoRow(icon: "info.circle", color: .gray, text: lang.t("hub.toolsNote"))
-                Divider().overlay(Color.black.opacity(0.4))
+                InfoRow(icon: "info.circle", color: AppColor.textTertiary, text: lang.t("hub.toolsNote"))
+                Divider().overlay(AppColor.separator)
                 InfoRow(icon: "checkmark.seal", color: settings.accent, text: lang.t("hub.trackingNote"))
             }
         }
@@ -168,31 +175,32 @@ struct PrivacyHubView: View {
 
     private func hubRow(icon: String, color: Color, title: String,
                         subtitle: String, value: String) -> some View {
-        HStack(spacing: 14) {
+        HStack(spacing: Metrics.Space.md) {
             Image(systemName: icon)
-                .font(.system(size: 15))
+                .font(.system(size: Metrics.Icon.md, weight: .medium))
                 .foregroundColor(.white)
-                .frame(width: 32, height: 32)
+                .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                 .background(color)
-                .cornerRadius(8)
-            VStack(alignment: .leading, spacing: 2) {
+                .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                 Text(title)
-                    .font(.app(15))
+                    .font(.app(TypeScale.body))
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppColor.textPrimary)
                 Text(subtitle)
-                    .font(.app(12))
-                    .foregroundColor(Color(UIColor.systemGray2))
+                    .font(.app(TypeScale.caption))
+                    .foregroundColor(AppColor.textSecondary)
                     .lineLimit(1)
             }
-            Spacer()
+            Spacer(minLength: Metrics.Space.sm)
             Text(value)
-                .font(.app(13))
+                .font(.app(TypeScale.footnote))
                 .foregroundColor(settings.accent)
                 .lineLimit(1)
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
+        .padding(.horizontal, Metrics.Space.md)
+        .frame(minHeight: Metrics.Touch.min)
         .contentShape(Rectangle())
     }
 
@@ -215,7 +223,7 @@ struct PasswordsView: View {
     var body: some View {
         ScreenShell(title: lang.t("screen.passwords.title")) {
             CardSection(title: lang.t("pw.add"), subtitle: lang.t("pw.addSub")) {
-                VStack(spacing: 10) {
+                VStack(spacing: Metrics.Space.md) {
                     field(icon: "globe", placeholder: lang.t("pw.site"), text: $site)
                     field(icon: "person", placeholder: lang.t("pw.username"), text: $username)
                     field(icon: "key", placeholder: lang.t("pw.password"), text: $password, secure: true)
@@ -225,7 +233,7 @@ struct PasswordsView: View {
                         site = ""; username = ""; password = ""
                     }
                 }
-                .padding(12)
+                .padding(Metrics.Space.md)
             }
 
             CardSection(title: lang.t("pw.saved")) {
@@ -234,24 +242,25 @@ struct PasswordsView: View {
                                subtitle: lang.t("pw.note"))
                 } else {
                     ForEach(store.items) { credential in
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack(spacing: 12) {
+                        VStack(alignment: .leading, spacing: Metrics.Space.sm) {
+                            HStack(spacing: Metrics.Space.md) {
                                 Image(systemName: "key.fill")
-                                    .font(.system(size: 14))
+                                    .font(.system(size: Metrics.Icon.md, weight: .medium))
                                     .foregroundColor(.black)
-                                    .frame(width: 30, height: 30)
-                                    .background(.yellow)
-                                    .cornerRadius(8)
-                                VStack(alignment: .leading, spacing: 2) {
+                                    .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
+                                    .background(Color.yellow)
+                                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                                    .accessibilityHidden(true)
+                                VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                                     Text(credential.site)
-                                        .font(.app(15))
+                                        .font(.app(TypeScale.body))
                                         .fontWeight(.semibold)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(AppColor.textPrimary)
                                     Text(credential.username.isEmpty ? "—" : credential.username)
-                                        .font(.app(12))
-                                        .foregroundColor(Color(UIColor.systemGray2))
+                                        .font(.app(TypeScale.caption))
+                                        .foregroundColor(AppColor.textSecondary)
                                 }
-                                Spacer()
+                                Spacer(minLength: Metrics.Space.sm)
                                 Button {
                                     if revealedIDs.contains(credential.id) {
                                         revealedIDs.remove(credential.id)
@@ -261,9 +270,14 @@ struct PasswordsView: View {
                                 } label: {
                                     Image(systemName: revealedIDs.contains(credential.id)
                                           ? "eye.slash.fill" : "eye.fill")
+                                        .font(.system(size: Metrics.Icon.md, weight: .medium))
                                         .foregroundColor(settings.accent)
+                                        .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+                                        .contentShape(Rectangle())
                                 }
                                 .buttonStyle(.plain)
+                                .accessibilityLabel(revealedIDs.contains(credential.id)
+                                                    ? "Hide password" : "Reveal password")
 
                                 Button {
                                     UIPasteboard.general.string = credential.password
@@ -274,31 +288,41 @@ struct PasswordsView: View {
                                 } label: {
                                     Image(systemName: copiedID == credential.id
                                           ? "checkmark.circle.fill" : "doc.on.doc")
+                                        .font(.system(size: Metrics.Icon.md, weight: .medium))
                                         .foregroundColor(copiedID == credential.id ? .green : settings.accent)
+                                        .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+                                        .contentShape(Rectangle())
                                 }
                                 .buttonStyle(.plain)
+                                .accessibilityLabel(copiedID == credential.id
+                                                    ? "Password copied" : "Copy password")
 
                                 Button {
                                     store.remove(credential)
                                 } label: {
-                                    Image(systemName: "trash").foregroundColor(.red)
+                                    Image(systemName: "trash")
+                                        .font(.system(size: Metrics.Icon.md, weight: .medium))
+                                        .foregroundColor(.red)
+                                        .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+                                        .contentShape(Rectangle())
                                 }
                                 .buttonStyle(.plain)
+                                .accessibilityLabel("Delete password")
                             }
 
                             if revealedIDs.contains(credential.id) {
                                 Text(credential.password)
-                                    .font(.system(size: 13, design: .monospaced))
+                                    .font(.system(size: TypeScale.footnote, design: .monospaced))
                                     .foregroundColor(settings.accent)
-                                    .padding(8)
+                                    .padding(Metrics.Space.sm)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(Color(UIColor(white: 0.12, alpha: 1)))
-                                    .cornerRadius(8)
+                                    .background(AppColor.fill)
+                                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.sm, style: .continuous))
                             }
                         }
-                        .padding(12)
+                        .padding(Metrics.Space.md)
                         if credential.id != store.items.last?.id {
-                            Divider().overlay(Color.black.opacity(0.4))
+                            Divider().overlay(AppColor.separator)
                         }
                     }
                 }
@@ -312,10 +336,12 @@ struct PasswordsView: View {
 
     private func field(icon: String, placeholder: String, text: Binding<String>,
                        secure: Bool = false) -> some View {
-        HStack(spacing: 10) {
+        HStack(spacing: Metrics.Space.md) {
             Image(systemName: icon)
+                .font(.system(size: Metrics.Icon.md, weight: .medium))
                 .foregroundColor(settings.accent)
-                .frame(width: 22)
+                .frame(width: Metrics.Icon.lg)
+                .accessibilityHidden(true)
             Group {
                 if secure {
                     SecureField(placeholder, text: text)
@@ -323,14 +349,15 @@ struct PasswordsView: View {
                     TextField(placeholder, text: text)
                 }
             }
-            .font(.app(14))
-            .foregroundColor(.white)
+            .font(.app(TypeScale.body))
+            .foregroundColor(AppColor.textPrimary)
             .autocapitalization(.none)
             .disableAutocorrection(true)
         }
-        .padding(11)
-        .background(Color(UIColor(white: 0.13, alpha: 1)))
-        .cornerRadius(10)
+        .padding(.horizontal, Metrics.Space.md)
+        .frame(minHeight: Metrics.Touch.min)
+        .background(AppColor.fill)
+        .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.sm, style: .continuous))
     }
 }
 
@@ -358,23 +385,25 @@ struct VaultView: View {
 
     private var lockedView: some View {
         CardSection(title: "") {
-            VStack(spacing: 16) {
+            VStack(spacing: Metrics.Space.lg) {
                 Image(systemName: "lock.shield.fill")
-                    .font(.system(size: 52))
+                    .font(.system(size: Metrics.Icon.xl + Metrics.Icon.lg))
                     .foregroundColor(settings.accent)
-                    .padding(.top, 12)
+                    .accessibilityHidden(true)
+                    .padding(.top, Metrics.Space.md)
                 Text(lang.t("vault.locked"))
-                    .font(.app(16))
+                    .font(.app(TypeScale.callout))
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppColor.textPrimary)
+                    .accessibilityAddTraits(.isHeader)
                 Text(lang.t("vault.lockedSub"))
-                    .font(.app(13))
-                    .foregroundColor(Color(UIColor.systemGray2))
+                    .font(.app(TypeScale.footnote))
+                    .foregroundColor(AppColor.textSecondary)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, Metrics.Space.sm)
                 if let error = vault.lastError {
                     Text(error)
-                        .font(.app(12))
+                        .font(.app(TypeScale.caption))
                         .foregroundColor(.red)
                         .multilineTextAlignment(.center)
                 }
@@ -383,42 +412,55 @@ struct VaultView: View {
                     vault.unlock(reason: lang.t("vault.reason")) { _ in busy = false }
                 }
                 .disabled(busy)
-                .padding(.horizontal, 12)
-                .padding(.bottom, 14)
+                .padding(.horizontal, Metrics.Space.md)
+                .padding(.bottom, Metrics.Space.md)
             }
             .frame(maxWidth: .infinity)
         }
     }
 
     private var unlockedView: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        VStack(alignment: .leading, spacing: Metrics.Space.lg) {
             CardSection(title: lang.t("vault.add")) {
-                VStack(spacing: 10) {
-                    HStack(spacing: 10) {
-                        Image(systemName: "text.cursor").foregroundColor(settings.accent).frame(width: 22)
+                VStack(spacing: Metrics.Space.md) {
+                    HStack(spacing: Metrics.Space.md) {
+                        Image(systemName: "text.cursor")
+                            .font(.system(size: Metrics.Icon.md, weight: .medium))
+                            .foregroundColor(settings.accent)
+                            .frame(width: Metrics.Icon.lg)
+                            .accessibilityHidden(true)
                         TextField(lang.t("vault.titleField"), text: $title)
-                            .font(.app(14)).foregroundColor(.white)
+                            .font(.app(TypeScale.body))
+                            .foregroundColor(AppColor.textPrimary)
                     }
-                    .padding(11)
-                    .background(Color(UIColor(white: 0.13, alpha: 1)))
-                    .cornerRadius(10)
+                    .padding(.horizontal, Metrics.Space.md)
+                    .frame(minHeight: Metrics.Touch.min)
+                    .background(AppColor.fill)
+                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.sm, style: .continuous))
 
-                    HStack(alignment: .top, spacing: 10) {
-                        Image(systemName: "doc.text").foregroundColor(settings.accent).frame(width: 22)
+                    HStack(alignment: .top, spacing: Metrics.Space.md) {
+                        Image(systemName: "doc.text")
+                            .font(.system(size: Metrics.Icon.md, weight: .medium))
+                            .foregroundColor(settings.accent)
+                            .frame(width: Metrics.Icon.lg)
+                            .padding(.top, Metrics.Space.xs)
+                            .accessibilityHidden(true)
                         TextField(lang.t("vault.contentField"), text: $content, axis: .vertical)
-                            .font(.app(14)).foregroundColor(.white)
+                            .font(.app(TypeScale.body))
+                            .foregroundColor(AppColor.textPrimary)
                             .lineLimit(3...8)
                     }
-                    .padding(11)
-                    .background(Color(UIColor(white: 0.13, alpha: 1)))
-                    .cornerRadius(10)
+                    .padding(.horizontal, Metrics.Space.md)
+                    .padding(.vertical, Metrics.Space.sm)
+                    .background(AppColor.fill)
+                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.sm, style: .continuous))
 
                     PrimaryButton(title: lang.t("vault.encrypt"), icon: "lock.fill") {
                         vault.add(title: title, content: content)
                         title = ""; content = ""
                     }
                 }
-                .padding(12)
+                .padding(Metrics.Space.md)
             }
 
             CardSection(title: lang.t("vault.items")) {
@@ -426,59 +468,67 @@ struct VaultView: View {
                     EmptyState(icon: "lock", title: lang.t("vault.empty"))
                 } else {
                     ForEach(vault.items) { item in
-                        VStack(alignment: .leading, spacing: 6) {
+                        VStack(alignment: .leading, spacing: Metrics.Space.sm) {
                             Button {
                                 appAnimate { expandedID = expandedID == item.id ? nil : item.id }
                             } label: {
-                                HStack(spacing: 12) {
+                                HStack(spacing: Metrics.Space.md) {
                                     Image(systemName: "doc.text.fill")
-                                        .font(.system(size: 14))
+                                        .font(.system(size: Metrics.Icon.md, weight: .medium))
                                         .foregroundColor(.black)
-                                        .frame(width: 30, height: 30)
+                                        .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                                         .background(settings.accent)
-                                        .cornerRadius(8)
-                                    VStack(alignment: .leading, spacing: 2) {
+                                        .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                                        .accessibilityHidden(true)
+                                    VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                                         Text(item.title)
-                                            .font(.app(15))
+                                            .font(.app(TypeScale.body))
                                             .fontWeight(.semibold)
-                                            .foregroundColor(.white)
+                                            .foregroundColor(AppColor.textPrimary)
                                             .lineLimit(1)
                                         Text(item.created, style: .date)
-                                            .font(.app(11))
-                                            .foregroundColor(Color(UIColor.systemGray2))
+                                            .font(.app(TypeScale.micro))
+                                            .foregroundColor(AppColor.textSecondary)
                                     }
-                                    Spacer()
+                                    Spacer(minLength: Metrics.Space.sm)
                                     Image(systemName: expandedID == item.id ? "chevron.up" : "chevron.down")
-                                        .font(.system(size: 12))
-                                        .foregroundColor(Color(UIColor.systemGray2))
+                                        .font(.system(size: Metrics.Icon.sm, weight: .semibold))
+                                        .foregroundColor(AppColor.textTertiary)
+                                        .accessibilityHidden(true)
                                 }
-                                .padding(12)
+                                .padding(Metrics.Space.md)
+                                .frame(minHeight: Metrics.Touch.min)
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
+                            .accessibilityValue(expandedID == item.id
+                                                ? lang.t("privacy.on") : lang.t("privacy.off"))
 
                             if expandedID == item.id {
                                 Text(item.content)
-                                    .font(.app(13))
-                                    .foregroundColor(Color(UIColor.systemGray))
-                                    .padding(10)
+                                    .font(.app(TypeScale.footnote))
+                                    .foregroundColor(AppColor.textSecondary)
+                                    .padding(Metrics.Space.md)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(Color(UIColor(white: 0.12, alpha: 1)))
-                                    .cornerRadius(8)
+                                    .background(AppColor.fill)
+                                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.sm, style: .continuous))
                                 Button(role: .destructive) {
                                     vault.remove(item)
                                     expandedID = nil
                                 } label: {
                                     Label(lang.t("vault.delete"), systemImage: "trash")
-                                        .font(.app(13))
+                                        .font(.app(TypeScale.footnote))
+                                        .fontWeight(.medium)
                                         .foregroundColor(.red)
+                                        .frame(minHeight: Metrics.Touch.min)
+                                        .contentShape(Rectangle())
                                 }
                                 .buttonStyle(.plain)
-                                .padding(.horizontal, 12)
+                                .padding(.horizontal, Metrics.Space.md)
                             }
                         }
                         if item.id != vault.items.last?.id {
-                            Divider().overlay(Color.black.opacity(0.4))
+                            Divider().overlay(AppColor.separator)
                         }
                     }
                 }

@@ -34,57 +34,38 @@ struct NetworkMonitorView: View {
     var body: some View {
         ScreenShell(title: lang.t("screen.monitor.title")) {
             CardSection(title: lang.t("monitor.live")) {
-                VStack(spacing: 10) {
+                VStack(spacing: Metrics.Space.md) {
                     HStack {
                         Text("\(store.entries.count) \(lang.t("monitor.captured"))")
-                            .font(.app(12))
-                            .foregroundColor(Color(UIColor.systemGray2))
+                            .font(.app(TypeScale.caption))
+                            .foregroundColor(AppColor.textSecondary)
                             .monospacedDigit()
                         Spacer()
                         if !store.entries.isEmpty {
                             Button(lang.t("monitor.clear")) {
                                 appAnimate { store.clear() }
                             }
-                            .font(.app(12))
+                            .font(.app(TypeScale.caption))
                             .fontWeight(.semibold)
                             .foregroundColor(settings.accent)
                             .buttonStyle(PressButtonStyle())
+                            .frame(minHeight: Metrics.Touch.min)
                         }
                     }
 
-                    HStack(spacing: 10) {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(Color(UIColor.systemGray2))
-                            .frame(width: 22)
-                        TextField(lang.t("monitor.search"), text: $filter)
-                            .font(.app(14))
-                            .foregroundColor(.white)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .focused($filterFocused)
-                    }
-                    .padding(11)
-                    .background(Color(UIColor(white: 0.13, alpha: 1)))
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(settings.accent.opacity(filterFocused ? 0.9 : 0),
-                                    lineWidth: 1.5)
-                    )
-                    .animation(settings.reduceMotion ? nil : .easeOut(duration: 0.15),
-                               value: filterFocused)
+                    searchField
 
                     if filtered.isEmpty {
                         EmptyState(icon: "waveform.path.ecg",
                                    title: store.entries.isEmpty ? lang.t("monitor.empty") : lang.t("monitor.noMatch"),
                                    subtitle: store.entries.isEmpty ? lang.t("monitor.emptySub") : nil)
                     } else {
-                        VStack(spacing: 6) {
+                        VStack(spacing: Metrics.Space.sm) {
                             ForEach(filtered) { entry in
                                 requestRow(entry)
                                     .transition(.opacity)
                                 if entry.id != filtered.last?.id {
-                                    Divider().overlay(Color.black.opacity(0.35))
+                                    Divider().overlay(AppColor.separator)
                                 }
                             }
                         }
@@ -92,58 +73,104 @@ struct NetworkMonitorView: View {
                                    value: filtered)
                     }
                 }
-                .padding(12)
+                .padding(Metrics.Space.md)
             }
 
             CardSection(title: "") {
-                InfoRow(icon: "info.circle", color: .gray, text: lang.t("monitor.note"))
-                    .padding(.vertical, 6)
+                InfoRow(icon: "info.circle", color: AppColor.textTertiary, text: lang.t("monitor.note"))
+                    .padding(.vertical, Metrics.Space.xs)
             }
         }
     }
 
+    // MARK: - Filter
+
+    private var searchField: some View {
+        HStack(spacing: Metrics.Space.sm) {
+            Image(systemName: "magnifyingglass")
+                .font(.system(size: Metrics.Icon.sm, weight: .medium))
+                .foregroundColor(filterFocused ? settings.accent : AppColor.textTertiary)
+                .frame(width: Metrics.Icon.lg)
+                .accessibilityHidden(true)
+            TextField(lang.t("monitor.search"), text: $filter)
+                .font(.app(TypeScale.body))
+                .foregroundColor(AppColor.textPrimary)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .focused($filterFocused)
+            if !filter.isEmpty {
+                Button {
+                    appAnimate { filter = "" }
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: Metrics.Icon.md))
+                        .foregroundColor(AppColor.textTertiary)
+                }
+                .buttonStyle(.plain)
+                .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+                .contentShape(Rectangle())
+                .accessibilityLabel(lang.t("monitor.search"))
+            }
+        }
+        .padding(.horizontal, Metrics.Space.md)
+        .frame(minHeight: Metrics.Touch.min)
+        .background(AppColor.fill)
+        .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.sm, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: Metrics.Radius.sm, style: .continuous)
+                .stroke(settings.accent.opacity(filterFocused ? 0.9 : 0),
+                        lineWidth: 1.5)
+        )
+        .animation(settings.reduceMotion ? nil : .easeOut(duration: 0.15),
+                   value: filterFocused)
+    }
+
+    // MARK: - Rows
+
     private func requestRow(_ entry: RequestEntry) -> some View {
-        HStack(alignment: .top, spacing: 10) {
+        HStack(alignment: .top, spacing: Metrics.Space.sm) {
             Image(systemName: kindIcon(entry.kind))
-                .font(.system(size: 12))
-                .foregroundColor(Color(UIColor.systemGray2))
-                .frame(width: 26, height: 26)
-                .background(Color(UIColor(white: 0.16, alpha: 1)))
-                .cornerRadius(7)
-                .padding(.top, 1)
-            VStack(alignment: .leading, spacing: 3) {
+                .font(.system(size: Metrics.Icon.sm, weight: .medium))
+                .foregroundColor(AppColor.textSecondary)
+                .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
+                .background(AppColor.fill)
+                .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                .accessibilityHidden(true)
+                .padding(.top, Metrics.Space.xs)
+
+            VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                 Text(entry.url)
-                    .font(.app(13))
-                    .foregroundColor(.white)
+                    .font(.app(TypeScale.footnote))
+                    .foregroundColor(AppColor.textPrimary)
                     .lineLimit(1)
                     .truncationMode(.middle)
-                HStack(spacing: 6) {
+
+                HStack(spacing: Metrics.Space.sm) {
                     if entry.status > 0 {
                         Text("\(entry.status)")
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
                             .foregroundColor(statusColor(entry.status))
                     } else {
                         Text("—")
-                            .font(.system(size: 10, weight: .bold, design: .monospaced))
-                            .foregroundColor(Color(UIColor.systemGray3))
+                            .foregroundColor(AppColor.textTertiary)
                     }
                     Text(logTimeFormatter.string(from: entry.date))
-                        .monospacedDigit()
                     if entry.ms > 0 {
                         Text("\(Int(entry.ms)) ms")
-                            .monospacedDigit()
                     }
                     if entry.bytes > 0 {
                         Text(byteString(entry.bytes))
-                            .monospacedDigit()
                     }
                 }
-                .font(.app(10))
-                .foregroundColor(Color(UIColor.systemGray2))
+                .font(.system(size: TypeScale.micro, weight: .medium, design: .monospaced))
+                .foregroundColor(AppColor.textSecondary)
+                .monospacedDigit()
+                .lineLimit(1)
+                .minimumScaleFactor(0.85)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.horizontal, 2)
-        .padding(.vertical, 4)
+        .padding(.vertical, Metrics.Space.xs)
+        .frame(minHeight: Metrics.Touch.min, alignment: .top)
     }
 
     private func kindIcon(_ kind: String) -> String {

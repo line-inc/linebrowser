@@ -61,24 +61,29 @@ struct TabOverviewView: View {
             VStack(spacing: 0) {
                 HStack {
                     Text(lang.t("tabs.title"))
-                        .font(.app(20))
+                        .font(.app(TypeScale.title))
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(AppColor.textPrimary)
+                        .accessibilityAddTraits(.isHeader)
                     Spacer()
                     Button {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.system(size: 26))
-                            .foregroundColor(Color(UIColor.systemGray2))
+                            .font(.system(size: Metrics.Icon.xl))
+                            .foregroundColor(AppColor.textTertiary)
+                            .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+                            .contentShape(Rectangle())
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Close")
                 }
-                .padding(.horizontal, 18)
-                .padding(.top, 18)
-                .padding(.bottom, 10)
+                .padding(.horizontal, Metrics.Space.lg)
+                .padding(.top, Metrics.Space.lg)
+                .padding(.bottom, Metrics.Space.md)
 
                 ScrollView {
-                    VStack(spacing: 10) {
+                    VStack(spacing: Metrics.Space.md) {
                         ForEach(model.tabs) { tab in
                             Button {
                                 model.selectTab(tab.id)
@@ -92,22 +97,23 @@ struct TabOverviewView: View {
                         // ── Bookmarks ────────────────────────────────
                         if !model.bookmarks.isEmpty {
                             Text(lang.t("tabs.bookmarks"))
-                                .font(.app(12))
+                                .font(.app(TypeScale.caption))
                                 .fontWeight(.semibold)
-                                .foregroundColor(Color(UIColor.systemGray2))
+                                .foregroundColor(AppColor.textSecondary)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.top, 12)
+                                .padding(.top, Metrics.Space.md)
+                                .accessibilityAddTraits(.isHeader)
 
                             ForEach(model.bookmarks, id: \.self) { url in
                                 bookmarkRow(url)
                             }
                         }
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.bottom, 16)
+                    .padding(.horizontal, Metrics.Space.lg)
+                    .padding(.bottom, Metrics.Space.lg)
                 }
 
-                HStack(spacing: 12) {
+                HStack(spacing: Metrics.Space.md) {
                     PrimaryButton(title: lang.t("tabs.new"), icon: "plus") {
                         model.newTab()
                         dismiss()
@@ -122,9 +128,9 @@ struct TabOverviewView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 22)
-                .padding(.top, 6)
+                .padding(.horizontal, Metrics.Space.lg)
+                .padding(.bottom, Metrics.Space.xl)
+                .padding(.top, Metrics.Space.sm)
             }
         }
         .confirmationDialog(lang.t("tabs.confirmClose"),
@@ -135,86 +141,91 @@ struct TabOverviewView: View {
     }
 
     private func tabRow(_ tab: BrowserTab) -> some View {
-        HStack(spacing: 12) {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(tab.id == model.activeTabID ? settings.accent : Color(UIColor(white: 0.2, alpha: 1)))
-                .frame(width: 34, height: 34)
+        HStack(spacing: Metrics.Space.md) {
+            RoundedRectangle(cornerRadius: Metrics.Tile.radius)
+                .fill(tab.id == model.activeTabID ? settings.accent : AppColor.fill)
+                .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                 .overlay(Image(systemName: tab.url == "about:blank" ? "plus" : "globe")
-                    .font(.system(size: 14))
-                    .foregroundColor(.white))
+                    .font(.system(size: Metrics.Icon.md, weight: .medium))
+                    .foregroundColor(AppColor.textPrimary))
+                .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                 Text(tab.title.isEmpty ? lang.t("tabs.untitled") : tab.title)
-                    .font(.app(15))
+                    .font(.app(TypeScale.body))
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppColor.textPrimary)
                     .lineLimit(1)
                 Text(tab.url)
-                    .font(.app(12))
-                    .foregroundColor(Color(UIColor.systemGray2))
+                    .font(.app(TypeScale.caption))
+                    .foregroundColor(AppColor.textSecondary)
                     .lineLimit(1)
             }
-            Spacer()
+            Spacer(minLength: Metrics.Space.sm)
 
             if model.tabs.count > 1 {
                 Button {
                     model.closeTab(tab.id)
                 } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundColor(.white)
-                        .frame(width: 26, height: 26)
-                        .background(Color(UIColor(white: 0.25, alpha: 1)))
-                        .clipShape(Circle())
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: Metrics.Icon.lg, weight: .medium))
+                        .foregroundColor(AppColor.textSecondary)
+                        .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel("Close")
             }
         }
-        .padding(12)
+        .padding(Metrics.Space.md)
         .background(settings.cardColor)
-        .cornerRadius(14)
-        .overlay(RoundedRectangle(cornerRadius: 14)
+        .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous)
             .stroke(tab.id == model.activeTabID ? settings.accent : Color.clear, lineWidth: 1.5))
+        .frame(minHeight: Metrics.Touch.min)
+        .contentShape(Rectangle())
     }
 
     private func bookmarkRow(_ url: String) -> some View {
-        HStack(spacing: 12) {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color(UIColor(white: 0.2, alpha: 1)))
-                .frame(width: 34, height: 34)
+        HStack(spacing: Metrics.Space.md) {
+            RoundedRectangle(cornerRadius: Metrics.Tile.radius)
+                .fill(AppColor.fill)
+                .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                 .overlay(Image(systemName: "star.fill")
-                    .font(.system(size: 13))
+                    .font(.system(size: Metrics.Icon.md, weight: .medium))
                     .foregroundColor(settings.accent))
+                .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                 Text(URL(string: url)?.host ?? url)
-                    .font(.app(14))
+                    .font(.app(TypeScale.body))
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(AppColor.textPrimary)
                     .lineLimit(1)
                 Text(url)
-                    .font(.app(11))
-                    .foregroundColor(Color(UIColor.systemGray2))
+                    .font(.app(TypeScale.micro))
+                    .foregroundColor(AppColor.textSecondary)
                     .lineLimit(1)
             }
-            Spacer()
+            Spacer(minLength: Metrics.Space.sm)
 
             // Remove from bookmarks (opening the page = tapping the row).
             Button {
                 model.toggleBookmark(url)
             } label: {
-                Image(systemName: "xmark")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white)
-                    .frame(width: 24, height: 24)
-                    .background(Color(UIColor(white: 0.25, alpha: 1)))
-                    .clipShape(Circle())
+                Image(systemName: "xmark.circle.fill")
+                    .font(.system(size: Metrics.Icon.lg, weight: .medium))
+                    .foregroundColor(AppColor.textSecondary)
+                    .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Remove")
         }
-        .padding(12)
+        .padding(Metrics.Space.md)
         .background(settings.cardColor)
-        .cornerRadius(14)
+        .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
+        .frame(minHeight: Metrics.Touch.min)
         .contentShape(Rectangle())
         .onTapGesture {
             model.submit(url)
@@ -246,36 +257,44 @@ struct TabsSettingsView: View {
                         Button {
                             model.selectTab(tab.id)
                         } label: {
-                            HStack(spacing: 12) {
+                            HStack(spacing: Metrics.Space.md) {
                                 Image(systemName: tab.id == model.activeTabID ? "record.circle" : "circle")
+                                    .font(.system(size: Metrics.Icon.md, weight: .medium))
                                     .foregroundColor(tab.id == model.activeTabID ? settings.accent
-                                                     : Color(UIColor.systemGray2))
-                                VStack(alignment: .leading, spacing: 2) {
+                                                     : AppColor.textTertiary)
+                                    .accessibilityHidden(true)
+                                VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                                     Text(tab.title.isEmpty ? lang.t("tabs.untitled") : tab.title)
-                                        .font(.app(14))
+                                        .font(.app(TypeScale.body))
                                         .fontWeight(.medium)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(AppColor.textPrimary)
                                         .lineLimit(1)
                                     Text(tab.url)
-                                        .font(.app(11))
-                                        .foregroundColor(Color(UIColor.systemGray2))
+                                        .font(.app(TypeScale.micro))
+                                        .foregroundColor(AppColor.textSecondary)
                                         .lineLimit(1)
                                 }
-                                Spacer()
+                                Spacer(minLength: Metrics.Space.sm)
                                 Button {
                                     model.closeTab(tab.id)
                                 } label: {
                                     Image(systemName: "xmark.circle.fill")
+                                        .font(.system(size: Metrics.Icon.md, weight: .medium))
                                         .foregroundColor(.red)
+                                        .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+                                        .contentShape(Rectangle())
                                 }
                                 .buttonStyle(.plain)
+                                .accessibilityLabel("Close")
                             }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 10)
+                            .padding(.horizontal, Metrics.Space.md)
+                            .padding(.vertical, Metrics.Space.sm)
+                            .frame(minHeight: Metrics.Touch.min)
+                            .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
                         if index < model.tabs.count - 1 {
-                            Divider().overlay(Color.black.opacity(0.4))
+                            Divider().overlay(AppColor.separator)
                         }
                     }
                 }
@@ -285,7 +304,7 @@ struct TabsSettingsView: View {
                 ToggleRow(icon: "square.stack.3d.up.fill", color: .cyan,
                           title: lang.t("layout.tabCount"), subtitle: lang.t("layout.tabCountSub"),
                           isOn: $settings.showTabCount)
-                Divider().overlay(Color.black.opacity(0.4))
+                Divider().overlay(AppColor.separator)
                 ToggleRow(icon: "arrow.clockwise.circle.fill", color: .green,
                           title: lang.t("layout.restore"), subtitle: lang.t("layout.restoreSub"),
                           isOn: $settings.restoreSession)
@@ -314,7 +333,7 @@ struct SiteSettingsView: View {
                         model.searchEngine = engine
                     }
                     if engine != BrowserModel.engines.last {
-                        Divider().overlay(Color.black.opacity(0.4))
+                        Divider().overlay(AppColor.separator)
                     }
                 }
             }
@@ -323,11 +342,11 @@ struct SiteSettingsView: View {
                 ToggleRow(icon: "curlybraces", color: .yellow,
                           title: lang.t("site.js"), subtitle: lang.t("site.jsSub"),
                           isOn: $settings.jsEnabled)
-                Divider().overlay(Color.black.opacity(0.4))
+                Divider().overlay(AppColor.separator)
                 ToggleRow(icon: "rectangle.on.rectangle.angled", color: .orange,
                           title: lang.t("site.popups"), subtitle: lang.t("site.popupsSub"),
                           isOn: $settings.blockPopups)
-                Divider().overlay(Color.black.opacity(0.4))
+                Divider().overlay(AppColor.separator)
                 ToggleRow(icon: "plus.square.on.square", color: .blue,
                           title: lang.t("site.newTab"), subtitle: lang.t("site.newTabSub"),
                           isOn: $settings.openLinksInNewTab)
@@ -337,21 +356,24 @@ struct SiteSettingsView: View {
                 Button {
                     showClearConfirm = true
                 } label: {
-                    HStack(spacing: 14) {
+                    HStack(spacing: Metrics.Space.md) {
                         Image(systemName: clearing ? "arrow.triangle.2.circlepath" : "trash.fill")
-                            .font(.system(size: 15))
-                            .foregroundColor(.white)
-                            .frame(width: 32, height: 32)
-                            .background(cleared ? .green : .red)
-                            .cornerRadius(8)
+                            .font(.system(size: Metrics.Icon.md, weight: .medium))
+                            .foregroundColor(AppColor.textPrimary)
+                            .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
+                            .background(cleared ? Color.green : Color.red)
+                            .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                            .accessibilityHidden(true)
                         Text(cleared ? lang.t("site.cleared") : lang.t("site.clear"))
-                            .font(.app(15))
+                            .font(.app(TypeScale.body))
                             .fontWeight(.semibold)
-                            .foregroundColor(cleared ? settings.accent : .white)
-                        Spacer()
+                            .foregroundColor(cleared ? settings.accent : AppColor.textPrimary)
+                        Spacer(minLength: Metrics.Space.sm)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 12)
+                    .padding(.horizontal, Metrics.Space.md)
+                    .padding(.vertical, Metrics.Space.md)
+                    .frame(minHeight: Metrics.Touch.min, alignment: .leading)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .disabled(clearing)
@@ -401,43 +423,50 @@ struct PWASettingsView: View {
     var body: some View {
         ScreenShell(title: lang.t("screen.pwa.title")) {
             CardSection(title: lang.t("pwa.current")) {
-                VStack(spacing: 12) {
-                    HStack(spacing: 10) {
+                VStack(spacing: Metrics.Space.md) {
+                    HStack(spacing: Metrics.Space.md) {
                         Image(systemName: "globe")
+                            .font(.system(size: Metrics.Icon.md, weight: .medium))
                             .foregroundColor(settings.accent)
+                            .accessibilityHidden(true)
                         Text(model.currentUrl)
-                            .font(.app(13))
-                            .foregroundColor(.white)
+                            .font(.app(TypeScale.footnote))
+                            .foregroundColor(AppColor.textPrimary)
                             .lineLimit(1)
                         Spacer()
                     }
-                    .padding(12)
-                    .background(Color(UIColor(white: 0.13, alpha: 1)))
-                    .cornerRadius(12)
+                    .padding(Metrics.Space.md)
+                    .background(AppColor.fill)
+                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
 
-                    HStack(spacing: 12) {
+                    HStack(spacing: Metrics.Space.md) {
                         PrimaryButton(title: lang.t("pwa.add"), icon: "plus") {
                             store.add(name: model.title.isEmpty ? host(of: model.currentUrl) : model.title,
                                       url: model.currentUrl)
                         }
                         if let url = URL(string: model.currentUrl) {
                             ShareLink(item: url) {
-                                HStack(spacing: 8) {
+                                HStack(spacing: Metrics.Space.sm) {
                                     Image(systemName: "square.and.arrow.up")
-                                    Text(lang.t("pwa.share")).font(.app(15)).fontWeight(.semibold)
+                                        .font(.system(size: Metrics.Icon.md, weight: .semibold))
+                                        .accessibilityHidden(true)
+                                    Text(lang.t("pwa.share"))
+                                        .font(.app(TypeScale.callout))
+                                        .fontWeight(.semibold)
                                 }
                                 .foregroundColor(.black)
                                 .frame(maxWidth: .infinity)
-                                .padding(.vertical, 14)
+                                .frame(minHeight: Metrics.Touch.min)
+                                .padding(.vertical, Metrics.Space.sm)
                                 .background(settings.accent)
-                                .cornerRadius(14)
+                                .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
                             }
                         }
                     }
 
-                    InfoRow(icon: "info.circle", color: .gray, text: lang.t("pwa.note"))
+                    InfoRow(icon: "info.circle", color: AppColor.textTertiary, text: lang.t("pwa.note"))
                 }
-                .padding(12)
+                .padding(Metrics.Space.md)
             }
 
             CardSection(title: lang.t("pwa.installed")) {
@@ -445,35 +474,38 @@ struct PWASettingsView: View {
                     EmptyState(icon: "square.grid.2x2", title: lang.t("pwa.empty"))
                 } else {
                     ForEach(store.apps) { app in
-                        HStack(spacing: 12) {
+                        HStack(spacing: Metrics.Space.md) {
                             Button {
                                 open(app)
                             } label: {
-                                HStack(spacing: 12) {
+                                HStack(spacing: Metrics.Space.md) {
                                     Image(systemName: app.symbol)
-                                        .font(.system(size: 15))
-                                        .foregroundColor(.white)
-                                        .frame(width: 32, height: 32)
+                                        .font(.system(size: Metrics.Icon.md, weight: .medium))
+                                        .foregroundColor(AppColor.textPrimary)
+                                        .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                                         .background(settings.accent)
-                                        .cornerRadius(8)
-                                    VStack(alignment: .leading, spacing: 2) {
+                                        .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                                        .accessibilityHidden(true)
+                                    VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                                         Text(app.name)
-                                            .font(.app(15))
+                                            .font(.app(TypeScale.body))
                                             .fontWeight(.semibold)
-                                            .foregroundColor(.white)
+                                            .foregroundColor(AppColor.textPrimary)
                                             .lineLimit(1)
                                         Text(app.url)
-                                            .font(.app(11))
-                                            .foregroundColor(Color(UIColor.systemGray2))
+                                            .font(.app(TypeScale.micro))
+                                            .foregroundColor(AppColor.textSecondary)
                                             .lineLimit(1)
                                     }
-                                    Spacer()
+                                    Spacer(minLength: Metrics.Space.sm)
                                     Image(systemName: "chevron.right")
-                                        .font(.system(size: 12, weight: .semibold))
-                                        .foregroundColor(Color(UIColor.systemGray2))
+                                        .font(.system(size: Metrics.Icon.sm, weight: .semibold))
+                                        .foregroundColor(AppColor.textTertiary)
+                                        .accessibilityHidden(true)
                                 }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 10)
+                                .padding(.horizontal, Metrics.Space.md)
+                                .padding(.vertical, Metrics.Space.sm)
+                                .frame(minHeight: Metrics.Touch.min)
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
@@ -482,13 +514,16 @@ struct PWASettingsView: View {
                                 store.remove(app)
                             } label: {
                                 Image(systemName: "trash")
+                                    .font(.system(size: Metrics.Icon.md, weight: .medium))
                                     .foregroundColor(.red)
-                                    .font(.system(size: 14))
+                                    .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+                                    .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
+                            .accessibilityLabel("Remove")
                         }
                         if app.id != store.apps.last?.id {
-                            Divider().overlay(Color.black.opacity(0.4))
+                            Divider().overlay(AppColor.separator)
                         }
                     }
                 }

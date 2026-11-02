@@ -22,7 +22,17 @@ struct ScreenshotHarness: View {
         case "home", "web":
             ContentView(model: model)
         case "settings":
-            SettingsView(model: model)
+            ScrollViewReader { proxy in
+                SettingsView(model: model)
+                    .onAppear {
+                        // `--lb-scroll <id>` jumps to a row so sections below
+                        // the fold can be captured without a manual swipe.
+                        guard let target = ScreenshotMode.scrollTarget else { return }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                            proxy.scrollTo(target, anchor: .center)
+                        }
+                    }
+            }
         case "theme":
             ThemeSettingsView()
         case "passwords":
@@ -53,6 +63,13 @@ enum ScreenshotMode {
     static var screen: String? {
         let args = ProcessInfo.processInfo.arguments
         guard let i = args.firstIndex(of: "--lb-shot"), i + 1 < args.count else { return nil }
+        return args[i + 1]
+    }
+
+    /// Row id passed with `--lb-scroll <id>`; the harness scrolls it into view.
+    static var scrollTarget: String? {
+        let args = ProcessInfo.processInfo.arguments
+        guard let i = args.firstIndex(of: "--lb-scroll"), i + 1 < args.count else { return nil }
         return args[i + 1]
     }
 }

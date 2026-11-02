@@ -1,6 +1,19 @@
 import SwiftUI
 import PhotosUI
 
+// MARK: - One-off hero sizes
+//
+// Two preview surfaces need a height the shared `Metrics` rhythm doesn't
+// express. They are named here so no magic number is ever written inline in
+// a modifier.
+
+private enum PreviewSize {
+    /// Preset wallpaper thumbnail height in the 3-up grid.
+    static let wallpaperThumb: CGFloat = 64
+    /// Full custom-wallpaper preview.
+    static let customPreview: CGFloat = 140
+}
+
 // MARK: - Theme
 
 struct ThemeSettingsView: View {
@@ -23,79 +36,88 @@ struct ThemeSettingsView: View {
     var body: some View {
         ScreenShell(title: lang.t("screen.theme.title")) {
             CardSection(title: lang.t("theme.accent")) {
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 14) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5),
+                          spacing: Metrics.Space.md) {
                     ForEach(Self.accents, id: \.hex) { item in
                         Button {
-                            settings.accentHex = item.hex
+                            appAnimate { settings.accentHex = item.hex }
                         } label: {
                             Circle()
                                 .fill(Color(item.hex))
-                                .frame(width: 44, height: 44)
+                                .frame(width: Metrics.Touch.min, height: Metrics.Touch.min)
                                 .overlay(
-                                    Circle().stroke(Color.white,
+                                    Circle().stroke(AppColor.textPrimary,
                                                     lineWidth: settings.accentHex == item.hex ? 3 : 0)
                                 )
                                 .shadow(color: Color(item.hex).opacity(0.5),
-                                        radius: settings.accentHex == item.hex ? 8 : 0)
+                                        radius: settings.accentHex == item.hex ? Metrics.Space.sm : 0)
                         }
                         .buttonStyle(.plain)
+                        .accessibilityLabel(item.name)
+                        .accessibilityAddTraits(settings.accentHex == item.hex ? [.isSelected] : [])
                     }
                 }
-                .padding(14)
+                .padding(Metrics.Space.md)
             }
 
             CardSection(title: lang.t("theme.surface")) {
                 ToggleRow(icon: "circle.fill", color: .black,
                           title: lang.t("theme.oled"), subtitle: lang.t("theme.oledSub"),
                           isOn: $settings.pureBlack)
-                Divider().overlay(Color.black.opacity(0.4))
-                ToggleRow(icon: "circle.lefthalf.filled", color: .gray,
+                Divider().overlay(AppColor.separator)
+                ToggleRow(icon: "circle.lefthalf.filled", color: AppColor.textTertiary,
                           title: lang.t("a11y.contrast"), subtitle: lang.t("a11y.contrastSub"),
                           isOn: $settings.highContrast)
             }
 
             CardSection(title: lang.t("theme.preview")) {
-                VStack(spacing: 12) {
-                    HStack(spacing: 10) {
-                        RoundedRectangle(cornerRadius: 6)
+                VStack(spacing: Metrics.Space.md) {
+                    // Mock address bar.
+                    HStack(spacing: Metrics.Space.md) {
+                        RoundedRectangle(cornerRadius: Metrics.Tile.radius)
                             .fill(settings.accent)
-                            .frame(width: 24, height: 24)
-                            .overlay(RoundedRectangle(cornerRadius: 2)
+                            .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
+                            // On-accent glyph, same rule as `PrimaryButton`.
+                            .overlay(RoundedRectangle(cornerRadius: Metrics.Space.xs)
                                 .fill(Color.black)
-                                .frame(width: 10, height: 3))
+                                .frame(width: Metrics.Space.md, height: Metrics.Space.xs))
+                            .accessibilityHidden(true)
                         HStack {
                             Image(systemName: "lock.fill")
-                                .font(.system(size: 10))
+                                .font(.system(size: Metrics.Icon.sm, weight: .medium))
                                 .foregroundColor(settings.accent)
+                                .accessibilityHidden(true)
                             Text(lang.t("chrome.placeholder"))
-                                .font(.app(13))
-                                .foregroundColor(.white.opacity(0.8))
+                                .font(.app(TypeScale.footnote))
+                                .foregroundColor(AppColor.textPrimary.opacity(0.8))
                             Spacer()
                         }
-                        .padding(8)
-                        .background(Color(0xFF2C2C2E))
-                        .cornerRadius(20)
+                        .padding(Metrics.Space.sm)
+                        .background(AppColor.fill)
+                        .clipShape(Capsule())
                     }
-                    .padding(12)
+                    .padding(Metrics.Space.md)
                     .background(settings.chromeColor)
-                    .cornerRadius(14)
+                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
 
+                    // Mock toolbar.
                     HStack {
-                        Image(systemName: "house.fill").foregroundColor(.white)
+                        Image(systemName: "house.fill").foregroundColor(AppColor.textPrimary)
                         Spacer()
                         Image(systemName: "star.fill").foregroundColor(settings.accent)
                         Spacer()
-                        Image(systemName: "plus.circle.fill").foregroundColor(.white)
+                        Image(systemName: "plus.circle.fill").foregroundColor(AppColor.textPrimary)
                         Spacer()
-                        Image(systemName: "ellipsis.circle.fill").foregroundColor(.white)
+                        Image(systemName: "ellipsis.circle.fill").foregroundColor(AppColor.textPrimary)
                     }
-                    .font(.system(size: 18))
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 12)
+                    .font(.system(size: Metrics.Icon.md, weight: .medium))
+                    .padding(.horizontal, Metrics.Space.xl)
+                    .padding(.vertical, Metrics.Space.md)
                     .background(settings.chromeColor)
-                    .cornerRadius(14)
+                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
+                    .accessibilityHidden(true)
                 }
-                .padding(12)
+                .padding(Metrics.Space.md)
             }
         }
     }
@@ -115,7 +137,7 @@ struct LayoutSettingsView: View {
                           isSelected: settings.addressBarTop) {
                     settings.addressBarTop = true
                 }
-                Divider().overlay(Color.black.opacity(0.4))
+                Divider().overlay(AppColor.separator)
                 OptionRow(icon: "rectangle.righthalf.inset.filled", title: lang.t("layout.barBottom"),
                           isSelected: !settings.addressBarTop) {
                     settings.addressBarTop = false
@@ -123,30 +145,34 @@ struct LayoutSettingsView: View {
             }
 
             CardSection(title: lang.t("layout.home"), subtitle: lang.t("layout.homeSub")) {
-                HStack(spacing: 12) {
+                HStack(spacing: Metrics.Space.md) {
                     Image(systemName: "house")
+                        .font(.system(size: Metrics.Icon.md, weight: .medium))
                         .foregroundColor(settings.accent)
-                        .frame(width: 24)
+                        .frame(width: Metrics.Icon.lg)
+                        .accessibilityHidden(true)
                     TextField("https://lineinc.ro", text: $homeDraft)
-                        .font(.app(14))
-                        .foregroundColor(.white)
+                        .font(.app(TypeScale.body))
+                        .foregroundColor(AppColor.textPrimary)
                         .keyboardType(.URL)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
                         .onSubmit { saveHome() }
                     Button(lang.t("layout.save"), action: saveHome)
-                        .font(.app(14))
+                        .font(.app(TypeScale.body))
                         .fontWeight(.semibold)
                         .foregroundColor(settings.accent)
+                        .frame(minHeight: Metrics.Touch.min)
+                        .contentShape(Rectangle())
                 }
-                .padding(12)
+                .padding(Metrics.Space.md)
             }
 
             CardSection(title: lang.t("layout.tabs")) {
                 ToggleRow(icon: "square.stack.3d.up.fill", color: .cyan,
                           title: lang.t("layout.tabCount"), subtitle: lang.t("layout.tabCountSub"),
                           isOn: $settings.showTabCount)
-                Divider().overlay(Color.black.opacity(0.4))
+                Divider().overlay(AppColor.separator)
                 ToggleRow(icon: "arrow.clockwise.circle.fill", color: .green,
                           title: lang.t("layout.restore"), subtitle: lang.t("layout.restoreSub"),
                           isOn: $settings.restoreSession)
@@ -172,75 +198,82 @@ struct WallpaperSettingsView: View {
     @ObservedObject private var lang = LanguageManager.shared
     @State private var picked: PhotosPickerItem?
 
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 3)
+    private let columns = Array(repeating: GridItem(.flexible(), spacing: Metrics.Space.md), count: 3)
 
     var body: some View {
         ScreenShell(title: lang.t("screen.wallpaper.title")) {
             CardSection(title: lang.t("wall.preset")) {
-                LazyVGrid(columns: columns, spacing: 12) {
+                LazyVGrid(columns: columns, spacing: Metrics.Space.md) {
                     Button {
-                        settings.wallpaperID = "none"
+                        appAnimate { settings.wallpaperID = "none" }
                     } label: {
-                        VStack(spacing: 6) {
-                            RoundedRectangle(cornerRadius: 12)
+                        VStack(spacing: Metrics.Space.sm) {
+                            RoundedRectangle(cornerRadius: Metrics.Radius.md)
                                 .fill(settings.background)
-                                .frame(height: 64)
-                                .overlay(RoundedRectangle(cornerRadius: 12)
+                                .frame(height: PreviewSize.wallpaperThumb)
+                                .overlay(RoundedRectangle(cornerRadius: Metrics.Radius.md)
                                     .stroke(settings.wallpaperID == "none" ? settings.accent : Color.clear,
                                             lineWidth: 2))
                                 .overlay(Image(systemName: "slash.circle")
-                                    .foregroundColor(.gray))
+                                    .font(.system(size: Metrics.Icon.lg, weight: .light))
+                                    .foregroundColor(AppColor.textTertiary)
+                                    .accessibilityHidden(true))
                             Text(lang.t("wall.none"))
-                                .font(.app(11))
-                                .foregroundColor(.white)
+                                .font(.app(TypeScale.micro))
+                                .foregroundColor(AppColor.textPrimary)
                         }
                     }
                     .buttonStyle(.plain)
+                    .accessibilityAddTraits(settings.wallpaperID == "none" ? [.isSelected] : [])
 
                     ForEach(SettingsStore.wallpapers, id: \.id) { preset in
                         Button {
-                            settings.wallpaperID = preset.id
+                            appAnimate { settings.wallpaperID = preset.id }
                         } label: {
-                            VStack(spacing: 6) {
+                            VStack(spacing: Metrics.Space.sm) {
                                 LinearGradient(colors: preset.colors.map { Color($0) },
                                                startPoint: .topLeading, endPoint: .bottomTrailing)
-                                    .frame(height: 64)
-                                    .cornerRadius(12)
-                                    .overlay(RoundedRectangle(cornerRadius: 12)
+                                    .frame(height: PreviewSize.wallpaperThumb)
+                                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
+                                    .overlay(RoundedRectangle(cornerRadius: Metrics.Radius.md)
                                         .stroke(settings.wallpaperID == preset.id ? settings.accent : Color.clear,
                                                 lineWidth: 2))
                                 Text(preset.id.capitalized)
-                                    .font(.app(11))
-                                    .foregroundColor(.white)
+                                    .font(.app(TypeScale.micro))
+                                    .foregroundColor(AppColor.textPrimary)
                             }
                         }
                         .buttonStyle(.plain)
+                        .accessibilityAddTraits(settings.wallpaperID == preset.id ? [.isSelected] : [])
                     }
                 }
-                .padding(14)
+                .padding(Metrics.Space.md)
             }
 
             CardSection(title: lang.t("wall.custom"), subtitle: lang.t("wall.customSub")) {
-                VStack(spacing: 12) {
+                VStack(spacing: Metrics.Space.md) {
                     if settings.wallpaperID == "custom" {
                         CustomWallpaperPreview()
-                            .frame(height: 140)
-                            .cornerRadius(12)
+                            .frame(height: PreviewSize.customPreview)
+                            .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
                             .clipped()
                     }
 
                     PhotosPicker(selection: $picked, matching: .images) {
-                        HStack(spacing: 8) {
+                        HStack(spacing: Metrics.Space.sm) {
                             Image(systemName: "photo.on.rectangle.angled")
+                                .font(.system(size: Metrics.Icon.md, weight: .semibold))
+                                .accessibilityHidden(true)
                             Text(lang.t("wall.pick"))
-                                .font(.app(15))
+                                .font(.app(TypeScale.callout))
                                 .fontWeight(.semibold)
                         }
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 13)
+                        .frame(minHeight: Metrics.Touch.min)
+                        .padding(.vertical, Metrics.Space.sm)
                         .background(settings.accent)
-                        .cornerRadius(14)
+                        .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
                     }
 
                     if settings.wallpaperID == "custom" {
@@ -250,9 +283,9 @@ struct WallpaperSettingsView: View {
                         }
                     }
 
-                    InfoRow(icon: "info.circle", color: .gray, text: lang.t("wall.note"))
+                    InfoRow(icon: "info.circle", color: AppColor.textTertiary, text: lang.t("wall.note"))
                 }
-                .padding(12)
+                .padding(Metrics.Space.md)
             }
         }
         .onChange(of: picked) { item in
@@ -283,35 +316,38 @@ struct AccessibilitySettingsView: View {
     var body: some View {
         ScreenShell(title: lang.t("screen.accessibility.title")) {
             CardSection(title: lang.t("a11y.text")) {
-                HStack(spacing: 8) {
+                HStack(spacing: Metrics.Space.sm) {
                     ForEach(scales, id: \.self) { scale in
                         Button {
-                            settings.textScale = scale
+                            appAnimate { settings.textScale = scale }
                         } label: {
-                            VStack(spacing: 4) {
+                            VStack(spacing: Metrics.Space.xs) {
                                 Text("A")
-                                    .font(.system(size: 10 + scale * 8, weight: .semibold))
+                                    .font(.system(size: TypeScale.title * CGFloat(scale), weight: .semibold))
                                 Text("\(Int(scale * 100))%")
-                                    .font(.app(11))
+                                    .font(.app(TypeScale.micro))
                             }
-                            .foregroundColor(settings.textScale == scale ? .black : .white)
+                            .foregroundColor(settings.textScale == scale ? .black : AppColor.textPrimary)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
+                            .frame(minHeight: Metrics.Touch.min)
+                            .padding(.vertical, Metrics.Space.md)
                             .background(settings.textScale == scale ? settings.accent
-                                        : Color(UIColor(white: 0.14, alpha: 1)))
-                            .cornerRadius(12)
+                                        : AppColor.fill)
+                            .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
                         }
                         .buttonStyle(.plain)
+                        .accessibilityLabel("\(Int(scale * 100))%")
+                        .accessibilityAddTraits(settings.textScale == scale ? [.isSelected] : [])
                     }
                 }
-                .padding(12)
+                .padding(Metrics.Space.md)
             }
 
             CardSection(title: lang.t("a11y.display")) {
                 ToggleRow(icon: "circle.hexagongrid.fill", color: .yellow,
                           title: lang.t("a11y.contrast"), subtitle: lang.t("a11y.contrastSub"),
                           isOn: $settings.highContrast)
-                Divider().overlay(Color.black.opacity(0.4))
+                Divider().overlay(AppColor.separator)
                 ToggleRow(icon: "figure.walk.motion", color: .orange,
                           title: lang.t("a11y.motion"), subtitle: lang.t("a11y.motionSub"),
                           isOn: $settings.reduceMotion)

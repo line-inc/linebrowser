@@ -7,6 +7,7 @@ struct OnboardingView: View {
     var onFinish: () -> Void
 
     @ObservedObject private var lang = LanguageManager.shared
+    @ObservedObject private var settings = SettingsStore.shared
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var page = 0
@@ -15,11 +16,12 @@ struct OnboardingView: View {
 
     private let pageCount = 5
 
-    private let bg = Color(UIColor(red: 0.04, green: 0.05, blue: 0.06, alpha: 1))
-    private let card = Color(0xFF1E2024)
-    private let field = Color(0xFF2C2C2E)
-    private let accent = Color(0xFF34C759)
-    private let secondary = Color(UIColor.systemGray2)
+    // Design tokens instead of the old hardcoded palette.
+    private var bg: Color { settings.background }
+    private var card: Color { settings.cardColor }
+    private var field: Color { AppColor.fill }
+    private var accent: Color { settings.accent }
+    private var secondary: Color { AppColor.textSecondary }
 
     var body: some View {
         ZStack {
@@ -51,75 +53,84 @@ struct OnboardingView: View {
     // MARK: Header (progress + skip)
 
     private var header: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: Metrics.Space.sm) {
             HStack {
                 Text(String(format: lang.t("ob.done.progress"), page + 1, pageCount))
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.app(TypeScale.caption))
+                    .fontWeight(.medium)
                     .foregroundColor(secondary)
                 Spacer()
                 if page < pageCount - 1 {
                     Button(lang.t("common.skip")) { appAnimate { page = pageCount - 1 } }
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.app(TypeScale.footnote))
+                        .fontWeight(.semibold)
                         .foregroundColor(secondary)
+                        .frame(minHeight: Metrics.Touch.min)
+                        .contentShape(Rectangle())
                 }
             }
 
-            HStack(spacing: 5) {
+            HStack(spacing: Metrics.Space.xs) {
                 ForEach(0..<pageCount, id: \.self) { index in
                     Capsule()
                         .fill(index <= page ? accent : field)
-                        .frame(height: 4)
+                        .frame(height: Metrics.Space.xs)
+                        .accessibilityHidden(true)
                 }
             }
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 16)
-        .padding(.bottom, 8)
+        .padding(.horizontal, Metrics.Space.xl)
+        .padding(.top, Metrics.Space.md)
+        .padding(.bottom, Metrics.Space.sm)
     }
 
     // MARK: Page 1 – Welcome
 
     private var welcomePage: some View {
         ScrollView {
-            VStack(spacing: 22) {
-                Spacer(minLength: 30)
+            VStack(spacing: Metrics.Space.xl) {
+                Spacer(minLength: Metrics.Space.xxl)
 
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: Metrics.Radius.lg)
                     .fill(accent)
-                    .frame(width: 88, height: 88)
+                    .frame(width: Metrics.Touch.min * 2, height: Metrics.Touch.min * 2)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 6)
+                        RoundedRectangle(cornerRadius: Metrics.Tile.radius)
                             .fill(Color.black)
-                            .frame(width: 34, height: 8)
+                            .frame(width: Metrics.Space.xxl, height: Metrics.Space.sm)
                     )
-                    .shadow(color: accent.opacity(0.35), radius: 24, y: 8)
+                    .shadow(color: accent.opacity(0.35), radius: Metrics.Space.xl, y: Metrics.Space.sm)
+                    .accessibilityHidden(true)
 
                 Text(lang.t("ob.welcome.title"))
-                    .font(.system(size: 27, weight: .bold))
-                    .foregroundColor(.white)
+                    .font(.app(TypeScale.title))
+                    .fontWeight(.bold)
+                    .foregroundColor(AppColor.textPrimary)
                     .multilineTextAlignment(.center)
+                    .accessibilityAddTraits(.isHeader)
 
                 Text(lang.t("ob.welcome.body"))
-                    .font(.system(size: 15))
+                    .font(.app(TypeScale.body))
                     .foregroundColor(secondary)
                     .multilineTextAlignment(.center)
-                    .lineSpacing(3)
+                    .lineSpacing(Metrics.Space.xs)
 
-                HStack(spacing: 7) {
+                HStack(spacing: Metrics.Space.sm) {
                     Image(systemName: "clock.badge.checkmark")
                         .foregroundColor(accent)
+                        .accessibilityHidden(true)
                     Text(lang.t("ob.welcome.note"))
                         .foregroundColor(secondary)
                 }
-                .font(.system(size: 13))
-                .padding(.horizontal, 14)
-                .padding(.vertical, 9)
+                .font(.app(TypeScale.footnote))
+                .padding(.horizontal, Metrics.Space.md)
+                .padding(.vertical, Metrics.Space.sm)
                 .background(card)
-                .cornerRadius(12)
+                .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
 
-                Spacer(minLength: 30)
+                Spacer(minLength: Metrics.Space.xxl)
             }
-            .padding(.horizontal, 28)
+            .padding(.horizontal, Metrics.Space.xl)
             .frame(maxWidth: .infinity)
         }
     }
@@ -128,47 +139,53 @@ struct OnboardingView: View {
 
     private var languagePage: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 18) {
+            VStack(alignment: .leading, spacing: Metrics.Space.lg) {
                 pageTitle(lang.t("ob.language.title"), subtitle: lang.t("ob.language.body"))
 
                 ForEach(AppLanguage.allCases) { option in
                     Button {
                         appAnimate { lang.set(option) }
                     } label: {
-                        HStack(spacing: 14) {
+                        HStack(spacing: Metrics.Space.md) {
                             Text(option.flag)
-                                .font(.system(size: 24))
+                                .font(.app(TypeScale.title))
+                                .accessibilityHidden(true)
 
-                            VStack(alignment: .leading, spacing: 2) {
+                            VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                                 Text(option.displayName(lang))
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .foregroundColor(.white)
+                                    .font(.app(TypeScale.callout))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(AppColor.textPrimary)
                                 Text(option == .system
                                      ? lang.t("ob.language.systemSub")
                                      : (option.nativeName == option.displayName(lang) ? " " : option.nativeName))
-                                    .font(.system(size: 12))
+                                    .font(.app(TypeScale.caption))
                                     .foregroundColor(secondary)
                             }
 
-                            Spacer()
+                            Spacer(minLength: Metrics.Space.sm)
 
                             Image(systemName: lang.language == option ? "checkmark.circle.fill" : "circle")
                                 .foregroundColor(lang.language == option ? accent : secondary)
-                                .font(.system(size: 20))
+                                .font(.system(size: Metrics.Icon.lg))
+                                .accessibilityHidden(true)
                         }
-                        .padding(14)
+                        .padding(Metrics.Space.md)
+                        .frame(minHeight: Metrics.Touch.min)
                         .background(card)
-                        .cornerRadius(14)
+                        .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 14)
+                            RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous)
                                 .stroke(lang.language == option ? accent : Color.clear, lineWidth: 1.5)
                         )
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PressButtonStyle())
+                    .accessibilityAddTraits(lang.language == option ? [.isSelected] : [])
                 }
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 8)
+            .padding(.horizontal, Metrics.Space.xl)
+            .padding(.top, Metrics.Space.sm)
         }
     }
 
@@ -176,49 +193,56 @@ struct OnboardingView: View {
 
     private var searchPage: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 18) {
+            VStack(alignment: .leading, spacing: Metrics.Space.lg) {
                 pageTitle(lang.t("ob.search.title"), subtitle: lang.t("ob.search.body"))
 
                 ForEach(BrowserModel.engines, id: \.self) { engine in
                     Button {
                         appAnimate { model.searchEngine = engine }
                     } label: {
-                        HStack(spacing: 14) {
+                        HStack(spacing: Metrics.Space.md) {
                             Text(engineInitial(engine))
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(.white)
-                                .frame(width: 36, height: 36)
+                                .font(.app(TypeScale.callout))
+                                .fontWeight(.bold)
+                                .foregroundColor(AppColor.textPrimary)
+                                .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                                 .background(accent)
-                                .cornerRadius(10)
+                                .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.sm, style: .continuous))
+                                .accessibilityHidden(true)
 
-                            VStack(alignment: .leading, spacing: 2) {
+                            VStack(alignment: .leading, spacing: Metrics.Space.xs) {
                                 Text(engineName(engine))
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .foregroundColor(.white)
+                                    .font(.app(TypeScale.callout))
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(AppColor.textPrimary)
                                 Text(engineSubtitle(engine))
-                                    .font(.system(size: 12))
+                                    .font(.app(TypeScale.caption))
                                     .foregroundColor(secondary)
                             }
 
-                            Spacer()
+                            Spacer(minLength: Metrics.Space.sm)
 
                             Image(systemName: model.searchEngine == engine ? "checkmark.circle.fill" : "circle")
                                 .foregroundColor(model.searchEngine == engine ? accent : secondary)
-                                .font(.system(size: 20))
+                                .font(.system(size: Metrics.Icon.lg))
+                                .accessibilityHidden(true)
                         }
-                        .padding(14)
+                        .padding(Metrics.Space.md)
+                        .frame(minHeight: Metrics.Touch.min)
                         .background(card)
-                        .cornerRadius(14)
+                        .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 14)
+                            RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous)
                                 .stroke(model.searchEngine == engine ? accent : Color.clear, lineWidth: 1.5)
                         )
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PressButtonStyle())
+                    .accessibilityAddTraits(model.searchEngine == engine ? [.isSelected] : [])
                 }
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 8)
+            .padding(.horizontal, Metrics.Space.xl)
+            .padding(.top, Metrics.Space.sm)
         }
     }
 
@@ -226,48 +250,52 @@ struct OnboardingView: View {
 
     private var browserPage: some View {
         ScrollView {
-            VStack(spacing: 20) {
-                Spacer(minLength: 16)
+            VStack(spacing: Metrics.Space.xl) {
+                Spacer(minLength: Metrics.Space.lg)
 
                 Image(systemName: "safari.fill")
-                    .font(.system(size: 54))
+                    .font(.system(size: Metrics.Icon.xl * 2))
                     .foregroundColor(accent)
-                    .frame(width: 110, height: 110)
+                    .frame(width: Metrics.Touch.min * 2.5, height: Metrics.Touch.min * 2.5)
                     .background(card)
-                    .cornerRadius(28)
+                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.lg, style: .continuous))
+                    .accessibilityHidden(true)
 
                 Text(lang.t("ob.browser.title"))
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.white)
+                    .font(.app(TypeScale.title))
+                    .fontWeight(.bold)
+                    .foregroundColor(AppColor.textPrimary)
                     .multilineTextAlignment(.center)
+                    .accessibilityAddTraits(.isHeader)
 
                 Text(lang.t("ob.browser.body"))
-                    .font(.system(size: 15))
+                    .font(.app(TypeScale.body))
                     .foregroundColor(secondary)
                     .multilineTextAlignment(.center)
-                    .lineSpacing(3)
+                    .lineSpacing(Metrics.Space.xs)
 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: Metrics.Space.sm) {
                     Label {
                         Text(lang.t("ob.browser.hint"))
-                            .font(.system(size: 13))
-                            .foregroundColor(.white)
+                            .font(.app(TypeScale.footnote))
+                            .foregroundColor(AppColor.textPrimary)
                     } icon: {
                         Image(systemName: "arrow.up.forward.app.fill")
                             .foregroundColor(accent)
+                            .accessibilityHidden(true)
                     }
                     Text(lang.t("ob.browser.returns"))
-                        .font(.system(size: 12))
+                        .font(.app(TypeScale.caption))
                         .foregroundColor(secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(14)
+                .padding(Metrics.Space.md)
                 .background(card)
-                .cornerRadius(14)
+                .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
 
-                Spacer(minLength: 16)
+                Spacer(minLength: Metrics.Space.lg)
             }
-            .padding(.horizontal, 26)
+            .padding(.horizontal, Metrics.Space.xl)
         }
     }
 
@@ -275,19 +303,22 @@ struct OnboardingView: View {
 
     private var donePage: some View {
         ScrollView {
-            VStack(spacing: 20) {
-                Spacer(minLength: 24)
+            VStack(spacing: Metrics.Space.xl) {
+                Spacer(minLength: Metrics.Space.xl)
 
                 Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 64))
+                    .font(.system(size: Metrics.Icon.xl * 2))
                     .foregroundColor(accent)
+                    .accessibilityHidden(true)
 
                 Text(lang.t("ob.done.title"))
-                    .font(.system(size: 26, weight: .bold))
-                    .foregroundColor(.white)
+                    .font(.app(TypeScale.title))
+                    .fontWeight(.bold)
+                    .foregroundColor(AppColor.textPrimary)
+                    .accessibilityAddTraits(.isHeader)
 
                 Text(lang.t("ob.done.body"))
-                    .font(.system(size: 15))
+                    .font(.app(TypeScale.body))
                     .foregroundColor(secondary)
                     .multilineTextAlignment(.center)
 
@@ -298,14 +329,14 @@ struct OnboardingView: View {
                         value: LanguageManager.shared.effective.displayName(lang),
                         flag: LanguageManager.shared.effective.flag
                     )
-                    Divider().overlay(field)
+                    Divider().overlay(AppColor.separator)
                     summaryRow(
                         icon: "magnifyingglass",
                         title: lang.t("ob.done.search"),
                         value: engineName(model.searchEngine),
                         flag: nil
                     )
-                    Divider().overlay(field)
+                    Divider().overlay(AppColor.separator)
                     summaryRow(
                         icon: "safari",
                         title: lang.t("ob.done.defaultBrowser"),
@@ -314,114 +345,103 @@ struct OnboardingView: View {
                         ok: defaultBrowserDone
                     )
                 }
-                .padding(.horizontal, 6)
+                .padding(.horizontal, Metrics.Space.xs)
                 .background(card)
-                .cornerRadius(16)
+                .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
 
-                Spacer(minLength: 24)
+                Spacer(minLength: Metrics.Space.xl)
             }
-            .padding(.horizontal, 26)
+            .padding(.horizontal, Metrics.Space.xl)
         }
     }
 
     private func summaryRow(icon: String, title: String, value: String, flag: String?, ok: Bool = false) -> some View {
-        HStack(spacing: 12) {
+        HStack(spacing: Metrics.Space.md) {
             Image(systemName: icon)
-                .font(.system(size: 14))
+                .font(.system(size: Metrics.Icon.sm, weight: .medium))
                 .foregroundColor(.white)
-                .frame(width: 30, height: 30)
+                .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                 .background(field)
-                .cornerRadius(8)
+                .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
+                .accessibilityHidden(true)
 
             Text(title)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.white)
+                .font(.app(TypeScale.footnote))
+                .fontWeight(.medium)
+                .foregroundColor(AppColor.textPrimary)
 
-            Spacer()
+            Spacer(minLength: Metrics.Space.sm)
 
             if let flag {
-                Text(flag).font(.system(size: 16))
+                Text(flag)
+                    .font(.app(TypeScale.callout))
+                    .accessibilityHidden(true)
             }
             if ok {
-                Image(systemName: "checkmark.circle.fill").foregroundColor(accent)
+                // State marker; VoiceOver announces it because the value is
+                // empty on this row when the browser is already set.
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: Metrics.Icon.md, weight: .semibold))
+                    .foregroundColor(accent)
+                    .accessibilityLabel(lang.t("settings.done"))
             }
             if !value.isEmpty {
                 Text(value)
-                    .font(.system(size: 13))
+                    .font(.app(TypeScale.footnote))
                     .foregroundColor(ok ? accent : secondary)
             }
         }
-        .padding(.vertical, 12)
-        .padding(.horizontal, 10)
+        .padding(.vertical, Metrics.Space.md)
+        .padding(.horizontal, Metrics.Space.sm)
+        .frame(minHeight: Metrics.Touch.min, alignment: .leading)
     }
 
     // MARK: Footer
 
     private var footer: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: Metrics.Space.md) {
             switch page {
             case 3:
-                primaryButton(lang.t("ob.browser.cta")) {
+                PrimaryButton(title: lang.t("ob.browser.cta")) {
                     openedSettings = true
                     if let url = URL(string: UIApplication.openSettingsURLString) {
                         UIApplication.shared.open(url)
                     }
                 }
-                secondaryButton(lang.t("common.later")) { appAnimate { page = 4 } }
+                SecondaryButton(title: lang.t("common.later")) { appAnimate { page = 4 } }
             case 4:
-                primaryButton(lang.t("ob.done.cta")) { onFinish() }
+                PrimaryButton(title: lang.t("ob.done.cta")) { onFinish() }
             default:
-                primaryButton(page == 0 ? lang.t("ob.welcome.cta") : lang.t("common.continue")) {
+                PrimaryButton(title: page == 0 ? lang.t("ob.welcome.cta") : lang.t("common.continue")) {
                     appAnimate { page += 1 }
                 }
                 if page > 0 {
-                    secondaryButton(lang.t("common.back")) { appAnimate { page -= 1 } }
+                    SecondaryButton(title: lang.t("common.back")) { appAnimate { page -= 1 } }
                 }
             }
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 10)
-        .padding(.bottom, 14)
+        .padding(.horizontal, Metrics.Space.xl)
+        .padding(.top, Metrics.Space.md)
+        .padding(.bottom, Metrics.Space.lg)
         .background(bg)
     }
 
     // MARK: Pieces
 
     private func pageTitle(_ title: String, subtitle: String) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Metrics.Space.sm) {
             Text(title)
-                .font(.system(size: 24, weight: .bold))
-                .foregroundColor(.white)
+                .font(.app(TypeScale.title))
+                .fontWeight(.bold)
+                .foregroundColor(AppColor.textPrimary)
+                .accessibilityAddTraits(.isHeader)
             Text(subtitle)
-                .font(.system(size: 14))
+                .font(.app(TypeScale.footnote))
                 .foregroundColor(secondary)
-                .lineSpacing(3)
+                .lineSpacing(Metrics.Space.xs)
+                .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(.top, 6)
-    }
-
-    private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(title)
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(Color.black)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 15)
-                .background(accent)
-                .cornerRadius(14)
-        }
-        .buttonStyle(PressButtonStyle())
-    }
-
-    private func secondaryButton(_ title: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Text(title)
-                .font(.system(size: 15, weight: .medium))
-                .foregroundColor(secondary)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 10)
-        }
-        .buttonStyle(PressButtonStyle())
+        .padding(.top, Metrics.Space.xs)
     }
 
     // MARK: Search engine labels

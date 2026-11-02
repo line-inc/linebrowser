@@ -376,7 +376,7 @@ struct ContentView: View {
                 errorBanner(error)
             }
         }
-        .animation(settings.reduceMotion ? nil : .easeInOut(duration: 0.2), value: model.lastError)
+        .animation(motion(.easeInOut(duration: 0.2)), value: model.lastError)
         .sheet(isPresented: $model.showSettings) {
             SettingsView(model: model)
         }
@@ -392,25 +392,28 @@ struct ContentView: View {
 
     private var addressBar: some View {
         VStack(spacing: 0) {
-            HStack(spacing: 10) {
-                RoundedRectangle(cornerRadius: 6)
+            HStack(spacing: Metrics.Space.md) {
+                // Brand mark — purely ornamental beside the address field.
+                RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous)
                     .fill(settings.accent)
-                    .frame(width: 24, height: 24)
+                    .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 2)
+                        RoundedRectangle(cornerRadius: Metrics.Space.xs, style: .continuous)
                             .fill(Color.black)
-                            .frame(width: 10, height: 3)
+                            .frame(width: Metrics.Space.lg, height: Metrics.Space.xs)
                     )
+                    .accessibilityHidden(true)
 
-                HStack(spacing: 6) {
+                HStack(spacing: Metrics.Space.sm) {
                     Image(systemName: isSecure ? "lock.fill" : "lock.open")
-                        .font(.system(size: 10))
+                        .font(.system(size: Metrics.Icon.sm, weight: .medium))
                         .foregroundColor(isSecure ? settings.accent : .orange)
-                        .animation(.easeOut(duration: 0.15), value: isSecure)
+                        .animation(motion(.easeOut(duration: 0.15)), value: isSecure)
+                        .accessibilityHidden(true)
 
                     TextField(lang.t("chrome.placeholder"), text: $model.inputUrl)
-                        .foregroundColor(.white)
-                        .font(.app(13))
+                        .foregroundColor(AppColor.textPrimary)
+                        .font(.app(TypeScale.footnote))
                         .keyboardType(.URL)
                         .textContentType(.URL)
                         .autocapitalization(.none)
@@ -423,49 +426,48 @@ struct ContentView: View {
                         }
 
                     if addressFocused && !model.inputUrl.isEmpty {
-                        Button {
+                        chromeButton {
                             model.inputUrl = ""
                         } label: {
                             Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 13))
-                                .foregroundColor(Color(UIColor.systemGray2))
+                                .font(.system(size: Metrics.Icon.md))
+                                .foregroundColor(AppColor.textTertiary)
                         }
-                        .buttonStyle(.plain)
                         .transition(.opacity.combined(with: .scale(scale: 0.8)))
                     }
 
-                    Button(action: {
+                    chromeButton {
                         model.submit(model.inputUrl)
                         addressFocused = false
-                    }) {
+                    } label: {
                         Image(systemName: "arrow.clockwise")
-                            .foregroundColor(addressFocused ? settings.accent : Color(UIColor.systemGray2))
-                            .font(.system(size: 12))
+                            .font(.system(size: Metrics.Icon.sm, weight: .semibold))
+                            .foregroundColor(addressFocused ? settings.accent : AppColor.textSecondary)
                     }
-                    .buttonStyle(PressButtonStyle())
                 }
-                .padding(8)
-                .background(Color(0xFF2C2C2E))
-                .cornerRadius(20)
+                .padding(.horizontal, Metrics.Space.sm)
+                .frame(minHeight: Metrics.Touch.min)
+                .background(AppColor.chromeFill)
+                .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.pill, style: .continuous))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 20)
+                    RoundedRectangle(cornerRadius: Metrics.Radius.pill, style: .continuous)
                         .stroke(settings.accent.opacity(addressFocused ? 0.9 : 0),
                                 lineWidth: 1.5)
                 )
-                .animation(.easeOut(duration: 0.15), value: addressFocused)
+                .animation(motion(.easeOut(duration: 0.15)), value: addressFocused)
 
-                Button(action: {
+                chromeButton {
                     Haptics.tap()
                     model.showSettings = true
-                }) {
+                } label: {
                     Image(systemName: "gearshape.fill")
-                        .foregroundColor(.white)
-                        .font(.system(size: 16))
+                        .font(.system(size: Metrics.Icon.lg, weight: .medium))
+                        .foregroundColor(AppColor.textPrimary)
                 }
-                .buttonStyle(PressButtonStyle())
+                .accessibilityLabel(lang.t("settings.title"))
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
+            .padding(.horizontal, Metrics.Space.md)
+            .padding(.vertical, Metrics.Space.sm)
             .background(chrome)
 
             // Deterministic progress line — follows real load progress.
@@ -481,90 +483,96 @@ struct ContentView: View {
             .frame(height: 2)
             .background(chrome)
         }
-        .animation(.easeOut(duration: 0.2), value: model.isLoading)
-        .animation(.easeOut(duration: 0.25), value: model.progress)
-        .animation(.easeOut(duration: 0.2), value: model.inputUrl.isEmpty)
+        .animation(motion(.easeOut(duration: 0.2)), value: model.isLoading)
+        .animation(motion(.easeOut(duration: 0.25)), value: model.progress)
+        .animation(motion(.easeOut(duration: 0.2)), value: model.inputUrl.isEmpty)
     }
 
     // MARK: Bottom toolbar
+    //
+    // Every control is expanded to the 44pt minimum target — the raw glyphs
+    // are only 16-20pt, which is below Apple's touch guidance.
 
     private var bottomBar: some View {
-        HStack {
-            Button(action: {
+        HStack(spacing: Metrics.Space.sm) {
+            chromeButton {
                 Haptics.tap()
                 model.submit(settings.homePage)
-            }) {
+            } label: {
                 Image(systemName: "house.fill")
-                    .foregroundColor(.white)
-                    .font(.system(size: 18))
+                    .font(.system(size: Metrics.Icon.lg, weight: .medium))
+                    .foregroundColor(AppColor.textPrimary)
             }
-            .buttonStyle(PressButtonStyle())
+            .accessibilityLabel(lang.t("layout.home"))
 
-            Spacer()
+            Spacer(minLength: Metrics.Space.sm)
 
-            Button(action: {
+            chromeButton {
                 Haptics.tap()
                 model.showTabs = true
-            }) {
+            } label: {
                 ZStack(alignment: .topTrailing) {
                     Image(systemName: "square.on.square")
-                        .foregroundColor(.white)
-                        .font(.system(size: 17))
+                        .font(.system(size: Metrics.Icon.lg, weight: .medium))
+                        .foregroundColor(AppColor.textPrimary)
                     if settings.showTabCount {
                         Text("\(model.tabs.count)")
-                            .font(.system(size: 10, weight: .bold))
+                            .font(.system(size: TypeScale.micro, weight: .bold))
                             .foregroundColor(.black)
-                            .padding(.horizontal, 4)
-                            .padding(.vertical, 1)
+                            .padding(.horizontal, Metrics.Space.xs)
+                            .padding(.vertical, Metrics.Space.xs / 2)
                             .background(settings.accent)
-                            .cornerRadius(6)
-                            .offset(x: 12, y: -8)
+                            .clipShape(RoundedRectangle(cornerRadius: Metrics.Space.xs, style: .continuous))
+                            .offset(x: Metrics.Space.md, y: -Metrics.Space.sm)
                             .id(model.tabs.count)
                             .transition(.scale(scale: 0.6).combined(with: .opacity))
                     }
                 }
             }
-            .buttonStyle(PressButtonStyle())
+            .accessibilityLabel(lang.t("row.tabs.title"))
+            .accessibilityValue("\(model.tabs.count)")
 
-            Spacer()
+            Spacer(minLength: Metrics.Space.sm)
 
-            Button(action: {
+            chromeButton {
                 model.toggleBookmark(model.currentUrl)
                 Haptics.tap(.medium)
-            }) {
+            } label: {
                 Image(systemName: model.isBookmarked(model.currentUrl) ? "star.fill" : "star")
+                    .font(.system(size: Metrics.Icon.lg, weight: .medium))
                     .foregroundColor(model.isBookmarked(model.currentUrl)
-                                     ? settings.accent : Color(UIColor.systemGray))
-                    .font(.system(size: 18))
+                                     ? settings.accent : AppColor.textSecondary)
             }
-            .buttonStyle(PressButtonStyle())
+            .accessibilityLabel(lang.t("tabs.bookmarks"))
+            .accessibilityValue(model.isBookmarked(model.currentUrl)
+                                ? lang.t("privacy.on") : lang.t("privacy.off"))
 
-            Spacer()
+            Spacer(minLength: Metrics.Space.sm)
 
-            Button(action: {
+            chromeButton {
                 Haptics.tap()
                 model.newTab()
-            }) {
+            } label: {
                 Image(systemName: "plus.circle.fill")
-                    .foregroundColor(.white)
-                    .font(.system(size: 20))
+                    .font(.system(size: Metrics.Icon.xl, weight: .medium))
+                    .foregroundColor(AppColor.textPrimary)
             }
-            .buttonStyle(PressButtonStyle())
+            .accessibilityLabel(lang.t("tabs.new"))
 
-            Spacer()
+            Spacer(minLength: Metrics.Space.sm)
 
-            Button(action: {
+            chromeButton {
                 Haptics.tap()
                 model.showSettings = true
-            }) {
+            } label: {
                 Image(systemName: "ellipsis.circle.fill")
-                    .foregroundColor(.white)
-                    .font(.system(size: 18))
+                    .font(.system(size: Metrics.Icon.lg, weight: .medium))
+                    .foregroundColor(AppColor.textPrimary)
             }
-            .buttonStyle(PressButtonStyle())
+            .accessibilityLabel(lang.t("settings.title"))
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 12)
+        .padding(.horizontal, Metrics.Space.xl)
+        .padding(.vertical, Metrics.Space.md)
         .background(chrome)
     }
 
@@ -575,15 +583,19 @@ struct ContentView: View {
     // MARK: Error banner
 
     private func errorBanner(_ message: String) -> some View {
-        HStack(spacing: 8) {
+        HStack(spacing: Metrics.Space.sm) {
             Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: Metrics.Icon.sm, weight: .medium))
                 .foregroundColor(.yellow)
-                .font(.system(size: 13))
+                .accessibilityHidden(true)
+
             Text(message)
-                .foregroundColor(.white)
-                .font(.app(12))
+                .foregroundColor(AppColor.textPrimary)
+                .font(.app(TypeScale.caption))
                 .lineLimit(2)
-            Spacer(minLength: 4)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer(minLength: Metrics.Space.xs)
 
             // Retry: re-submits the current address.
             Button {
@@ -591,31 +603,48 @@ struct ContentView: View {
                 model.submit(model.inputUrl)
             } label: {
                 Text(lang.t("chrome.retry"))
-                    .font(.app(12))
+                    .font(.app(TypeScale.caption))
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color.yellow)
-                    .cornerRadius(8)
+                    .padding(.horizontal, Metrics.Space.md)
+                    .frame(minHeight: Metrics.Touch.min)
+                    .background(.yellow)
+                    .clipShape(RoundedRectangle(cornerRadius: Metrics.Tile.radius, style: .continuous))
             }
             .buttonStyle(PressButtonStyle())
 
-            Button {
+            chromeButton {
                 appAnimate { model.lastError = nil }
             } label: {
                 Image(systemName: "xmark.circle.fill")
-                    .foregroundColor(Color(UIColor.systemGray))
-                    .font(.system(size: 16))
+                    .font(.system(size: Metrics.Icon.lg))
+                    .foregroundColor(AppColor.textSecondary)
             }
-            .buttonStyle(.plain)
+            .accessibilityLabel(lang.t("settings.close"))
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(Color(0xFF4A2020))
-        .cornerRadius(12)
-        .padding(.horizontal, 14)
-        .padding(.bottom, 74)
+        .padding(.horizontal, Metrics.Space.md)
+        .padding(.vertical, Metrics.Space.md)
+        .background(AppColor.dangerSurface)
+        .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
+        .padding(.horizontal, Metrics.Space.lg)
+        .padding(.bottom, Metrics.Chrome.bannerClearance)
         .transition(.move(edge: .bottom).combined(with: .opacity))
+    }
+
+    // MARK: Shared chrome button
+    //
+    // Expands the hit area to the 44pt minimum without changing the glyph.
+
+    private func chromeButton<Label: View>(action: @escaping () -> Void,
+                                           @ViewBuilder label: () -> Label) -> some View {
+        Button(action: action, label: label)
+            .buttonStyle(PressButtonStyle())
+            .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
+            .contentShape(Rectangle())
+    }
+
+    /// Returns `nil` (no animation) when Reduce Motion is on.
+    private func motion(_ animation: Animation) -> Animation? {
+        settings.reduceMotion ? nil : animation
     }
 }
