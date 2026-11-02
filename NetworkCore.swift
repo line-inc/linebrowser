@@ -1,62 +1,5 @@
 import Foundation
 import SwiftUI
-import NetworkExtension
-
-// MARK: - DNS log reader (app side)
-
-/// Reads the JSON-lines DNS log written by the PacketTunnel extension and
-/// refreshes itself on the Darwin notification the writer posts.
-final class DnsLogStore: ObservableObject {
-    static let shared = DnsLogStore()
-
-    @Published private(set) var entries: [DnsEntry] = []
-
-    private init() {
-        CFNotificationCenterAddObserver(
-            CFNotificationCenterGetDarwinNotifyCenter(),
-            Unmanaged.passUnretained(self).toOpaque(),
-            { _, observer, _, _, _ in
-                guard let observer else { return }
-                let store = Unmanaged<DnsLogStore>.fromOpaque(observer).takeUnretainedValue()
-                DispatchQueue.main.async { store.reload() }
-            },
-            AppGroup.dnsNotifyName as CFString,
-            nil, .deliverImmediately)
-        reload()
-    }
-
-    deinit {
-        CFNotificationCenterRemoveObserver(
-            CFNotificationCenterGetDarwinNotifyCenter(),
-            Unmanaged.passUnretained(self).toOpaque(),
-            CFNotificationName(AppGroup.dnsNotifyName as CFString),
-            nil)
-    }
-
-    func reload() {
-        guard let url = AppGroup.logURL,
-              let data = try? Data(contentsOf: url),
-              !data.isEmpty else {
-            if !entries.isEmpty { entries = [] }
-            return
-        }
-        let decoder = JSONDecoder()
-        var parsed: [DnsEntry] = []
-        parsed.reserveCapacity(256)
-        for line in data.split(separator: 0x0A) {
-            if let entry = try? decoder.decode(DnsEntry.self, from: Data(line)) {
-                parsed.append(entry)
-            }
-        }
-        // Newest first.
-        entries = Array(parsed.reversed().prefix(500))
-    }
-
-    func clear() {
-        DNSLogWriter.clear()
-        entries = []
-    }
-}
 
 // MARK: - In-page network monitor (every request the browser tab makes)
 
@@ -199,15 +142,4 @@ enum NetworkJS {
       }, 1200);
     })();
     """
-}
-
-// MARK: - Shared status helpers
-
-func netStatusKey(_ status: NEVPNStatus) -> String {
-    switch status {
-    case .connected, .reasserting: return "net.connected"
-    case .connecting: return "net.connecting"
-    case .disconnecting: return "net.disconnecting"
-    default: return "net.disconnected"
-    }
 }

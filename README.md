@@ -26,8 +26,7 @@
 - **Rendering Engine**: **WKWebView (Safari / WebKit)** — the native iOS engine. Fast page loads, full support for modern web standards, and hardware-accelerated compositing with no cross-platform bridge overhead.
 - **UI Interface**: **SwiftUI** — a fully native, fluid interface written in Swift 5.9 with an observable-model architecture (`BrowserModel`, `SettingsStore`, `LanguageManager`). No UIKit view controllers to bridge, no web-based UI.
 - **Encryption & Storage**: **CryptoKit (AES-256-GCM)** for the private vault and **iOS Keychain** (`kSecAttrAccessibleWhenUnlockedThisDeviceOnly`) for passwords and encryption keys. Nothing is written to plaintext disk.
-- **Network Layer**: **NetworkExtension** — a `NEPacketTunnelProvider` app extension for the device-wide DNS sniffer, plus `NEVPNManager` for the standards-based IKEv2 VPN client.
-- **Project Generation**: **XcodeGen** (`project.yml`) — the `.xcodeproj` is generated, so targets, entitlements, and build settings live in a single reviewable file.
+- **Project Generation**: **XcodeGen** (`project.yml`) — the `.xcodeproj` is generated, so targets and build settings live in a single reviewable file.
 
 ---
 
@@ -45,19 +44,14 @@
 
 ### 🔒 Privacy & Ad Blocking
 - **No Telemetry, No Accounts, No Servers**: there is no analytics SDK, no tracking pixel, no backend. Nothing about you is collected or transmitted — confirmed in the [Privacy Policy](https://vladutzztech.github.io/lineinc-privacy/).
-- **Ad & Tracker Blocker**: a curated blocklist of **56 ad-network, tracker, and telemetry domains** (Google Ads/Analytics, Facebook Pixel, TikTok, Criteo, Taboola, Outbrain, ComScore, Hotjar, Mixpanel, AppsFlyer, Adjust, New Relic, and more).
-- **Two-Layer Blocking**: rules apply both **in-page** (a compiled `WKContentRuleList` — Safari-style content rules) and **at the DNS level** (the sniffer answers `NXDOMAIN` for blocked hosts), so trackers are stopped before a single packet leaves the device.
-- **Shared Blocklist**: `Shared/SharedNetwork.swift` is compiled into both the app and the tunnel extension — one source of truth, no drift.
+- **Ad & Tracker Blocker**: a curated blocklist of **56 ad-network, tracker, and telemetry domains** (Google Ads/Analytics, Facebook Pixel, TikTok, Criteo, Taboola, Outbrain, ComScore, Hotjar, Mixpanel, AppsFlyer, Adjust, New Relic, and more), enforced by a compiled **`WKContentRuleList`** (Safari-style content rules) so blocked requests never leave the page.
+- **Single Source of Truth**: `Blocklist.swift` is the one list that drives every rule — change it once, blocking updates everywhere.
 - **Burn on Exit**: one toggle wipes history, cookies, cache, and site data whenever the app backgrounds.
 - **Site-Level Controls**: a JavaScript on/off toggle, pop-up blocking, "open links in new tab", and one-tap *Clear Website Data*.
 - **Private by Default**: the default search engine is **DuckDuckGo**.
 
 ### 🌐 Network Tools
-- **Packet Sniffer (DNS, device-wide)**: an on-device `NEPacketTunnelProvider` tunnel that routes **DNS queries only** — every other packet and IP passes straight through untouched. Each lookup is logged live with its domain, blocked domains are refused, and clean queries are forwarded to **Cloudflare 1.1.1.1**. Because it sits below the app layer, it sees lookups from *every* app on the phone, not just the browser. Searchable, filterable, clearable log.
-- **Network Monitor**: an in-page JavaScript bridge (`fetch`, `XHR`, resource timing, navigations) that captures **every request a page makes** — documents, images, scripts, fonts, analytics — with status codes, sizes, and timing. Answers the question *"which sites phone home?"*
-- **IKEv2 VPN Client**: a standard, OS-level IKEv2/IPsec tunnel via `NEVPNManager`. Enter server, remote ID, username, and password; the credential is stored in the **iOS Keychain** and the tunnel appears in *Settings ▸ VPN* like any other.
-
-> **Transparency note**: the sniffer logs DNS queries and forwards them to Cloudflare 1.1.1.1. It does not proxy, inspect, or store your actual traffic — only DNS names are visible to it, and the log lives on your device.
+- **Network Monitor**: an in-page JavaScript bridge (`fetch`, `XHR`, resource timing, navigations) that captures **every request a page makes** — documents, images, scripts, fonts, analytics — with status codes, sizes, and timing. Answers the question *"which sites phone home?"* Searchable and filterable, and it only ever sees the page you have open — nothing is sent anywhere.
 
 ### 🔑 Passwords & Vault
 - **Keychain Password Manager**: save site, username, and password pairs directly to the **iOS Keychain** — never in iCloud, never on a server. Per-entry reveal, one-tap copy to clipboard, and delete.
@@ -90,7 +84,7 @@
 
 ```
 LineBrowser/
-├── project.yml                  # XcodeGen spec — targets, entitlements, build settings
+├── project.yml                  # XcodeGen spec — targets, build settings
 ├── iosApp.swift                 # App entry point, scene phase, deep links
 ├── BrowserModel.swift           # Tabs, navigation, search engines, bookmarks
 ├── ContentView.swift            # Main browser chrome + WKWebView bridge
@@ -99,38 +93,26 @@ LineBrowser/
 ├── SettingsView.swift           # Settings root, all navigation links
 ├── PersonalizationScreens.swift # Theme, layout, wallpaper, accessibility
 ├── PrivacyScreens.swift         # Privacy Hub, Passwords, Vault
-├── NetworkScreens.swift         # DNS Sniffer, VPN client, Network Monitor
-├── NetworkCore.swift            # DNS log + request stores, JS bridge source
+├── NetworkScreens.swift         # Network Monitor
+├── NetworkCore.swift            # Request store + in-page JS bridge source
+├── Blocklist.swift              # Ad/tracker domains for the content blocker
 ├── SecureStores.swift           # Keychain passwords, AES-GCM vault
-├── VPNManager.swift             # Packet-tunnel + IKEv2 tunnel management
 ├── SettingsStore.swift          # Persisted preferences, colors, wallpapers
-├── Localization.swift           # EN/RO string tables (246 keys each)
+├── Localization.swift           # EN/RO string tables (211 keys each)
 ├── OnboardingView.swift         # First-run flow: language, engine, default browser
 ├── ColorHex.swift               # Hex → Color helper
 │
-├── PacketTunnel/                # App extension — device-wide DNS sniffer
-│   ├── PacketTunnelProvider.swift   # NEPacketTunnelProvider: parse, log, block, forward
-│   ├── Info.plist                   # com.apple.networkextension.packet-tunnel
-│   └── PacketTunnel.entitlements
-│
-├── Shared/
-│   └── SharedNetwork.swift      # Blocklist + app-group prefs (app ⇄ extension)
-│
 ├── Assets.xcassets/             # App icon
 ├── Info.plist                   # App manifest (written by XcodeGen from project.yml)
-├── LineBrowser.entitlements     # Packet tunnel, VPN API, app group
 ├── ScreenshotHarness.swift      # DEBUG-only UI capture harness (never ships)
 └── privacy.html                 # Bilingual privacy policy source
 ```
 
-**Targets**
+**Target**
 
 | Target | Bundle ID | Role |
 |---|---|---|
-| `LineBrowser` | `com.lineinc.linebrowser` | The app |
-| `PacketTunnel` | `com.lineinc.linebrowser.packettunnel` | DNS sniffer extension, embedded in the app |
-
-Both share the app group `group.com.lineinc.linebrowser`, which is how the blocklist toggle and DNS log cross the process boundary.
+| `LineBrowser` | `com.lineinc.linebrowser` | The app — single target, no extensions |
 
 ---
 
@@ -168,15 +150,15 @@ xcodebuild -project LineBrowser.xcodeproj \
 
 > ⚠️ **Run `xcodegen generate` after adding or removing any source file** — the `.xcodeproj` is generated, not hand-edited. Never commit `xcuserdata/`.
 
-**Entitlements required** (all configured in `project.yml`): `packet-tunnel-provider`, `allow-vpn`, and the app group. The tunnel extension will not start without them.
+**No entitlements required** — the app uses no VPN, NetworkExtension, or app-group capabilities, so there is nothing for App Review to question on that front.
 
 **App Store screenshots** are captured with `ScreenshotHarness.swift`, a DEBUG-only harness that renders any screen full-bleed on the simulator:
 
 ```bash
-xcrun simctl launch <device-udid> com.lineinc.linebrowser --lb-shot dnssniffer
+xcrun simctl launch <device-udid> com.lineinc.linebrowser --lb-shot netmonitor
 ```
 
-Valid screens: `home`, `web`, `settings`, `theme`, `passwords`, `vault`, `privacy`, `dnssniffer`, `vpn`, `netmonitor`. The harness is wrapped in `#if DEBUG` and compiles out of Release archives entirely — it has been verified absent from the shipping binary.
+Valid screens: `home`, `web`, `settings`, `theme`, `passwords`, `vault`, `privacy`, `netmonitor`. The harness is wrapped in `#if DEBUG` and compiles out of Release archives entirely — it has been verified absent from the shipping binary.
 
 ---
 

@@ -103,22 +103,6 @@ struct SettingsView: View {
 
                     // ── REȚEA ──────────────────────────────────────────────────────
                     Section(header: sectionHeader(lang.t("settings.section.network"))) {
-                        NavigationLink(destination: DnsSnifferView()) {
-                            NavRow(icon: "antenna.radiowaves.left.and.right", color: .green,
-                                   title: lang.t("row.sniffer.title"),
-                                   subtitle: lang.t("row.sniffer.sub"),
-                                   value: lang.t(netStatusKey(tunnel.status)))
-                        }
-                        .listRowBackground(settings.cardColor)
-
-                        NavigationLink(destination: VpnClientView()) {
-                            NavRow(icon: "lock.shield.fill", color: .blue,
-                                   title: lang.t("row.vpn.title"),
-                                   subtitle: lang.t("row.vpn.sub"),
-                                   value: lang.t(netStatusKey(ikev2.status)))
-                        }
-                        .listRowBackground(settings.cardColor)
-
                         NavigationLink(destination: NetworkMonitorView()) {
                             NavRow(icon: "waveform.path.ecg", color: .orange,
                                    title: lang.t("row.monitor.title"),
@@ -238,8 +222,6 @@ struct SettingsView: View {
     @ObservedObject private var passwords = PasswordStore.shared
     @ObservedObject private var vault = VaultStore.shared
     @ObservedObject private var webApps = WebAppStore.shared
-    @ObservedObject private var tunnel = TunnelManager.shared
-    @ObservedObject private var ikev2 = IKEv2Manager.shared
     @ObservedObject private var requests = RequestStore.shared
 
     private var appVersion: String {

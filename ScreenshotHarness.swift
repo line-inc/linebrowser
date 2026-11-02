@@ -31,10 +31,6 @@ struct ScreenshotHarness: View {
             VaultView()
         case "privacy":
             PrivacyHubView(model: model)
-        case "dnssniffer":
-            DnsSnifferView()
-        case "vpn":
-            VpnClientView()
         case "netmonitor":
             NetworkMonitorView()
         default:

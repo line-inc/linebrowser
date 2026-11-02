@@ -7,8 +7,8 @@ enum ContentBlocker {
     static let identifier = "linebrowser.ads"
 
     /// One rule per domain: WebKit's content-rule regex has no `|` support,
-    /// so alternatives have to be separate rules. The list itself is shared
-    /// with the DNS sniffer extension (Shared/SharedNetwork.swift).
+    /// so alternatives have to be separate rules. The list itself lives in
+    /// Blocklist.swift (SharedBlocklist).
     static let domains: [String] = SharedBlocklist.domains
 
     static var json: String {

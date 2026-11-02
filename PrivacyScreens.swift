@@ -149,24 +149,6 @@ struct PrivacyHubView: View {
             }
 
             CardSection(title: lang.t("hub.tools")) {
-                NavigationLink { DnsSnifferView() } label: {
-                    hubRow(icon: "antenna.radiowaves.left.and.right", color: .green,
-                           title: lang.t("row.sniffer.title"),
-                           subtitle: lang.t("row.sniffer.sub"),
-                           value: lang.t(netStatusKey(tunnel.status)))
-                }
-                .buttonStyle(.plain)
-                Divider().overlay(Color.black.opacity(0.4))
-
-                NavigationLink { VpnClientView() } label: {
-                    hubRow(icon: "lock.shield.fill", color: .blue,
-                           title: lang.t("row.vpn.title"),
-                           subtitle: lang.t("row.vpn.sub"),
-                           value: lang.t(netStatusKey(ikev2.status)))
-                }
-                .buttonStyle(.plain)
-                Divider().overlay(Color.black.opacity(0.4))
-
                 NavigationLink { NetworkMonitorView() } label: {
                     hubRow(icon: "waveform.path.ecg", color: .orange,
                            title: lang.t("row.monitor.title"),
@@ -177,7 +159,7 @@ struct PrivacyHubView: View {
             }
 
             CardSection(title: "") {
-                InfoRow(icon: "info.circle", color: .gray, text: lang.t("hub.vpnNote"))
+                InfoRow(icon: "info.circle", color: .gray, text: lang.t("hub.toolsNote"))
                 Divider().overlay(Color.black.opacity(0.4))
                 InfoRow(icon: "checkmark.seal", color: settings.accent, text: lang.t("hub.trackingNote"))
             }
@@ -214,8 +196,6 @@ struct PrivacyHubView: View {
         .contentShape(Rectangle())
     }
 
-    @ObservedObject private var tunnel = TunnelManager.shared
-    @ObservedObject private var ikev2 = IKEv2Manager.shared
     @ObservedObject private var requests = RequestStore.shared
 }
 
