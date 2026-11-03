@@ -101,6 +101,7 @@ enum Strings {
             "common.back": "Back",
             "common.skip": "Skip",
             "common.later": "Maybe later",
+            "common.remove": "Remove",
 
             // Onboarding – welcome
             "ob.welcome.title": "Welcome to Line Browser",
@@ -321,6 +322,11 @@ enum Strings {
             "pw.saved": "SAVED PASSWORDS",
             "pw.empty": "No passwords saved yet.",
             "pw.note": "Tap the eye to reveal, the doc icon to copy.",
+            "pw.reveal": "Reveal password",
+            "pw.hide": "Hide password",
+            "pw.copy": "Copy password",
+            "pw.copied": "Password copied",
+            "pw.delete": "Delete password",
 
             // Vault
             "screen.vault.title": "Private Vault",
@@ -361,6 +367,7 @@ enum Strings {
             "common.back": "Înapoi",
             "common.skip": "Sari",
             "common.later": "Mai târziu",
+            "common.remove": "Elimină",
 
             // Onboarding – bun venit
             "ob.welcome.title": "Bine ai venit în Line Browser",
@@ -581,6 +588,11 @@ enum Strings {
             "pw.saved": "PAROLE SALVATE",
             "pw.empty": "Nicio parolă salvată încă.",
             "pw.note": "Atinge ochiul pentru a afișa, iconița pentru a copia.",
+            "pw.reveal": "Arată parola",
+            "pw.hide": "Ascunde parola",
+            "pw.copy": "Copiază parola",
+            "pw.copied": "Parolă copiată",
+            "pw.delete": "Șterge parola",
 
             // Seif
             "screen.vault.title": "Seif Privat",

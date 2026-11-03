@@ -75,8 +75,8 @@ struct TabOverviewView: View {
                             .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
                             .contentShape(Rectangle())
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel("Close")
+                    .buttonStyle(PressButtonStyle())
+                    .accessibilityLabel(lang.t("settings.close"))
                 }
                 .padding(.horizontal, Metrics.Space.lg)
                 .padding(.top, Metrics.Space.lg)
@@ -91,7 +91,7 @@ struct TabOverviewView: View {
                             } label: {
                                 tabRow(tab)
                             }
-                            .buttonStyle(.plain)
+                            .buttonStyle(PressButtonStyle())
                         }
 
                         // ── Bookmarks ────────────────────────────────
@@ -173,8 +173,8 @@ struct TabOverviewView: View {
                         .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
                         .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
-                .accessibilityLabel("Close")
+                .buttonStyle(PressButtonStyle())
+                .accessibilityLabel(lang.t("settings.close"))
             }
         }
         .padding(Metrics.Space.md)
@@ -219,8 +219,8 @@ struct TabOverviewView: View {
                     .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
                     .contentShape(Rectangle())
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Remove")
+            .buttonStyle(PressButtonStyle())
+            .accessibilityLabel(lang.t("common.remove"))
         }
         .padding(Metrics.Space.md)
         .background(settings.cardColor)
@@ -284,15 +284,15 @@ struct TabsSettingsView: View {
                                         .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
                                         .contentShape(Rectangle())
                                 }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel("Close")
+                                .buttonStyle(PressButtonStyle())
+                                .accessibilityLabel(lang.t("settings.close"))
                             }
                             .padding(.horizontal, Metrics.Space.md)
                             .padding(.vertical, Metrics.Space.sm)
                             .frame(minHeight: Metrics.Touch.min)
                             .contentShape(Rectangle())
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(PressButtonStyle())
                         if index < model.tabs.count - 1 {
                             Divider().overlay(AppColor.separator)
                         }
@@ -375,7 +375,7 @@ struct SiteSettingsView: View {
                     .frame(minHeight: Metrics.Touch.min, alignment: .leading)
                     .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(PressButtonStyle())
                 .disabled(clearing)
             }
         }
@@ -508,7 +508,7 @@ struct PWASettingsView: View {
                                 .frame(minHeight: Metrics.Touch.min)
                                 .contentShape(Rectangle())
                             }
-                            .buttonStyle(.plain)
+                            .buttonStyle(PressButtonStyle())
 
                             Button {
                                 store.remove(app)
@@ -519,8 +519,8 @@ struct PWASettingsView: View {
                                     .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
                                     .contentShape(Rectangle())
                             }
-                            .buttonStyle(.plain)
-                            .accessibilityLabel("Remove")
+                            .buttonStyle(PressButtonStyle())
+                            .accessibilityLabel(lang.t("common.remove"))
                         }
                         if app.id != store.apps.last?.id {
                             Divider().overlay(AppColor.separator)

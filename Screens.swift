@@ -31,6 +31,8 @@ enum Metrics {
     enum Icon {
         static let sm: CGFloat = 14
         static let md: CGFloat = 16
+        /// Selection checkmark / radio indicator — sits between `md` and `lg`.
+        static let status: CGFloat = 20
         static let lg: CGFloat = 24
         static let xl: CGFloat = 28
     }
@@ -124,10 +126,15 @@ enum Haptics {
 
 /// The base "tap" feel: a short ease-out scale with a matching haptic.
 /// The scale is applied to the label only, so surrounding layout never shifts.
+///
+/// Reduce Motion drops the *movement* (scale) but keeps the opacity dip —
+/// feedback without motion, which is what reduced-motion users still want.
 struct PressButtonStyle: ButtonStyle {
+    private var reduceMotion: Bool { SettingsStore.shared.reduceMotion }
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .scaleEffect(configuration.isPressed ? 0.97 : 1)
+            .scaleEffect(configuration.isPressed && !reduceMotion ? 0.97 : 1)
             .opacity(configuration.isPressed ? 0.9 : 1)
             .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
             .onChange(of: configuration.isPressed) { pressed in
@@ -324,13 +331,13 @@ struct OptionRow: View {
                     RowText(title: title, subtitle: subtitle)
                     Spacer(minLength: Metrics.Space.sm)
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                        .font(.system(size: 20, weight: isSelected ? .bold : .regular))
+                        .font(.system(size: Metrics.Icon.status, weight: isSelected ? .bold : .regular))
                         .foregroundColor(isSelected ? settings.accent : AppColor.textTertiary)
                         .accessibilityHidden(true)
                 }
             }
         }
-        .buttonStyle(.plain)
+        .buttonStyle(PressButtonStyle())
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 }

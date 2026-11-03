@@ -23,6 +23,7 @@ struct SettingsView: View {
                                        value: accentName,
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
 
                         card(
@@ -33,6 +34,7 @@ struct SettingsView: View {
                                                                     : lang.t("layout.barBottom"),
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
 
                         card(
@@ -42,6 +44,7 @@ struct SettingsView: View {
                                        value: wallpaperName,
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
 
                         card(
@@ -51,6 +54,7 @@ struct SettingsView: View {
                                        value: "\(Int(settings.textScale * 100))%",
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
                     }
 
@@ -63,6 +67,7 @@ struct SettingsView: View {
                                        value: "\(model.tabs.count)",
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
 
                         card(
@@ -72,6 +77,7 @@ struct SettingsView: View {
                                        value: engineName,
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
 
                         card(
@@ -81,6 +87,7 @@ struct SettingsView: View {
                                        value: "\(webApps.apps.count)",
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
                     }
 
@@ -93,6 +100,7 @@ struct SettingsView: View {
                                        value: settings.blockAds ? lang.t("privacy.on") : lang.t("privacy.off"),
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
 
                         card(
@@ -102,6 +110,7 @@ struct SettingsView: View {
                                        value: "\(passwords.items.count)",
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
 
                         card(
@@ -111,6 +120,7 @@ struct SettingsView: View {
                                        value: vault.isUnlocked ? lang.t("vault.unlocked") : lang.t("vault.lockedShort"),
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
 
                         card(
@@ -119,6 +129,7 @@ struct SettingsView: View {
                                        title: lang.t("row.hub.title"), subtitle: lang.t("row.hub.sub"),
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
                     }
 
@@ -132,6 +143,7 @@ struct SettingsView: View {
                                        value: "\(requests.entries.count)",
                                        showsChevron: false)
                             }
+                            .buttonStyle(PressButtonStyle())
                             // Anchor for `--lb-scroll` in the screenshot harness.
                             .id("settings.network")
                         )
@@ -187,6 +199,7 @@ struct SettingsView: View {
                                        subtitle: lang.t("row.website.sub"),
                                        value: nil)
                             }
+                            .buttonStyle(PressButtonStyle())
                         )
                     }
                 }
@@ -259,6 +272,7 @@ struct SettingsView: View {
                    title: lang.t("settings.defaultBrowser"),
                    subtitle: lang.t("settings.defaultBrowserSub"))
         }
+        .buttonStyle(PressButtonStyle())
     }
 
     // MARK: - Live values

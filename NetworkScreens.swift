@@ -106,7 +106,7 @@ struct NetworkMonitorView: View {
                         .font(.system(size: Metrics.Icon.md))
                         .foregroundColor(AppColor.textTertiary)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(PressButtonStyle())
                 .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
                 .contentShape(Rectangle())
                 .accessibilityLabel(lang.t("monitor.search"))

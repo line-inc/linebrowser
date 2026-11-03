@@ -67,6 +67,7 @@ struct OnboardingView: View {
                         .foregroundColor(secondary)
                         .frame(minHeight: Metrics.Touch.min)
                         .contentShape(Rectangle())
+                        .buttonStyle(PressButtonStyle())
                 }
             }
 

@@ -52,7 +52,7 @@ struct ThemeSettingsView: View {
                                 .shadow(color: Color(item.hex).opacity(0.5),
                                         radius: settings.accentHex == item.hex ? Metrics.Space.sm : 0)
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(PressButtonStyle())
                         .accessibilityLabel(item.name)
                         .accessibilityAddTraits(settings.accentHex == item.hex ? [.isSelected] : [])
                     }
@@ -164,6 +164,7 @@ struct LayoutSettingsView: View {
                         .foregroundColor(settings.accent)
                         .frame(minHeight: Metrics.Touch.min)
                         .contentShape(Rectangle())
+                        .buttonStyle(PressButtonStyle())
                 }
                 .padding(Metrics.Space.md)
             }
@@ -223,7 +224,7 @@ struct WallpaperSettingsView: View {
                                 .foregroundColor(AppColor.textPrimary)
                         }
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(PressButtonStyle())
                     .accessibilityAddTraits(settings.wallpaperID == "none" ? [.isSelected] : [])
 
                     ForEach(SettingsStore.wallpapers, id: \.id) { preset in
@@ -243,7 +244,7 @@ struct WallpaperSettingsView: View {
                                     .foregroundColor(AppColor.textPrimary)
                             }
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(PressButtonStyle())
                         .accessibilityAddTraits(settings.wallpaperID == preset.id ? [.isSelected] : [])
                     }
                 }
@@ -335,7 +336,7 @@ struct AccessibilitySettingsView: View {
                                         : AppColor.fill)
                             .clipShape(RoundedRectangle(cornerRadius: Metrics.Radius.md, style: .continuous))
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(PressButtonStyle())
                         .accessibilityLabel("\(Int(scale * 100))%")
                         .accessibilityAddTraits(settings.textScale == scale ? [.isSelected] : [])
                     }

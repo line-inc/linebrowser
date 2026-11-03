@@ -398,7 +398,7 @@ struct ContentView: View {
                     .fill(settings.accent)
                     .frame(width: Metrics.Tile.side, height: Metrics.Tile.side)
                     .overlay(
-                        RoundedRectangle(cornerRadius: Metrics.Space.xs, style: .continuous)
+                        RoundedRectangle(cornerRadius: Metrics.Radius.sm, style: .continuous)
                             .fill(Color.black)
                             .frame(width: Metrics.Space.lg, height: Metrics.Space.xs)
                     )
@@ -457,7 +457,6 @@ struct ContentView: View {
                 .animation(motion(.easeOut(duration: 0.15)), value: addressFocused)
 
                 chromeButton {
-                    Haptics.tap()
                     model.showSettings = true
                 } label: {
                     Image(systemName: "gearshape.fill")
@@ -496,7 +495,6 @@ struct ContentView: View {
     private var bottomBar: some View {
         HStack(spacing: Metrics.Space.sm) {
             chromeButton {
-                Haptics.tap()
                 model.submit(settings.homePage)
             } label: {
                 Image(systemName: "house.fill")
@@ -508,7 +506,6 @@ struct ContentView: View {
             Spacer(minLength: Metrics.Space.sm)
 
             chromeButton {
-                Haptics.tap()
                 model.showTabs = true
             } label: {
                 ZStack(alignment: .topTrailing) {
@@ -517,7 +514,10 @@ struct ContentView: View {
                         .foregroundColor(AppColor.textPrimary)
                     if settings.showTabCount {
                         Text("\(model.tabs.count)")
-                            .font(.system(size: TypeScale.micro, weight: .bold))
+                            // .app() so the badge tracks the in-app text-size
+                            // setting; a raw .system(size:) would ignore it.
+                            .font(.app(TypeScale.micro))
+                            .fontWeight(.bold)
                             .foregroundColor(.black)
                             .padding(.horizontal, Metrics.Space.xs)
                             .padding(.vertical, Metrics.Space.xs / 2)
@@ -550,7 +550,6 @@ struct ContentView: View {
             Spacer(minLength: Metrics.Space.sm)
 
             chromeButton {
-                Haptics.tap()
                 model.newTab()
             } label: {
                 Image(systemName: "plus.circle.fill")
@@ -562,7 +561,6 @@ struct ContentView: View {
             Spacer(minLength: Metrics.Space.sm)
 
             chromeButton {
-                Haptics.tap()
                 model.showSettings = true
             } label: {
                 Image(systemName: "ellipsis.circle.fill")
@@ -634,6 +632,10 @@ struct ContentView: View {
     // MARK: Shared chrome button
     //
     // Expands the hit area to the 44pt minimum without changing the glyph.
+    // `PressButtonStyle` already fires a light haptic on press-down, so
+    // actions here must NOT call `Haptics.tap()` again — that reads as a
+    // double buzz. Actions only add haptics with real semantic weight
+    // (e.g. `.medium` when a bookmark toggles).
 
     private func chromeButton<Label: View>(action: @escaping () -> Void,
                                            @ViewBuilder label: () -> Label) -> some View {

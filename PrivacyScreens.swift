@@ -49,7 +49,7 @@ struct PrivacySettingsView: View {
                     .frame(minHeight: Metrics.Touch.min)
                     .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(PressButtonStyle())
                 .disabled(clearing)
             }
 
@@ -152,7 +152,7 @@ struct PrivacyHubView: View {
                     .frame(minHeight: Metrics.Touch.min)
                     .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(PressButtonStyle())
             }
 
             CardSection(title: lang.t("hub.tools")) {
@@ -162,7 +162,7 @@ struct PrivacyHubView: View {
                            subtitle: lang.t("row.monitor.sub"),
                            value: "\(requests.entries.count)")
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(PressButtonStyle())
             }
 
             CardSection(title: "") {
@@ -275,9 +275,9 @@ struct PasswordsView: View {
                                         .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
                                         .contentShape(Rectangle())
                                 }
-                                .buttonStyle(.plain)
+                                .buttonStyle(PressButtonStyle())
                                 .accessibilityLabel(revealedIDs.contains(credential.id)
-                                                    ? "Hide password" : "Reveal password")
+                                                    ? lang.t("pw.hide") : lang.t("pw.reveal"))
 
                                 Button {
                                     UIPasteboard.general.string = credential.password
@@ -293,9 +293,9 @@ struct PasswordsView: View {
                                         .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
                                         .contentShape(Rectangle())
                                 }
-                                .buttonStyle(.plain)
+                                .buttonStyle(PressButtonStyle())
                                 .accessibilityLabel(copiedID == credential.id
-                                                    ? "Password copied" : "Copy password")
+                                                    ? lang.t("pw.copied") : lang.t("pw.copy"))
 
                                 Button {
                                     store.remove(credential)
@@ -306,8 +306,8 @@ struct PasswordsView: View {
                                         .frame(minWidth: Metrics.Touch.min, minHeight: Metrics.Touch.min)
                                         .contentShape(Rectangle())
                                 }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel("Delete password")
+                                .buttonStyle(PressButtonStyle())
+                                .accessibilityLabel(lang.t("pw.delete"))
                             }
 
                             if revealedIDs.contains(credential.id) {
@@ -500,7 +500,7 @@ struct VaultView: View {
                                 .frame(minHeight: Metrics.Touch.min)
                                 .contentShape(Rectangle())
                             }
-                            .buttonStyle(.plain)
+                            .buttonStyle(PressButtonStyle())
                             .accessibilityValue(expandedID == item.id
                                                 ? lang.t("privacy.on") : lang.t("privacy.off"))
 
@@ -523,7 +523,7 @@ struct VaultView: View {
                                         .frame(minHeight: Metrics.Touch.min)
                                         .contentShape(Rectangle())
                                 }
-                                .buttonStyle(.plain)
+                                .buttonStyle(PressButtonStyle())
                                 .padding(.horizontal, Metrics.Space.md)
                             }
                         }
